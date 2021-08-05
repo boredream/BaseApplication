@@ -25,7 +25,7 @@ public class HttpRequest {
 
     private static volatile HttpRequest instance = null;
 
-    public static HttpRequest getInstance() {
+    public static ApiService getApiService() {
         if (instance == null) {
             synchronized (HttpRequest.class) {
                 if (instance == null) {
@@ -33,7 +33,7 @@ public class HttpRequest {
                 }
             }
         }
-        return instance;
+        return instance.getRetrofit().create(ApiService.class);
     }
 
     private String host;
@@ -46,6 +46,10 @@ public class HttpRequest {
 
     public OkHttpClient getClient() {
         return client;
+    }
+
+    public Retrofit getRetrofit() {
+        return retrofit;
     }
 
     private HttpRequest() {
@@ -80,10 +84,6 @@ public class HttpRequest {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // rxjava 响应式编程
                 .client(client)
                 .build();
-    }
-
-    public ApiService getApiService() {
-        return retrofit.create(ApiService.class);
     }
 
     private static HostnameVerifier createVerifier() {

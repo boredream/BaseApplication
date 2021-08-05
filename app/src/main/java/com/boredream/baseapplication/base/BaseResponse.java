@@ -8,7 +8,14 @@ public class BaseResponse<T> implements Serializable {
     private String msg;
     private T data;
 
-    public boolean success() {
+    public BaseResponse() {
+    }
+
+    public BaseResponse(T data) {
+        this.data = data;
+    }
+
+    public boolean isSuccess() {
         return code == 0;
     }
 

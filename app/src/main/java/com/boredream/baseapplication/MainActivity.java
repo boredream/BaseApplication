@@ -3,7 +3,7 @@ package com.boredream.baseapplication;
 import android.os.Bundle;
 
 import com.boredream.baseapplication.base.BaseActivity;
-import com.boredream.baseapplication.entity.BeanInfo;
+import com.boredream.baseapplication.data.entity.BeanInfo;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleDisObserver;

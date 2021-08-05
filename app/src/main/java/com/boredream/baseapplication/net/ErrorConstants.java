@@ -5,7 +5,6 @@ import android.os.NetworkOnMainThreadException;
 import androidx.annotation.NonNull;
 
 import com.boredream.baseapplication.base.BaseResponse;
-import com.boredream.baseapplication.base.BaseView;
 import com.google.gson.JsonParseException;
 
 import java.io.EOFException;
@@ -68,13 +67,6 @@ public class ErrorConstants {
      * 解析服务器错误信息
      */
     public static String parseHttpErrorInfo(Throwable throwable) {
-        return parseHttpErrorInfo(null, throwable);
-    }
-
-    /**
-     * 解析服务器错误信息
-     */
-    public static String parseHttpErrorInfo(BaseView view, Throwable throwable) {
         String errorInfo = throwable.getMessage();
 
         // TODO: chunyang 2/23/21 自己加网络工具类
