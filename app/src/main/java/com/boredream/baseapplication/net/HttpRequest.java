@@ -53,14 +53,12 @@ public class HttpRequest {
     }
 
     private HttpRequest() {
-        // TODO: chunyang 2/23/21
-        host = "自定义服务器域名";
+        // TODO: chunyang 2/23/21 host
+        host = "https://apimarket-dev.shinho.net.cn/sfa-app/";
 
         Interceptor headerInterceptor = chain -> {
             // TODO: chunyang 2/23/21 按需加header
             Request.Builder builder = chain.request().newBuilder()
-                    .addHeader("device", "ANDROID")
-                    .addHeader("requestTime", String.valueOf(System.currentTimeMillis()))
                     .addHeader("Content-Type", "application/json");
             Request request = builder.build();
             return chain.proceed(request);

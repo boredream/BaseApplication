@@ -15,12 +15,13 @@ public class RxComposer {
 
     ////////////////////////////// 常用组合compose //////////////////////////////
 
+    // TODO: chunyang 8/5/21 和vm解耦
+
     /**
      * 常规显示进度框样式
      */
     public static <T> ObservableTransformer<BaseResponse<T>, T> commonProgress(BaseViewModel vm) {
         return upstream -> upstream
-                .compose(schedulers())
                 .compose(defaultResponse())
                 .compose(defaultFailed(vm))
                 .compose(handleProgress(vm));
@@ -45,6 +46,7 @@ public class RxComposer {
             // 至此网络请求正常，但可能自定义的数据里有code=xxx，代表着业务类错误，在此处理
             if (!response.isSuccess()) {
                 throw new ApiException(response);
+                // TODO: chunyang 8/5/21 data null
             }
             return response.getData();
         });
@@ -54,7 +56,7 @@ public class RxComposer {
      * error统一处理，自动提示Toast
      */
     public static <T> ObservableTransformer<T, T> defaultFailed(BaseViewModel vm) {
-        return upstream -> upstream.observeOn(AndroidSchedulers.mainThread())
+        return upstream -> upstream
                 .doOnError(throwable -> {
                     String error = ErrorConstants.parseHttpErrorInfo(throwable);
                     throwable.printStackTrace();

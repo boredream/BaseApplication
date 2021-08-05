@@ -17,6 +17,12 @@ public class BaseResponse<T> implements Serializable {
         this.data = data;
     }
 
+    public BaseResponse(int code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
+
     public boolean isSuccess() {
         return code == ErrorConstants.CODE_SUCCESS;
     }

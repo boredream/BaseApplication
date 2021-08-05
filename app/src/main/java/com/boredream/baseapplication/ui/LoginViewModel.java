@@ -18,11 +18,12 @@ package com.boredream.baseapplication.ui;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.base.BaseViewModel;
 import com.boredream.baseapplication.data.UserInfoRepository;
 import com.boredream.baseapplication.data.entity.UserInfo;
 import com.boredream.baseapplication.net.RxComposer;
-import com.boredream.baseapplication.net.SimpleDisObserver;
+import com.boredream.baseapplication.net.SimpleObserver;
 
 /**
  * VM 作为Data(repo)和UI(Activity/Fragment)的中间层，处理数据到界面显示的逻辑。
@@ -43,11 +44,19 @@ public class LoginViewModel extends BaseViewModel {
     }
 
     public void login(String username, String password) {
-        // TODO: chunyang 8/5/21 参数合法检测提示
+        if (StringUtils.isEmpty(username)) {
+            mToastEvent.setValue("用户名不能为空");
+            return;
+        }
+
+        if (StringUtils.isEmpty(password)) {
+            mToastEvent.setValue("密码不能为空");
+            return;
+        }
 
         mRepository.login(username, password)
                 .compose(RxComposer.commonProgress(this))
-                .subscribe(new SimpleDisObserver<UserInfo>() {
+                .subscribe(new SimpleObserver<UserInfo>() {
                     @Override
                     public void onNext(UserInfo userInfo) {
                         mData.setValue(userInfo);
