@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 public class UserInfo implements Serializable {
 
-    private String name;
+    private String saleSiebleUid;
     private String password;
 
     public String getName() {
-        return name;
+        return saleSiebleUid;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.saleSiebleUid = name;
     }
 
     public String getPassword() {

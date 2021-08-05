@@ -1,5 +1,7 @@
 package com.boredream.baseapplication.base;
 
+import com.boredream.baseapplication.net.ErrorConstants;
+
 import java.io.Serializable;
 
 public class BaseResponse<T> implements Serializable {
@@ -16,7 +18,7 @@ public class BaseResponse<T> implements Serializable {
     }
 
     public boolean isSuccess() {
-        return code == 0;
+        return code == ErrorConstants.CODE_SUCCESS;
     }
 
     public int getCode() {

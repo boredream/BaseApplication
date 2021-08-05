@@ -18,6 +18,8 @@ public class ErrorConstants {
 
     // TODO 按需自定义添加要特殊处理的业务错误码
 
+    public static final int CODE_SUCCESS = 200;
+
     /**
      * 版本过低，强制用户升级
      */

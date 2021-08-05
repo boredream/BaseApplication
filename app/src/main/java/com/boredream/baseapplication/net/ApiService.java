@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    @POST("xx/login")
+    @POST("user/login")
     Observable<BaseResponse<UserInfo>> login(
             @Body UserInfo userInfo);
 

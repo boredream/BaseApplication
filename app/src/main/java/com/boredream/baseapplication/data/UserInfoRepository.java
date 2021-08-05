@@ -20,11 +20,12 @@ import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.data.entity.UserInfo;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.utils.EspressoIdlingResource;
+import com.boredream.baseapplication.utils.SpUtils;
 
 import io.reactivex.Observable;
 
 /**
- * repo 只处理针对「数据」的基本操作
+ * repo 处理数据
  */
 public class UserInfoRepository {
 
@@ -50,10 +51,19 @@ public class UserInfoRepository {
     }
 
     public Observable<BaseResponse<UserInfo>> getUserInfo() {
+        // 缓存
         if (mCachedUserInfo != null) {
             return Observable.just(new BaseResponse<>(mCachedUserInfo));
         }
 
+        // 本地
+        UserInfo localUser = SpUtils.get("user", UserInfo.class);
+        if (localUser != null) {
+            mCachedUserInfo = localUser;
+            return Observable.just(new BaseResponse<>(mCachedUserInfo));
+        }
+
+        // 远程
         EspressoIdlingResource.increment(); // App is busy until further notice
         return HttpRequest.getApiService().getUserInfo()
                 .doOnNext(this::saveUserInfo)
@@ -71,9 +81,10 @@ public class UserInfoRepository {
                 .doOnComplete(EspressoIdlingResource::decrement); // Set app as idle.
     }
 
-    private void saveUserInfo(BaseResponse<UserInfo> userInfoResponse) {
-        if (!userInfoResponse.isSuccess()) return;
-        mCachedUserInfo = userInfoResponse.getData();
+    private void saveUserInfo(BaseResponse<UserInfo> response) {
+        if (!response.isSuccess()) return;
+        mCachedUserInfo = response.getData();
+        SpUtils.save("user", mCachedUserInfo);
     }
 
 }
