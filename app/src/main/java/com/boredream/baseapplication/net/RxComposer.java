@@ -58,9 +58,7 @@ public class RxComposer {
     public static <T> ObservableTransformer<T, T> defaultFailed(BaseViewModel vm) {
         return upstream -> upstream
                 .doOnError(throwable -> {
-                    String error = ErrorConstants.parseHttpErrorInfo(throwable);
-                    throwable.printStackTrace();
-                    vm.getToastEvent().setValue(error);
+                    vm.getToastEvent().setValue(ErrorConstants.parseHttpErrorInfo(throwable));
                 });
     }
 

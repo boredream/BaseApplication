@@ -34,6 +34,8 @@ public class UserInfoRepositoryTest {
                 .blockingFirst();
         System.out.println(new Gson().toJson(data));
         assertNotNull(data);
+
+        // TODO: chunyang 8/5/21 login里用到context保存本地数据
     }
 
 }

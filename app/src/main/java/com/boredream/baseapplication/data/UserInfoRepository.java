@@ -84,6 +84,8 @@ public class UserInfoRepository {
     private void saveUserInfo(BaseResponse<UserInfo> response) {
         if (!response.isSuccess()) return;
         mCachedUserInfo = response.getData();
+
+        // TODO: chunyang 8/5/21 repo 包含 context
         SpUtils.save("user", mCachedUserInfo);
     }
 

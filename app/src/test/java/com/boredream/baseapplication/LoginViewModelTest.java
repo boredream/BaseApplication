@@ -35,6 +35,7 @@ import io.reactivex.Observable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 // VM 测试，测试数据和界面的交互逻辑
@@ -71,26 +72,25 @@ public class LoginViewModelTest {
         data.setPassword("123456q");
 
         when(mRepository.login(data.getName(), data.getPassword()))
-                .thenReturn(Observable.just(new BaseResponse<>(data)));
+                .thenReturn(Observable.just(new BaseResponse<>(200, "", data)));
 
         mViewModel.login(data.getName(), data.getPassword());
 
         assertNotNull(mViewModel.getData().getValue());
-        assertEquals(mViewModel.getData().getValue().getName(), data.getName());
     }
 
     @Test
     public void login_error() {
         UserInfo data = new UserInfo();
-        data.setName("123");
-        data.setPassword("456");
+        data.setName("05010001");
+        data.setPassword("123456");
 
-        when(mRepository.login(data.getName(), "234"))
+        when(mRepository.login(data.getName(), data.getPassword()))
                 .thenReturn(Observable.just(new BaseResponse<>(1, "密码错误", null)));
 
         mViewModel.login(data.getName(), data.getPassword());
 
-        assertNotNull(mViewModel.getData().getValue());
-        assertEquals(mViewModel.getData().getValue().getName(), data.getName());
+        assertNull(mViewModel.getData().getValue());
+        assertEquals(mViewModel.getToastEvent().getValue(), "密码错误");
     }
 }
