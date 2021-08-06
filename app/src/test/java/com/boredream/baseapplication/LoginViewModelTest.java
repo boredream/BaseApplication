@@ -22,6 +22,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.data.UserInfoRepository;
 import com.boredream.baseapplication.data.entity.UserInfo;
+import com.boredream.baseapplication.net.ApiException;
 import com.boredream.baseapplication.ui.LoginViewModel;
 
 import org.junit.Before;
@@ -72,7 +73,7 @@ public class LoginViewModelTest {
         data.setPassword("123456q");
 
         when(mRepository.login(data.getName(), data.getPassword()))
-                .thenReturn(Observable.just(new BaseResponse<>(200, "", data)));
+                .thenReturn(Observable.just(data));
 
         mViewModel.login(data.getName(), data.getPassword());
 
@@ -85,8 +86,9 @@ public class LoginViewModelTest {
         data.setName("05010001");
         data.setPassword("123456");
 
+
         when(mRepository.login(data.getName(), data.getPassword()))
-                .thenReturn(Observable.just(new BaseResponse<>(1, "密码错误", null)));
+                .thenReturn(Observable.error(new ApiException(new BaseResponse<>(1, "密码错误", null))));
 
         mViewModel.login(data.getName(), data.getPassword());
 

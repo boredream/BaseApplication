@@ -16,15 +16,14 @@
 
 package com.boredream.baseapplication.data;
 
-import com.boredream.baseapplication.base.BaseRepository;
-import com.boredream.baseapplication.base.BaseResponse;
+import com.boredream.baseapplication.base.BaseNetRepository;
 import com.boredream.baseapplication.data.entity.UserInfo;
 import com.boredream.baseapplication.net.AppSchedulers;
 import com.boredream.baseapplication.net.HttpRequest;
 
 import io.reactivex.Observable;
 
-public class UserInfoRepository extends BaseRepository {
+public class UserInfoRepository extends BaseNetRepository {
 
     private volatile static UserInfoRepository instance;
     private final UserInfoLocalDataSource localDataSource;
@@ -54,38 +53,37 @@ public class UserInfoRepository extends BaseRepository {
         instance = null;
     }
 
-    public Observable<BaseResponse<UserInfo>> getUserInfo() {
+    public Observable<UserInfo> getUserInfo() {
         // 缓存
         if (cachedUserInfo != null) {
-            return Observable.just(new BaseResponse<>(cachedUserInfo));
+            return Observable.just(cachedUserInfo);
         }
 
         // 本地
         UserInfo localUser = localDataSource.getUserInfo();
         if (localUser != null) {
             cachedUserInfo = localUser;
-            return Observable.just(new BaseResponse<>(cachedUserInfo));
+            return Observable.just(cachedUserInfo);
         }
 
         // 远程
         return HttpRequest.getApiService().getUserInfo()
-                .compose(netTransform())
-                .doOnNext(this::saveUserInfo);
+                .compose(baseRespTrans())
+                .doOnNext(this::saveData);
     }
 
-    public Observable<BaseResponse<UserInfo>> login(String username, String password) {
+    public Observable<UserInfo> login(String username, String password) {
         UserInfo userInfo = new UserInfo();
         userInfo.setName(username);
         userInfo.setPassword(password);
 
         return HttpRequest.getApiService().login(userInfo)
-                .compose(netTransform())
-                .doOnNext(this::saveUserInfo);
+                .compose(baseRespTrans())
+                .doOnNext(this::saveData);
     }
 
-    private void saveUserInfo(BaseResponse<UserInfo> response) {
-        if (!response.isSuccess()) return;
-        cachedUserInfo = response.getData();
+    private void saveData(UserInfo data) {
+        cachedUserInfo = data;
         localDataSource.saveUserInfo(cachedUserInfo);
     }
 

@@ -1,6 +1,5 @@
 package com.boredream.baseapplication.net;
 
-import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.base.BaseViewModel;
 
 import io.reactivex.ObservableTransformer;
@@ -18,28 +17,13 @@ public class RxComposer {
     /**
      * 常规显示进度框样式
      */
-    public static <T> ObservableTransformer<BaseResponse<T>, T> commonProgress(BaseViewModel vm) {
+    public static <T> ObservableTransformer<T, T> commonProgress(BaseViewModel vm) {
         return upstream -> upstream
-                .compose(defaultResponse())
                 .compose(defaultFailed(vm))
                 .compose(handleProgress(vm));
     }
 
     ////////////////////////////// 基础compose //////////////////////////////
-
-    /**
-     * 返回内容统一处理
-     */
-    public static <T> ObservableTransformer<BaseResponse<T>, T> defaultResponse() {
-        return upstream -> upstream.map(response -> {
-            // 至此网络请求正常，但可能自定义的数据里有code=xxx，代表着业务类错误，在此处理
-            if (!response.isSuccess()) {
-                throw new ApiException(response);
-                // TODO: data null
-            }
-            return response.getData();
-        });
-    }
 
     /**
      * error统一处理，自动提示Toast

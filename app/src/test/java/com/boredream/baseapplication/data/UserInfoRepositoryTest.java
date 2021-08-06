@@ -2,7 +2,6 @@ package com.boredream.baseapplication.data;
 
 import com.boredream.baseapplication.data.entity.UserInfo;
 import com.boredream.baseapplication.net.AppSchedulers;
-import com.boredream.baseapplication.net.RxComposer;
 import com.google.gson.Gson;
 
 import org.junit.After;
@@ -40,10 +39,12 @@ public class UserInfoRepositoryTest {
 
     @Test
     public void login() {
+
+        // TODO: chunyang 8/6/21   RxJavaPlugins.setIoSchedulerHandler { t -> Schedulers.trampoline() } ??
+
         // 接口测试
         UserInfo data = repository
                 .login("05010001", "123456q")
-                .compose(RxComposer.defaultResponse())
                 .blockingFirst();
         System.out.println(new Gson().toJson(data));
         assertNotNull(data);

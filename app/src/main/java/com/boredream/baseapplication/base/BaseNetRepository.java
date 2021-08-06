@@ -16,6 +16,7 @@
 
 package com.boredream.baseapplication.base;
 
+import com.boredream.baseapplication.net.ApiException;
 import com.boredream.baseapplication.net.AppSchedulers;
 import com.boredream.baseapplication.utils.EspressoIdlingResource;
 
@@ -24,23 +25,38 @@ import io.reactivex.ObservableTransformer;
 /**
  * repo 处理数据
  */
-public abstract class BaseRepository {
+public abstract class BaseNetRepository {
 
     protected final AppSchedulers appSchedulers;
 
-    public BaseRepository(AppSchedulers appSchedulers) {
+    public BaseNetRepository(AppSchedulers appSchedulers) {
         this.appSchedulers = appSchedulers;
     }
 
     /**
      * 处理网络相关
      */
-    public <T> ObservableTransformer<T, T> netTransform() {
+    protected <T> ObservableTransformer<T, T> netTrans() {
         return upstream -> upstream
                 .doOnSubscribe(disposable -> EspressoIdlingResource.increment())
                 .subscribeOn(appSchedulers.getNetThread())
                 .observeOn(appSchedulers.getMainThread())
                 .doOnComplete(EspressoIdlingResource::decrement);
+    }
+
+    /**
+     * 处理网络相关，基于数据结构BaseResponse
+     */
+    protected <T> ObservableTransformer<BaseResponse<T>, T> baseRespTrans() {
+        return upstream -> upstream
+                .map(response -> {
+                    // 至此网络请求正常，但可能自定义的数据里有code=xxx，代表着业务类错误，在此处理
+                    if (!response.isSuccess()) {
+                        throw new ApiException(response);
+                    }
+                    return response.getData();  // TODO: data null
+                })
+                .compose(netTrans());
     }
 
 }
