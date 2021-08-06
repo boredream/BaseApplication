@@ -21,24 +21,6 @@ import com.boredream.baseapplication.utils.SpUtils;
 
 public class UserInfoLocalDataSource {
 
-    private static volatile UserInfoLocalDataSource instance = null;
-
-    public static UserInfoLocalDataSource getInstance() {
-        if (instance == null) {
-            synchronized (UserInfoLocalDataSource.class) {
-                if (instance == null) {
-                    instance = new UserInfoLocalDataSource();
-                }
-            }
-        }
-        return instance;
-    }
-
-    private UserInfoLocalDataSource() {
-        // private
-    }
-
-
     public void saveUserInfo(UserInfo userInfo) {
         SpUtils.save("user", userInfo);
     }

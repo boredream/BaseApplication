@@ -16,31 +16,30 @@
 
 package com.boredream.baseapplication.data;
 
+import com.boredream.baseapplication.base.BaseRepository;
 import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.data.entity.UserInfo;
+import com.boredream.baseapplication.net.AppSchedulers;
 import com.boredream.baseapplication.net.HttpRequest;
-import com.boredream.baseapplication.utils.EspressoIdlingResource;
 
 import io.reactivex.Observable;
 
-/**
- * repo 处理数据
- */
-public class UserInfoRepository {
+public class UserInfoRepository extends BaseRepository {
 
     private volatile static UserInfoRepository instance;
-    private final UserInfoLocalDataSource mLocalDataSource;
-    private UserInfo mCachedUserInfo;
+    private final UserInfoLocalDataSource localDataSource;
+    private UserInfo cachedUserInfo;
 
-    private UserInfoRepository(UserInfoLocalDataSource localDataSource) {
-        mLocalDataSource = localDataSource;
+    protected UserInfoRepository(AppSchedulers appSchedulers, UserInfoLocalDataSource localDataSource) {
+        super(appSchedulers);
+        this.localDataSource = localDataSource;
     }
 
-    public static UserInfoRepository getInstance(UserInfoLocalDataSource localDataSource) {
+    public static UserInfoRepository getInstance(AppSchedulers appSchedulers, UserInfoLocalDataSource localDataSource) {
         if (instance == null) {
             synchronized (UserInfoRepository.class) {
                 if (instance == null) {
-                    instance = new UserInfoRepository(localDataSource);
+                    instance = new UserInfoRepository(appSchedulers, localDataSource);
                 }
             }
         }
@@ -48,8 +47,7 @@ public class UserInfoRepository {
     }
 
     public static UserInfoRepository provideRepository() {
-        UserInfoLocalDataSource localDataSource = UserInfoLocalDataSource.getInstance();
-        return UserInfoRepository.getInstance(localDataSource);
+        return UserInfoRepository.getInstance(new AppSchedulers(), new UserInfoLocalDataSource());
     }
 
     public static void destroyInstance() {
@@ -58,22 +56,21 @@ public class UserInfoRepository {
 
     public Observable<BaseResponse<UserInfo>> getUserInfo() {
         // 缓存
-        if (mCachedUserInfo != null) {
-            return Observable.just(new BaseResponse<>(mCachedUserInfo));
+        if (cachedUserInfo != null) {
+            return Observable.just(new BaseResponse<>(cachedUserInfo));
         }
 
         // 本地
-        UserInfo localUser = mLocalDataSource.getUserInfo();
+        UserInfo localUser = localDataSource.getUserInfo();
         if (localUser != null) {
-            mCachedUserInfo = localUser;
-            return Observable.just(new BaseResponse<>(mCachedUserInfo));
+            cachedUserInfo = localUser;
+            return Observable.just(new BaseResponse<>(cachedUserInfo));
         }
 
         // 远程
-        EspressoIdlingResource.increment(); // App is busy until further notice
         return HttpRequest.getApiService().getUserInfo()
-                .doOnNext(this::saveUserInfo)
-                .doOnComplete(EspressoIdlingResource::decrement); // Set app as idle.
+                .compose(netTransform())
+                .doOnNext(this::saveUserInfo);
     }
 
     public Observable<BaseResponse<UserInfo>> login(String username, String password) {
@@ -81,16 +78,15 @@ public class UserInfoRepository {
         userInfo.setName(username);
         userInfo.setPassword(password);
 
-        EspressoIdlingResource.increment(); // App is busy until further notice
         return HttpRequest.getApiService().login(userInfo)
-                .doOnNext(this::saveUserInfo)
-                .doOnComplete(EspressoIdlingResource::decrement); // Set app as idle.
+                .compose(netTransform())
+                .doOnNext(this::saveUserInfo);
     }
 
     private void saveUserInfo(BaseResponse<UserInfo> response) {
         if (!response.isSuccess()) return;
-        mCachedUserInfo = response.getData();
-        mLocalDataSource.saveUserInfo(mCachedUserInfo);
+        cachedUserInfo = response.getData();
+        localDataSource.saveUserInfo(cachedUserInfo);
     }
 
 }

@@ -25,10 +25,6 @@ import com.boredream.baseapplication.data.entity.UserInfo;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
 
-/**
- * VM 作为Data(repo)和UI(Activity/Fragment)的中间层，处理数据到界面显示的逻辑。
- * 每个页面绑定一个VM
- */
 public class LoginViewModel extends BaseViewModel {
 
     private final UserInfoRepository mRepository;

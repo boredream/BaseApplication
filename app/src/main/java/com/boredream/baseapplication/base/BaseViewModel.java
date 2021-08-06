@@ -19,7 +19,10 @@ package com.boredream.baseapplication.base;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-
+/**
+ * VM 作为Data(repo)和UI(Activity/Fragment)的中间层，处理数据到界面显示的逻辑。
+ * 每个页面绑定一个VM
+ */
 public class BaseViewModel extends ViewModel {
 
     // live data 可与视图直接绑定，也可以作为事件的回调

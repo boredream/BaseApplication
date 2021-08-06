@@ -4,9 +4,7 @@ import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.base.BaseViewModel;
 
 import io.reactivex.ObservableTransformer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Rx組件。一般情况下直接使用组合类compose，如果有特殊需要自行组装基础compose
@@ -30,15 +28,6 @@ public class RxComposer {
     ////////////////////////////// 基础compose //////////////////////////////
 
     /**
-     * schedulers线程分发处理
-     */
-    public static <T> ObservableTransformer<T, T> schedulers() {
-        return upstream -> upstream
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    /**
      * 返回内容统一处理
      */
     public static <T> ObservableTransformer<BaseResponse<T>, T> defaultResponse() {
@@ -46,7 +35,7 @@ public class RxComposer {
             // 至此网络请求正常，但可能自定义的数据里有code=xxx，代表着业务类错误，在此处理
             if (!response.isSuccess()) {
                 throw new ApiException(response);
-                // TODO: chunyang 8/5/21 data null
+                // TODO: data null
             }
             return response.getData();
         });
