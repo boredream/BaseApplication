@@ -20,7 +20,6 @@ import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.data.entity.UserInfo;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.utils.EspressoIdlingResource;
-import com.boredream.baseapplication.utils.SpUtils;
 
 import io.reactivex.Observable;
 
@@ -30,20 +29,27 @@ import io.reactivex.Observable;
 public class UserInfoRepository {
 
     private volatile static UserInfoRepository instance;
+    private final UserInfoLocalDataSource mLocalDataSource;
     private UserInfo mCachedUserInfo;
 
-    private UserInfoRepository() {
+    private UserInfoRepository(UserInfoLocalDataSource localDataSource) {
+        mLocalDataSource = localDataSource;
     }
 
-    public static UserInfoRepository getInstance() {
+    public static UserInfoRepository getInstance(UserInfoLocalDataSource localDataSource) {
         if (instance == null) {
             synchronized (UserInfoRepository.class) {
                 if (instance == null) {
-                    instance = new UserInfoRepository();
+                    instance = new UserInfoRepository(localDataSource);
                 }
             }
         }
         return instance;
+    }
+
+    public static UserInfoRepository provideRepository() {
+        UserInfoLocalDataSource localDataSource = UserInfoLocalDataSource.getInstance();
+        return UserInfoRepository.getInstance(localDataSource);
     }
 
     public static void destroyInstance() {
@@ -57,7 +63,7 @@ public class UserInfoRepository {
         }
 
         // 本地
-        UserInfo localUser = SpUtils.get("user", UserInfo.class);
+        UserInfo localUser = mLocalDataSource.getUserInfo();
         if (localUser != null) {
             mCachedUserInfo = localUser;
             return Observable.just(new BaseResponse<>(mCachedUserInfo));
@@ -84,9 +90,7 @@ public class UserInfoRepository {
     private void saveUserInfo(BaseResponse<UserInfo> response) {
         if (!response.isSuccess()) return;
         mCachedUserInfo = response.getData();
-
-        // TODO: chunyang 8/5/21 repo 包含 context
-        SpUtils.save("user", mCachedUserInfo);
+        mLocalDataSource.saveUserInfo(mCachedUserInfo);
     }
 
 }

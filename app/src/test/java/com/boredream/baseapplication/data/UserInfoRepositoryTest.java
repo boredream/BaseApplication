@@ -7,17 +7,24 @@ import com.google.gson.Gson;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertNotNull;
 
 // repo 测试，主要测试接口和基础数据逻辑
+@RunWith(MockitoJUnitRunner.class)
 public class UserInfoRepositoryTest {
+
+    @Mock
+    private UserInfoLocalDataSource mLocalDataSource;
 
     private UserInfoRepository mRepository;
 
     @Before
     public void setupRepository() {
-        mRepository = UserInfoRepository.getInstance();
+        mRepository = UserInfoRepository.getInstance(mLocalDataSource);
     }
 
     @After
@@ -34,8 +41,6 @@ public class UserInfoRepositoryTest {
                 .blockingFirst();
         System.out.println(new Gson().toJson(data));
         assertNotNull(data);
-
-        // TODO: chunyang 8/5/21 login里用到context保存本地数据
     }
 
 }
