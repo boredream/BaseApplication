@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.boredream.baseapplication;
+package com.boredream.baseapplication.vm;
 
 import android.annotation.SuppressLint;
 

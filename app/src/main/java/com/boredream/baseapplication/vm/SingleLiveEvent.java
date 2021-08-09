@@ -18,7 +18,7 @@ https://medium.com/androiddevelopers/livedata-with-snackbar-navigation-and-other
  *  limitations under the License.
  */
 
-package com.boredream.baseapplication.base;
+package com.boredream.baseapplication.vm;
 
 import android.util.Log;
 

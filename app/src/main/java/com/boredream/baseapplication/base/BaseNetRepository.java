@@ -18,7 +18,7 @@ package com.boredream.baseapplication.base;
 
 import com.boredream.baseapplication.net.ApiException;
 import com.boredream.baseapplication.net.AppSchedulers;
-import com.boredream.baseapplication.utils.EspressoIdlingResource;
+import com.boredream.baseapplication.net.EspressoIdlingResource;
 
 import io.reactivex.ObservableTransformer;
 

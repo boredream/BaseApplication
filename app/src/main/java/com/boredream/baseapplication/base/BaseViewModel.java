@@ -19,6 +19,8 @@ package com.boredream.baseapplication.base;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.boredream.baseapplication.vm.SingleLiveEvent;
+
 /**
  * VM 作为 Data(repo) 和 UI(Activity/Fragment) 的中间层，处理数据到界面显示的逻辑。
  * 每个页面绑定一个VM

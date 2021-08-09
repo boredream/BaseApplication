@@ -9,7 +9,7 @@ import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.boredream.baseapplication.BR;
-import com.boredream.baseapplication.ViewModelFactory;
+import com.boredream.baseapplication.vm.ViewModelFactory;
 
 abstract public class BaseActivity<VM extends BaseViewModel, BD extends ViewDataBinding> extends AppCompatActivity {
 

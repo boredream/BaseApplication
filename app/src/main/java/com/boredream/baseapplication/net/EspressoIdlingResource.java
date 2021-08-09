@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.boredream.baseapplication.utils;
+package com.boredream.baseapplication.net;
 
 import androidx.test.espresso.IdlingResource;
 

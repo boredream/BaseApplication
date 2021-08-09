@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="@{viewModel.sendCodeBtnEnable}"
-            android:onClick="@{() -> viewModel.startCountDown()}"
+            android:onClick="@{() -> viewModel.sendCode()}"
             android:text="@{viewModel.sendCodeBtnText}"
             app:layout_constraintBottom_toBottomOf="@id/et_password"
             app:layout_constraintRight_toRightOf="parent"

@@ -67,21 +67,24 @@ public class LoginViewModel extends BaseViewModel {
                 });
     }
 
-    public void startCountDown() {
+    private void startCountDown() {
+        int totalSecond = 10;
         countDownDisposable = Observable.interval(1, TimeUnit.SECONDS)
-                .startWith(0L)
-                .take(61)
-                .map(aLong -> 60 - aLong)
-                .doOnSubscribe(disposable -> sendCodeBtnEnable.postValue(false))
+                .take(totalSecond)
+                .map(aLong -> totalSecond - aLong - 1) // totalSecond-1, -2, ... 1, stop
+                .doOnSubscribe(disposable -> {
+                    sendCodeBtnEnable.postValue(false);
+                    sendCodeBtnText.postValue(String.format(Locale.getDefault(), "%ds", totalSecond));
+                })
                 .subscribeOn(Schedulers.io()) // TODO: chunyang 8/9/21 这里是否应该出现线程处理？
                 .subscribe(aLong -> sendCodeBtnText.postValue(String.format(Locale.getDefault(), "%ds", aLong)),
                         throwable -> {/**/},
                         this::stopCountDown);
     }
 
-    public void stopCountDown() {
-        sendCodeBtnEnable.setValue(true);
-        sendCodeBtnText.setValue("发送验证码");
+    private void stopCountDown() {
+        sendCodeBtnEnable.postValue(true);
+        sendCodeBtnText.postValue("发送验证码");
     }
 
     public void login(String username, String password) {
