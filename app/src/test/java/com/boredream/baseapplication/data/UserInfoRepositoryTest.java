@@ -43,8 +43,12 @@ public class UserInfoRepositoryTest {
         // TODO: chunyang 8/6/21   RxJavaPlugins.setIoSchedulerHandler { t -> Schedulers.trampoline() } ??
 
         // 接口测试
+        UserInfo userInfo = new UserInfo();
+        userInfo.setName("05010001");
+        userInfo.setPassword("123456q");
+
         UserInfo data = repository
-                .login("05010001", "123456q")
+                .login(userInfo)
                 .blockingFirst();
         System.out.println(new Gson().toJson(data));
         assertNotNull(data);

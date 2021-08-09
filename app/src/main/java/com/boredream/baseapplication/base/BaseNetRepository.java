@@ -23,7 +23,12 @@ import com.boredream.baseapplication.utils.EspressoIdlingResource;
 import io.reactivex.ObservableTransformer;
 
 /**
- * repo 处理数据
+ * repo 处理网络数据
+ * <p>
+ * 1. 远程、本地等方式获取数据
+ * 2. 做最基本的数据处理，如判断code
+ * 3. 保存至内存、本地等位置
+ * </p>
  */
 public abstract class BaseNetRepository {
 

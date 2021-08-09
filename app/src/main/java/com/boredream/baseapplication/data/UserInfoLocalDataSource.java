@@ -19,6 +19,7 @@ package com.boredream.baseapplication.data;
 import com.boredream.baseapplication.data.entity.UserInfo;
 import com.boredream.baseapplication.utils.SpUtils;
 
+// TODO: chunyang 8/9/21 做成通用的本地数据保存
 public class UserInfoLocalDataSource {
 
     public void saveUserInfo(UserInfo userInfo) {

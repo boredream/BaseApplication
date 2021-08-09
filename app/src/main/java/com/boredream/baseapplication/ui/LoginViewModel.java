@@ -50,7 +50,11 @@ public class LoginViewModel extends BaseViewModel {
             return;
         }
 
-        mRepository.login(username, password)
+        UserInfo userInfo = new UserInfo();
+        userInfo.setName(username);
+        userInfo.setPassword(password);
+
+        mRepository.login(userInfo)
                 .compose(RxComposer.commonProgress(this))
                 .subscribe(new SimpleObserver<UserInfo>() {
                     @Override

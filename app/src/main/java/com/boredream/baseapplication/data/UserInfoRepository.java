@@ -29,6 +29,7 @@ public class UserInfoRepository extends BaseNetRepository {
     private final UserInfoLocalDataSource localDataSource;
     private UserInfo cachedUserInfo;
 
+    // TODO: chunyang 8/9/21 依赖注入框架
     protected UserInfoRepository(AppSchedulers appSchedulers, UserInfoLocalDataSource localDataSource) {
         super(appSchedulers);
         this.localDataSource = localDataSource;
@@ -67,17 +68,20 @@ public class UserInfoRepository extends BaseNetRepository {
         }
 
         // 远程
-        return HttpRequest.getApiService().getUserInfo()
+        return HttpRequest.getApiService()
+                .getUserInfo()
                 .compose(baseRespTrans())
                 .doOnNext(this::saveData);
     }
 
-    public Observable<UserInfo> login(String username, String password) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setName(username);
-        userInfo.setPassword(password);
+    public Observable<UserInfo> register(UserInfo userInfo) {
+        // TODO: chunyang 8/9/21
+        return null;
+    }
 
-        return HttpRequest.getApiService().login(userInfo)
+    public Observable<UserInfo> login(UserInfo userInfo) {
+        return HttpRequest.getApiService()
+                .login(userInfo)
                 .compose(baseRespTrans())
                 .doOnNext(this::saveData);
     }

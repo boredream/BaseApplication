@@ -37,6 +37,7 @@ import io.reactivex.Observable;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 // VM 测试，测试数据和界面的交互逻辑
@@ -72,8 +73,7 @@ public class LoginViewModelTest {
         data.setName("05010001");
         data.setPassword("123456q");
 
-        when(mRepository.login(data.getName(), data.getPassword()))
-                .thenReturn(Observable.just(data));
+        when(mRepository.login(any(UserInfo.class))).thenReturn(Observable.just(data));
 
         mViewModel.login(data.getName(), data.getPassword());
 
@@ -87,8 +87,8 @@ public class LoginViewModelTest {
         data.setPassword("123456");
 
 
-        when(mRepository.login(data.getName(), data.getPassword()))
-                .thenReturn(Observable.error(new ApiException(new BaseResponse<>(1, "密码错误", null))));
+        when(mRepository.login(any(UserInfo.class))).thenReturn(Observable.error(
+                new ApiException(new BaseResponse<>(1, "密码错误", null))));
 
         mViewModel.login(data.getName(), data.getPassword());
 
