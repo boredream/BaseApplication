@@ -26,16 +26,16 @@ import androidx.lifecycle.ViewModel;
 public class BaseViewModel extends ViewModel {
 
     // live data 可与视图直接绑定，也可以作为事件的回调
-    protected final MutableLiveData<Boolean> mDataLoading = new MutableLiveData<>();
+    protected final MutableLiveData<Boolean> dataLoading = new MutableLiveData<>();
 
     // 一次性事件，不保存状态
-    protected final SingleLiveEvent<String> mToastEvent = new SingleLiveEvent<>();
+    protected final SingleLiveEvent<String> toastEvent = new SingleLiveEvent<>();
 
     public MutableLiveData<Boolean> isDataLoading() {
-        return mDataLoading;
+        return dataLoading;
     }
 
     public SingleLiveEvent<String> getToastEvent() {
-        return mToastEvent;
+        return toastEvent;
     }
 }

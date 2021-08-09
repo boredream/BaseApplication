@@ -25,28 +25,73 @@ import com.boredream.baseapplication.data.entity.UserInfo;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
 
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class LoginViewModel extends BaseViewModel {
 
-    private final UserInfoRepository mRepository;
+    private UserInfoRepository repository;
+    public MutableLiveData<UserInfo> data = new MutableLiveData<>();
+    public MutableLiveData<Boolean> sendCodeBtnEnable = new MutableLiveData<>(true);
+    public MutableLiveData<String> sendCodeBtnText = new MutableLiveData<>("发送验证码");
 
-    private final MutableLiveData<UserInfo> mData = new MutableLiveData<>();
-
-    public MutableLiveData<UserInfo> getData() {
-        return mData;
-    }
+    private Disposable countDownDisposable;
 
     public LoginViewModel(UserInfoRepository repository) {
-        mRepository = repository;
+        this.repository = repository;
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        countDownDisposable.dispose();
+    }
+
+    public void sendCode(String phone) {
+        if (StringUtils.isEmpty(phone)) {
+            toastEvent.setValue("手机号不能为空");
+            return;
+        }
+
+        repository.sendCode(phone)
+                .compose(RxComposer.commonProgress(this))
+                .subscribe(new SimpleObserver<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        startCountDown();
+                    }
+                });
+    }
+
+    public void startCountDown() {
+        countDownDisposable = Observable.interval(1, TimeUnit.SECONDS)
+                .startWith(0L)
+                .take(61)
+                .map(aLong -> 60 - aLong)
+                .doOnSubscribe(disposable -> sendCodeBtnEnable.postValue(false))
+                .subscribeOn(Schedulers.io()) // TODO: chunyang 8/9/21 这里是否应该出现线程处理？
+                .subscribe(aLong -> sendCodeBtnText.postValue(String.format(Locale.getDefault(), "%ds", aLong)),
+                        throwable -> {/**/},
+                        this::stopCountDown);
+    }
+
+    public void stopCountDown() {
+        sendCodeBtnEnable.setValue(true);
+        sendCodeBtnText.setValue("发送验证码");
     }
 
     public void login(String username, String password) {
         if (StringUtils.isEmpty(username)) {
-            mToastEvent.setValue("用户名不能为空");
+            toastEvent.setValue("用户名不能为空");
             return;
         }
 
         if (StringUtils.isEmpty(password)) {
-            mToastEvent.setValue("密码不能为空");
+            toastEvent.setValue("密码不能为空");
             return;
         }
 
@@ -54,12 +99,12 @@ public class LoginViewModel extends BaseViewModel {
         userInfo.setName(username);
         userInfo.setPassword(password);
 
-        mRepository.login(userInfo)
+        repository.login(userInfo)
                 .compose(RxComposer.commonProgress(this))
                 .subscribe(new SimpleObserver<UserInfo>() {
                     @Override
                     public void onNext(UserInfo userInfo) {
-                        mData.setValue(userInfo);
+                        data.setValue(userInfo);
                     }
                 });
     }
