@@ -51,6 +51,7 @@ public class UserInfoRepository extends BaseNetRepository {
     }
 
     public static void destroyInstance() {
+        // TODO: chunyang 8/10/21 单例模式，所以测试时需要这个
         instance = null;
     }
 
