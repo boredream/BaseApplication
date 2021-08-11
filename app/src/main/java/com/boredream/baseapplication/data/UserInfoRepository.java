@@ -78,12 +78,12 @@ public class UserInfoRepository extends BaseNetRepository {
     public Observable<Object> sendCode(String phone) {
         // TODO: chunyang 8/9/21 是否应该在user repo里？
         // TODO: chunyang 8/9/21
-        return null;
+        return Observable.just("");
     }
 
     public Observable<UserInfo> register(UserInfo userInfo) {
         // TODO: chunyang 8/9/21
-        return null;
+        return Observable.just(new UserInfo());
     }
 
     public Observable<UserInfo> login(UserInfo userInfo) {
@@ -95,7 +95,7 @@ public class UserInfoRepository extends BaseNetRepository {
 
     public Observable<Object> resetPassword(UserInfo userInfo) {
         // TODO: chunyang 8/9/21
-        return null;
+        return Observable.just("");
     }
 
     private void saveData(UserInfo data) {

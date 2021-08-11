@@ -68,7 +68,7 @@ public class LoginViewModel extends BaseViewModel {
     }
 
     private void startCountDown() {
-        int totalSecond = 10;
+        int totalSecond = 60;
         countDownDisposable = Observable.interval(1, TimeUnit.SECONDS)
                 .take(totalSecond)
                 .map(aLong -> totalSecond - aLong - 1) // totalSecond-1, -2, ... 1, stop
