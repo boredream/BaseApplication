@@ -1,5 +1,9 @@
 package com.boredream.baseapplication.net;
 
+import android.text.TextUtils;
+
+import com.boredream.baseapplication.utils.TokenKeeper;
+
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -49,15 +53,18 @@ public class HttpRequest {
     }
 
     private HttpRequest() {
-        // TODO: chunyang 2/23/21
-        host = "自定义服务器域名";
+        host = "http://10.32.10.36:8080/api/";
 
         Interceptor headerInterceptor = chain -> {
-            // TODO: chunyang 2/23/21 按需加header
             Request.Builder builder = chain.request().newBuilder()
                     .addHeader("device", "ANDROID")
-                    .addHeader("requestTime", String.valueOf(System.currentTimeMillis()))
                     .addHeader("Content-Type", "application/json");
+
+            String token = TokenKeeper.getSingleton().getToken();
+            if(!TextUtils.isEmpty(token)){
+                builder.addHeader("token", token);
+            }
+
             Request request = builder.build();
             return chain.proceed(request);
         };

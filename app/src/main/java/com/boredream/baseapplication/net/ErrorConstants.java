@@ -20,6 +20,11 @@ public class ErrorConstants {
     // TODO 按需自定义添加要特殊处理的业务错误码
 
     /**
+     * 成功
+     */
+    public static final int SUCCESS = 0;
+
+    /**
      * 版本过低，强制用户升级
      */
     public static final int LOW_VERSION = 40003;
@@ -38,7 +43,6 @@ public class ErrorConstants {
      * token错误
      */
     public static final int TOKEN_ERROR = 40006;
-
 
     public static boolean compareApiError(Throwable throwable, int targetCode) {
         boolean result = false;

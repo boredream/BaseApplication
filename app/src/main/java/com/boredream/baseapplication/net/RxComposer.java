@@ -51,7 +51,7 @@ public class RxComposer {
         return upstream -> upstream.map(response -> {
             // 至此网络请求正常，但可能自定义的数据里有code=xxx，代表着业务类错误，在此处理
             int code = response.getCode();
-            if (code != 200) {
+            if (code != ErrorConstants.SUCCESS) {
                 throw new ApiException(response);
             }
             return response.getData();
