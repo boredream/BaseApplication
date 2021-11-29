@@ -108,15 +108,15 @@ public interface ApiService {
      */
     @PUT("/api/the_day/{id}")
     Observable<BaseResponse<String>> putTheDay(
-            @Path("id") int id,
-            @Body Diary info);
+            @Path("id") Long id,
+            @Body TheDay info);
 
     /**
      * 删除纪念日
      */
     @DELETE("/api/the_day/{id}")
     Observable<BaseResponse<String>> deleteTheDay(
-            @Path("id") int id);
+            @Path("id") Long id);
 
     /**
      * 查询所有清单
@@ -136,7 +136,7 @@ public interface ApiService {
      */
     @PUT("/api/todo/{id}")
     Observable<BaseResponse<String>> putTodo(
-            @Path("id") int id,
+            @Path("id") Long id,
             @Body Todo info);
 
     /**
@@ -144,7 +144,7 @@ public interface ApiService {
      */
     @DELETE("/api/todo/{id}")
     Observable<BaseResponse<String>> deleteTodo(
-            @Path("id") int id);
+            @Path("id") Long id);
 
     /**
      * 添加清单组
@@ -159,14 +159,14 @@ public interface ApiService {
     @PUT("/api/todo_group/{id}")
     Observable<BaseResponse<String>> putTodoGroup(
             @Body TodoGroup info,
-            @Path("id") int id);
+            @Path("id") Long id);
 
     /**
      * 删除清单组
      */
     @DELETE("/api/todo_group/{id}")
     Observable<BaseResponse<String>> deleteTodoGroup(
-            @Path("id") int id);
+            @Path("id") Long id);
 
     /**
      * 绑定伴侣

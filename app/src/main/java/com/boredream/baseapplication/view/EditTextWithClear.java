@@ -1,6 +1,7 @@
 package com.boredream.baseapplication.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -25,23 +26,23 @@ public class EditTextWithClear extends RelativeLayout {
 
     public EditTextWithClear(Context context) {
         super(context);
+        initView(context, null);
     }
 
     public EditTextWithClear(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         initView(context, attrs);
     }
 
     public EditTextWithClear(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
         initView(context, attrs);
     }
 
     private void initView(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.view_edit_text_with_clear, this);
         ButterKnife.bind(this);
+
         etContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -59,11 +60,24 @@ public class EditTextWithClear extends RelativeLayout {
             }
         });
         ivClear.setOnClickListener(v -> etContent.setText(""));
+
+        if (attrs == null) {
+            return;
+        }
+        TypedArray ta = context.obtainStyledAttributes(attrs,
+                R.styleable.EditTextWithClear);
+
+        String text = ta.getString(R.styleable.EditTextWithClear_text);
+        String hint = ta.getString(R.styleable.EditTextWithClear_hint);
+        etContent.setText(text);
+        etContent.setHint(hint);
     }
 
     public void setText(CharSequence text) {
         etContent.setText(text);
-        etContent.setSelection(text.length());
+        if (text != null) {
+            etContent.setSelection(text.length());
+        }
     }
 
     public Editable getText() {

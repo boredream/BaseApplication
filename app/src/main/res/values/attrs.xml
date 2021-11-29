@@ -19,5 +19,18 @@
         <attr name="close_text" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="EditTextWithClear">
+        <attr name="hint" format="string" />
+        <attr name="text" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="SettingItemView">
+        <attr name="icon" format="reference" />
+        <attr name="name" format="string" />
+        <attr name="rightText" format="string" />
+        <attr name="rightImage" format="string" />
+        <attr name="showRightArrow" format="boolean" />
+    </declare-styleable>
+
 
 </resources>

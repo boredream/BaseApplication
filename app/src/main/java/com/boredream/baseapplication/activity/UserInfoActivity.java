@@ -18,8 +18,7 @@ import com.boredream.baseapplication.entity.SettingItem;
 import com.boredream.baseapplication.entity.User;
 import com.boredream.baseapplication.image.picker.PickImageActivity;
 import com.boredream.baseapplication.image.upload.ImageRequestUtils;
-import com.boredream.baseapplication.image.upload.ImageUploadUtils;
-import com.boredream.baseapplication.listener.OnListSelectedListener;
+import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
@@ -27,7 +26,6 @@ import com.boredream.baseapplication.utils.DateUtils;
 import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.utils.UserKeeper;
 import com.boredream.baseapplication.view.TitleBar;
-import com.boredream.baseapplication.view.decoration.LeftPaddingItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +36,7 @@ import butterknife.ButterKnife;
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 
-public class UserInfoActivity extends PickImageActivity implements OnListSelectedListener<SettingItem> {
+public class UserInfoActivity extends PickImageActivity implements OnSelectedListener<SettingItem> {
 
     @BindView(R.id.title_bar)
     TitleBar titleBar;
@@ -68,7 +66,7 @@ public class UserInfoActivity extends PickImageActivity implements OnListSelecte
         user = UserKeeper.getSingleton().getUser();
         titleBar.setTitle("个人资料").setLeftBack().setRight("完成", v -> commit());
         rvItems.setLayoutManager(new LinearLayoutManager(this));
-        rvItems.addItemDecoration(new LeftPaddingItemDecoration(this));
+//        rvItems.addItemDecoration(new LeftPaddingItemDecoration(this));
     }
 
     private void commit() {
@@ -111,7 +109,7 @@ public class UserInfoActivity extends PickImageActivity implements OnListSelecte
     }
 
     @Override
-    public void onItemSelected(SettingItem data) {
+    public void onSelected(SettingItem data) {
         switch (data.getName()) {
             case "头像":
                 DialogUtils.showImagePickDialog(this);

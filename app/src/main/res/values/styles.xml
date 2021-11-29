@@ -74,7 +74,6 @@
         <item name="android:textSize">@dimen/txt_caption</item>
         <item name="android:textColor">@color/txt_gray2primary_sel</item>
         <item name="android:button">@null</item>
-        <item name="android:background">@drawable/bg_white2gray_sel</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">6dp</item>
     </style>
@@ -97,6 +96,10 @@
     <style name="GridViewImages" parent="AbsListViewCommon">
         <item name="android:horizontalSpacing">4dp</item>
         <item name="android:verticalSpacing">4dp</item>
+    </style>
+
+    <style name="RecyclerView">
+        <item name="android:overScrollMode">never</item>
     </style>
 
     <!-- 自定义对话框 -->

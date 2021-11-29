@@ -46,9 +46,8 @@ public class WheelDatePickDialog extends BottomDialog {
 
         setContentView(R.layout.dialog_wheel_date_pick);
 
-        if (oldCalendar != null) {
-            this.calendar = DateUtils.str2calendar(oldCalendar);
-        } else {
+        this.calendar = DateUtils.str2calendar(oldCalendar);
+        if (this.calendar == null) {
             this.calendar = Calendar.getInstance();
         }
 

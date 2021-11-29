@@ -3,8 +3,9 @@ package com.boredream.baseapplication.dialog;
 
 import android.content.Context;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
-import com.boredream.baseapplication.listener.OnListSelectedListener;
+import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.view.DialogTitle;
 import com.boredream.baseapplication.view.WheelView;
 
@@ -19,10 +20,10 @@ public class BottomListSelectedDialog<T extends Serializable> extends BottomDial
     private final ArrayList<T> items;
     private final T selectedItem;
 
-    private OnListSelectedListener<T> listener;
+    private OnSelectedListener<T> listener;
     private boolean autoDismiss;
 
-    public void setOnListSelectedListener(OnListSelectedListener<T> listener) {
+    public void setOnListSelectedListener(OnSelectedListener<T> listener) {
         this.listener = listener;
     }
 
@@ -44,14 +45,14 @@ public class BottomListSelectedDialog<T extends Serializable> extends BottomDial
     }
 
     private void initData() {
-        this.dialogTitle.setTitle("请选择" + (title == null ? "" : title));
+        this.dialogTitle.setTitle("请选择" + (StringUtils.isEmpty(title) ? "" : title));
         wheel.setItems(items, selectedItem);
     }
 
     private void performClick() {
         if (autoDismiss) dismiss();
         T selectItem = wheel.getSelectItem();
-        if (listener != null) listener.onItemSelected(selectItem);
+        if (listener != null) listener.onSelected(selectItem);
         dismiss();
     }
 

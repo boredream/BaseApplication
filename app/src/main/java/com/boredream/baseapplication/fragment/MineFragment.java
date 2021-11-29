@@ -63,7 +63,7 @@ public class MineFragment extends BaseFragment {
 
     private void initView() {
         rvItems.setLayoutManager(new LinearLayoutManager(activity));
-        rvItems.addItemDecoration(new LeftPaddingItemDecoration(activity));
+//        rvItems.addItemDecoration(new LeftPaddingItemDecoration(activity));
 
         // TODO: chunyang 11/29/21
         ivAvatar.setOnClickListener(v -> UserInfoActivity.start(activity));

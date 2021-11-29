@@ -6,46 +6,78 @@
     <RelativeLayout
         android:id="@+id/rl_header"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:background="@color/colorPrimary"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
+        android:layout_height="260dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_header" />
 
         <TextView
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="68dp"
             android:text="我们已恋爱"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_subhead" />
 
-        <ImageView
-            android:id="@+id/iv_right"
-            android:layout_width="68dp"
-            android:layout_height="68dp"
+        <RelativeLayout
+            android:id="@+id/rl_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv"
             android:layout_alignParentRight="true"
             android:layout_marginTop="12dp"
-            android:background="@color/white"
-            android:scaleType="centerCrop" />
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/oval_white"
+            android:padding="2dp">
 
-        <ImageView
-            android:id="@+id/iv_left"
-            android:layout_width="68dp"
-            android:layout_height="68dp"
+            <ImageView
+                android:id="@+id/iv_right"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
+                android:background="@drawable/bg_add_avatar"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/iv_right_add"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_add_primary" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv"
-            android:layout_alignParentRight="true"
             android:layout_marginTop="12dp"
-            android:layout_marginRight="58dp"
-            android:background="@color/white"
-            android:scaleType="centerCrop" />
+            android:layout_marginRight="-10dp"
+            android:layout_toLeftOf="@+id/rl_right"
+            android:background="@drawable/oval_white"
+            android:padding="2dp">
+
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
+                android:background="@drawable/bg_add_avatar"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar_girl" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_together_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv"
+            android:layout_alignLeft="@id/tv"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="329"
@@ -74,6 +106,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
+            style="style/RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -81,11 +114,13 @@
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.boredream.baseapplication.view.FabView
         android:id="@+id/fab"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="26dp" />
 
 </RelativeLayout>
