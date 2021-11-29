@@ -15,7 +15,7 @@ import com.boredream.baseapplication.entity.LoginRequest;
 import com.boredream.baseapplication.entity.User;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
-import com.boredream.baseapplication.net.SimpleDisObserver;
+import com.boredream.baseapplication.net.SimpleObserver;
 import com.boredream.baseapplication.utils.TokenKeeper;
 import com.boredream.baseapplication.utils.UserKeeper;
 
@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity {
                                 .compose(RxComposer.commonProgress(LoginActivity.this));
                     }
                 })
-                .subscribe(new SimpleDisObserver<User>() {
+                .subscribe(new SimpleObserver<User>() {
                     @Override
                     public void onNext(User user) {
                         loginSuccess(user);

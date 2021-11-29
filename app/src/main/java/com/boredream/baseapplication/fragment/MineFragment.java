@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.boredream.baseapplication.R;
+import com.boredream.baseapplication.activity.UserInfoActivity;
 import com.boredream.baseapplication.adapter.SettingItemAdapter;
 import com.boredream.baseapplication.base.BaseFragment;
 import com.boredream.baseapplication.entity.SettingItem;
 import com.boredream.baseapplication.entity.User;
 import com.boredream.baseapplication.net.GlideHelper;
+import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.utils.UserKeeper;
 import com.boredream.baseapplication.view.decoration.LeftPaddingItemDecoration;
 
@@ -60,27 +62,34 @@ public class MineFragment extends BaseFragment {
     }
 
     private void initView() {
-        List<SettingItem> settingList = Arrays.asList(
-                new SettingItem(R.drawable.ic_notifications_black_24dp, "另一半", "解绑", false),
-                new SettingItem(R.drawable.ic_notifications_black_24dp, "秀恩爱", null, false),
-                new SettingItem(R.drawable.ic_notifications_black_24dp, "推荐给大家", null, false),
-                new SettingItem(R.drawable.ic_notifications_black_24dp, "关于我们", null, false),
-                new SettingItem(R.drawable.ic_notifications_black_24dp, "反馈", null, false)
-        );
         rvItems.setLayoutManager(new LinearLayoutManager(activity));
         rvItems.addItemDecoration(new LeftPaddingItemDecoration(activity));
-        rvItems.setAdapter(new SettingItemAdapter(settingList));
 
+        // TODO: chunyang 11/29/21
+        ivAvatar.setOnClickListener(v -> UserInfoActivity.start(activity));
     }
 
     private void loadData() {
         User user = UserKeeper.getSingleton().getUser();
+        String cpUserAvatar = null;
+        if (user.getCpUser() != null) {
+            cpUserAvatar = user.getCpUser().getAvatar();
+        }
+        List<SettingItem> settingList = Arrays.asList(
+                new SettingItem(R.drawable.ic_notifications_black_24dp, "另一半", "解绑", cpUserAvatar, false),
+                new SettingItem(R.drawable.ic_notifications_black_24dp, "秀恩爱", null, null, false),
+                new SettingItem(R.drawable.ic_notifications_black_24dp, "推荐给大家", null, null, false),
+                new SettingItem(R.drawable.ic_notifications_black_24dp, "关于我们", null, null, false),
+                new SettingItem(R.drawable.ic_notifications_black_24dp, "反馈", null, null, false)
+        );
+        rvItems.setAdapter(new SettingItemAdapter(settingList));
         GlideHelper.loadOvalImg(ivAvatar, user.getAvatar());
         tvName.setText(user.getNickname());
     }
 
     @OnClick(R.id.btn_logout)
     public void onClick() {
-
+        DialogUtils.showConfirmDialog(activity, "是否确认退出登录？",
+                (dialog, which) -> UserKeeper.getSingleton().logout(activity));
     }
 }

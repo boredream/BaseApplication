@@ -196,7 +196,7 @@ public interface ApiService {
      */
     @PUT("/api/user/{id}")
     Observable<BaseResponse<String>> putUser(
-            @Path("id") int id,
+            @Path("id") Long id,
             @Body User info);
 
 }

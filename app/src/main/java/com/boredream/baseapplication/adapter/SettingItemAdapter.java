@@ -3,6 +3,7 @@ package com.boredream.baseapplication.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,11 @@ import butterknife.ButterKnife;
 public class SettingItemAdapter extends RecyclerView.Adapter<SettingItemAdapter.ViewHolder> {
 
     private List<SettingItem> infoList;
+    private AdapterView.OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public SettingItemAdapter(List<SettingItem> infoList) {
         this.infoList = infoList;
@@ -48,7 +54,7 @@ public class SettingItemAdapter extends RecyclerView.Adapter<SettingItemAdapter.
         }
         holder.tvName.setText(data.getName());
 
-        String right = data.getRight();
+        String right = data.getRightText();
         if (right != null) {
             if (right.startsWith("http")) {
                 holder.ivRight.setVisibility(View.VISIBLE);
@@ -66,10 +72,9 @@ public class SettingItemAdapter extends RecyclerView.Adapter<SettingItemAdapter.
 
         holder.ivRightArrow.setVisibility(data.isShowRightArrow() ? View.VISIBLE : View.GONE);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: chunyang 11/26/21
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(null, v, position, -1);
             }
         });
     }

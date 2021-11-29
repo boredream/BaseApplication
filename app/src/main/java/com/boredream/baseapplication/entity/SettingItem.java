@@ -4,13 +4,15 @@ public class SettingItem {
 
     private Integer icon;
     private String name;
-    private String right;
+    private String rightText;
+    private String rightImage;
     private boolean showRightArrow;
 
-    public SettingItem(Integer icon, String name, String right, boolean showRightArrow) {
+    public SettingItem(Integer icon, String name, String rightText, String rightImage, boolean showRightArrow) {
         this.icon = icon;
         this.name = name;
-        this.right = right;
+        this.rightText = rightText;
+        this.rightImage = rightImage;
         this.showRightArrow = showRightArrow;
     }
 
@@ -30,12 +32,20 @@ public class SettingItem {
         this.name = name;
     }
 
-    public String getRight() {
-        return right;
+    public String getRightText() {
+        return rightText;
     }
 
-    public void setRight(String right) {
-        this.right = right;
+    public void setRightText(String rightText) {
+        this.rightText = rightText;
+    }
+
+    public String getRightImage() {
+        return rightImage;
+    }
+
+    public void setRightImage(String rightImage) {
+        this.rightImage = rightImage;
     }
 
     public boolean isShowRightArrow() {

@@ -1,15 +1,17 @@
 package com.boredream.baseapplication.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-
 
 import com.boredream.baseapplication.R;
 
@@ -51,7 +53,7 @@ public class TitleBar extends FrameLayout {
     }
 
     public TitleBar setLeftMode() {
-        // TODO: chunyang 11/29/21  
+        titleTv.setGravity(Gravity.START);
         return this;
     }
 
@@ -61,7 +63,11 @@ public class TitleBar extends FrameLayout {
     }
 
     public TitleBar setLeftBack() {
-        // TODO: chunyang 11/26/21
+        titleIvLeft.setOnClickListener(v -> {
+            if (getContext() instanceof Activity) {
+                ((Activity) getContext()).finish();
+            }
+        });
         return this;
     }
 

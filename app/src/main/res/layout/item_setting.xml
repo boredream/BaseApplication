@@ -35,6 +35,7 @@
         android:id="@+id/iv_right"
         android:layout_width="28dp"
         android:layout_height="28dp"
+        android:scaleType="centerCrop"
         android:text="更多"
         android:textColor="@color/txt_gray" />
 
