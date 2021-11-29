@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 
-public class EditTheDayActivity extends BaseActivity {
+public class TheDayEditActivity extends BaseActivity {
 
     public static final int REQ_CODE_EDIT_TEXT = 40001;
 
@@ -36,7 +36,7 @@ public class EditTheDayActivity extends BaseActivity {
     private boolean isEdit;
 
     public static void start(Activity context, TheDay info) {
-        Intent intent = new Intent(context, EditTheDayActivity.class);
+        Intent intent = new Intent(context, TheDayEditActivity.class);
         intent.putExtra("info", info);
         context.startActivityForResult(intent, REQ_CODE_EDIT_TEXT);
     }
@@ -44,7 +44,7 @@ public class EditTheDayActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_the_day);
+        setContentView(R.layout.activity_the_day_edit);
         ButterKnife.bind(this);
 
         initExtras();

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.boredream.baseapplication.R;
-import com.boredream.baseapplication.activity.EditTheDayActivity;
+import com.boredream.baseapplication.activity.TheDayEditActivity;
 import com.boredream.baseapplication.base.BaseFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -73,6 +73,6 @@ public class TheDayFragment extends BaseFragment {
 
     @OnClick(R.id.fab)
     public void onClick() {
-        EditTheDayActivity.start(activity, null);
+        TheDayEditActivity.start(activity, null);
     }
 }

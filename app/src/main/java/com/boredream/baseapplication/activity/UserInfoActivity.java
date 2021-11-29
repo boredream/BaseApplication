@@ -127,6 +127,7 @@ public class UserInfoActivity extends PickImageActivity implements OnSelectedLis
     }
 
     private void onGenderClick(SettingItem item) {
+        // TODO: chunyang 11/29/21 代码重复
         ArrayList<String> list = new ArrayList<>();
         list.add("男");
         list.add("女");

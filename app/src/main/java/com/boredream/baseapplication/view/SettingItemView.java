@@ -84,7 +84,7 @@ public class SettingItemView extends RelativeLayout {
     }
 
     public void setText(String str) {
-        tvRight.setText(str);
+        setRightText(str);
     }
 
     public String getText() {
@@ -92,46 +92,56 @@ public class SettingItemView extends RelativeLayout {
     }
 
     public void setData(SettingItem data) {
-        if (data.getIcon() != null) {
+        tvName.setText(data.getName());
+        setIcon(data.getIcon());
+        setRightText(data.getRightText());
+        setRightImage(data.getRightImage());
+        ivRightArrow.setVisibility(data.isShowRightArrow() ? View.VISIBLE : View.GONE);
+    }
+
+    public void setIcon(Integer icon) {
+        if (icon != null) {
             ivLeft.setVisibility(View.VISIBLE);
-            ivLeft.setImageResource(data.getIcon());
+            ivLeft.setImageResource(icon);
         } else {
             ivLeft.setVisibility(View.GONE);
         }
-        tvName.setText(data.getName());
+    }
 
-        String rightText = data.getRightText();
-        if (rightText != null) {
-            tvRight.setVisibility(View.VISIBLE);
-            tvRight.setText(rightText);
-        } else {
-            tvRight.setVisibility(View.GONE);
-        }
-
-        String rightImage = data.getRightImage();
+    public void setRightImage(String rightImage) {
         if (rightImage != null) {
             ivRight.setVisibility(View.VISIBLE);
             GlideHelper.loadOvalImg(ivRight, rightImage);
         } else {
             ivRight.setVisibility(View.GONE);
         }
+    }
 
-        ivRightArrow.setVisibility(data.isShowRightArrow() ? View.VISIBLE : View.GONE);
+    public void setRightText(String rightText) {
+        if (rightText != null) {
+            tvRight.setVisibility(View.VISIBLE);
+            tvRight.setText(rightText);
+        } else {
+            tvRight.setVisibility(View.GONE);
+        }
     }
 
     public void setDateAction(OnSelectedListener<String> listener) {
-        String oldData = tvRight.getText().toString().trim();
-        if (StringUtils.isEmpty(oldData)) {
-            oldData = null;
-        }
-        WheelDatePickDialog dialog = new WheelDatePickDialog(getContext(), oldData);
-        dialog.setListener(calendar -> {
-            String date = DateUtils.calendar2str(calendar);
-            if (listener != null) {
-                listener.onSelected(date);
+        setOnClickListener(v -> {
+            String oldData = tvRight.getText().toString().trim();
+            if (StringUtils.isEmpty(oldData)) {
+                oldData = null;
             }
+            WheelDatePickDialog dialog = new WheelDatePickDialog(getContext(), oldData);
+            dialog.setListener(calendar -> {
+                String date = DateUtils.calendar2str(calendar);
+                setRightText(date);
+                if (listener != null) {
+                    listener.onSelected(date);
+                }
+            });
+            dialog.show();
         });
-        dialog.show();
     }
 
     public void setSpinnerAction(OnSelectedListener<String> listener, String... items) {
@@ -139,19 +149,22 @@ public class SettingItemView extends RelativeLayout {
     }
 
     public void setSpinnerAction(OnSelectedListener<String> listener, ArrayList<String> list) {
-        String oldData = tvRight.getText().toString().trim();
-        if (StringUtils.isEmpty(oldData)) {
-            oldData = null;
-        }
-
-        BottomListSelectedDialog<String> dialog = new BottomListSelectedDialog<>(
-                getContext(), tvName.getText().toString().trim(), list, oldData);
-        dialog.setOnListSelectedListener(data -> {
-            if (listener != null) {
-                listener.onSelected(data);
+        setOnClickListener(v -> {
+            String oldData = tvRight.getText().toString().trim();
+            if (StringUtils.isEmpty(oldData)) {
+                oldData = null;
             }
+
+            BottomListSelectedDialog<String> dialog = new BottomListSelectedDialog<>(
+                    getContext(), tvName.getText().toString().trim(), list, oldData);
+            dialog.setOnListSelectedListener(data -> {
+                setRightText(data);
+                if (listener != null) {
+                    listener.onSelected(data);
+                }
+            });
+            dialog.show();
         });
-        dialog.show();
     }
 
 }
