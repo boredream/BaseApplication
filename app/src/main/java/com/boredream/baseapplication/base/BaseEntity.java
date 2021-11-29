@@ -1,4 +1,4 @@
-package com.boredream.baseapplication.entity;
+package com.boredream.baseapplication.base;
 
 import java.io.Serializable;
 

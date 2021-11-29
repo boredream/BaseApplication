@@ -1,11 +1,9 @@
-package com.boredream.baseapplication.fragment;
+package com.boredream.baseapplication.base;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.boredream.baseapplication.base.BaseActivity;
-import com.boredream.baseapplication.base.BaseView;
 import com.trello.rxlifecycle3.LifecycleTransformer;
 import com.trello.rxlifecycle3.android.FragmentEvent;
 import com.trello.rxlifecycle3.components.support.RxFragment;

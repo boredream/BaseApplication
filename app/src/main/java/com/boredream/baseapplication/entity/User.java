@@ -1,5 +1,7 @@
 package com.boredream.baseapplication.entity;
 
+import com.boredream.baseapplication.base.BaseEntity;
+
 /**
  * <p>
  * 用户

@@ -1,5 +1,7 @@
 package com.boredream.baseapplication.entity;
 
+import com.boredream.baseapplication.base.BaseEntity;
+
 /**
  * 课程参加人员 - 关系表
  */

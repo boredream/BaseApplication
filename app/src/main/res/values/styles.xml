@@ -57,10 +57,11 @@
     </style>
 
     <style name="ButtonPrimary">
+        <item name="android:stateListAnimator">@null</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_height">48dp</item>
         <item name="android:textSize">18dp</item>
-        <item name="android:textColor">@color/txt_white2gray_sel</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/correct_primary2dark_sel</item>
     </style>

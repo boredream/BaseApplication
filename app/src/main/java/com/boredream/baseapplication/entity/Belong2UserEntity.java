@@ -1,5 +1,7 @@
 package com.boredream.baseapplication.entity;
 
+import com.boredream.baseapplication.base.BaseEntity;
+
 public class Belong2UserEntity extends BaseEntity {
 
 	// 所属用户id

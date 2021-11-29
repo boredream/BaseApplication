@@ -1,12 +1,14 @@
 package com.boredream.baseapplication.fragment;
 
 
+import android.widget.RadioGroup;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 
-import com.boredream.baseapplication.R;
-import com.boredream.baseapplication.activity.MainActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.boredream.baseapplication.base.BaseActivity;
+import com.boredream.baseapplication.base.BaseFragment;
 
 import java.util.ArrayList;
 
@@ -15,13 +17,14 @@ import java.util.ArrayList;
  */
 public class FragmentController {
 
-    private BottomNavigationView nav;
+
+    private RadioGroup rg;
     private int containerId;
     private FragmentManager fm;
     private ArrayList<BaseFragment> fragments;
 
-    public FragmentController(MainActivity activity, BottomNavigationView nav, int containerId, ArrayList<BaseFragment> fragments) {
-        this.nav = nav;
+    public FragmentController(BaseActivity activity, RadioGroup rg, int containerId, ArrayList<BaseFragment> fragments) {
+        this.rg = rg;
         this.containerId = containerId;
         this.fragments = fragments;
         this.fm = activity.getSupportFragmentManager();
@@ -31,30 +34,21 @@ public class FragmentController {
     public void initFragment() {
         FragmentTransaction ft = fm.beginTransaction();
         for (int i = 0; i < fragments.size(); i++) {
-            ft.add(containerId, fragments.get(i), String.valueOf(i));
+            BaseFragment fragment = fragments.get(i);
+            ft.add(containerId, fragment, String.valueOf(i));
+            ft.setMaxLifecycle(fragment, Lifecycle.State.STARTED);
         }
         ft.commitAllowingStateLoss();
 
-        nav.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    showFragment(0);
-                    return true;
-                case R.id.navigation_dashboard:
-                    showFragment(1);
-                    return true;
-                case R.id.navigation_notifications:
-                    showFragment(2);
-                    return true;
-            }
-            return false;
-        });
+        rg.setOnCheckedChangeListener((group, checkedId) ->
+                showFragment(rg.indexOfChild(rg.findViewById(checkedId))));
     }
 
     public void showFragment(int position) {
         hideFragments();
         BaseFragment fragment = fragments.get(position);
         FragmentTransaction ft = fm.beginTransaction();
+        ft.setMaxLifecycle(fragment, Lifecycle.State.RESUMED);
         ft.show(fragment);
         ft.commitAllowingStateLoss();
     }
@@ -66,7 +60,7 @@ public class FragmentController {
                 ft.hide(fragment);
             }
         }
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     public BaseFragment getFragment(int position) {

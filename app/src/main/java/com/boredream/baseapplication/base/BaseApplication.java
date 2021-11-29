@@ -2,6 +2,7 @@ package com.boredream.baseapplication.base;
 
 
 import android.app.Application;
+import android.content.Context;
 
 import com.boredream.baseapplication.utils.AppKeeper;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;

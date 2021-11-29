@@ -9,13 +9,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.boredream.baseapplication.R;
+import com.boredream.baseapplication.base.BaseFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainFragment extends BaseFragment {
+public class TheDayFragment extends BaseFragment {
 
     View view;
     @BindView(R.id.refresh)
@@ -26,7 +27,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = View.inflate(activity, R.layout.frag_main, null);
+        view = View.inflate(activity, R.layout.frag_the_day, null);
         unbinder = ButterKnife.bind(this, view);
         initView();
         loadData();

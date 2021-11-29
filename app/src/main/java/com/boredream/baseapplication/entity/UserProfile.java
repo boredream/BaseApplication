@@ -1,6 +1,8 @@
 package com.boredream.baseapplication.entity;
 
 
+import com.boredream.baseapplication.base.BaseEntity;
+
 public class UserProfile extends BaseEntity {
 
     // fire base

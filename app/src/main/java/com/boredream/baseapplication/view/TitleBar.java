@@ -22,8 +22,8 @@ public class TitleBar extends FrameLayout {
     TextView titleTv;
     @BindView(R.id.title_iv_left)
     ImageView titleIvLeft;
-    @BindView(R.id.title_iv_right)
-    ImageView titleIvRight;
+    @BindView(R.id.title_tv_right)
+    TextView titleTvRight;
 
     public TitleBar(Context context) {
         super(context);
@@ -50,15 +50,25 @@ public class TitleBar extends FrameLayout {
         a.recycle();
     }
 
+    public TitleBar setLeftMode() {
+        // TODO: chunyang 11/29/21  
+        return this;
+    }
+
     public TitleBar setTitle(CharSequence title) {
         titleTv.setText(title);
         return this;
     }
 
-    public TitleBar setRightIv(int resId, OnClickListener listener) {
-        titleIvRight.setVisibility(VISIBLE);
-        titleIvRight.setImageResource(resId);
-        titleIvRight.setOnClickListener(listener);
+    public TitleBar setLeftBack() {
+        // TODO: chunyang 11/26/21
+        return this;
+    }
+
+    public TitleBar setRight(String text, OnClickListener listener) {
+        titleTvRight.setVisibility(VISIBLE);
+        titleTvRight.setText(text);
+        titleTvRight.setOnClickListener(listener);
         return this;
     }
 
