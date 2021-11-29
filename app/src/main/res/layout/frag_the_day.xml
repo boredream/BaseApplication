@@ -18,7 +18,7 @@
             android:layout_marginTop="68dp"
             android:text="我们已恋爱"
             android:textColor="@color/white"
-            android:textSize="@dimen/txtsize_subhead" />
+            android:textSize="@dimen/txt_subhead" />
 
         <ImageView
             android:id="@+id/iv_right"
@@ -50,7 +50,7 @@
             android:gravity="center"
             android:text="329"
             android:textColor="@color/white"
-            android:textSize="@dimen/txtsize_didplay1" />
+            android:textSize="@dimen/txt_display1" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
             android:layout_toRightOf="@id/tv_together_days"
             android:text="天"
             android:textColor="@color/white"
-            android:textSize="@dimen/txtsize_subhead" />
+            android:textSize="@dimen/txt_subhead" />
 
     </RelativeLayout>
 

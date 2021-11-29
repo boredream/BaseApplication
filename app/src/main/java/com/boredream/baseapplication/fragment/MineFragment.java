@@ -89,7 +89,7 @@ public class MineFragment extends BaseFragment {
 
     @OnClick(R.id.btn_logout)
     public void onClick() {
-        DialogUtils.showConfirmDialog(activity, "是否确认退出登录？",
-                (dialog, which) -> UserKeeper.getSingleton().logout(activity));
+        DialogUtils.show2BtnDialog(activity, "提示", "是否确认退出登录？",
+                (view) -> UserKeeper.getSingleton().logout(activity));
     }
 }

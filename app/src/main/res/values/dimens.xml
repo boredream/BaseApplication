@@ -13,17 +13,18 @@
     <dimen name="margin_only_txt">48dp</dimen>
 
     <!-- txtsize -->
-    <dimen name="txtsize_didplay1">60dp</dimen>
-    <dimen name="txtsize_headline">24dp</dimen>
-    <dimen name="txtsize_title">20dp</dimen>
-    <dimen name="txtsize_subhead">16dp</dimen>
-    <dimen name="txtsize_body">14dp</dimen>
-    <dimen name="txtsize_caption">12dp</dimen>
+    <dimen name="txt_display1">60dp</dimen>
+    <dimen name="txt_headline">24dp</dimen>
+    <dimen name="txt_title">20dp</dimen>
+    <dimen name="txt_subhead">16dp</dimen>
+    <dimen name="txt_body">14dp</dimen>
+    <dimen name="txt_caption">12dp</dimen>
 
     <!-- other size -->
     <dimen name="title_bar_height">44dp</dimen>
     <dimen name="status_bar_padding">0dp</dimen>
     <dimen name="corner_radius">4dp</dimen>
+    <dimen name="corner_card_radius">20dp</dimen>
     <dimen name="banner_height">136dp</dimen>
 
 </resources>

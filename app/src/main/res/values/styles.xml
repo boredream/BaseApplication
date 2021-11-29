@@ -51,7 +51,7 @@
         <item name="android:layout_height">40dp</item>
         <item name="android:textColorHint">@color/txt_light_gray</item>
         <item name="android:textColor">@color/txt_black</item>
-        <item name="android:textSize">@dimen/txtsize_body</item>
+        <item name="android:textSize">@dimen/txt_body</item>
         <item name="android:singleLine">true</item>
         <item name="android:gravity">center_vertical</item>
     </style>
@@ -70,7 +70,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:textSize">@dimen/txtsize_caption</item>
+        <item name="android:textSize">@dimen/txt_caption</item>
         <item name="android:textColor">@color/txt_gray2primary_sel</item>
         <item name="android:button">@null</item>
         <item name="android:background">@drawable/bg_white2gray_sel</item>
@@ -106,7 +106,11 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
+    <style name="DialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
 </resources>

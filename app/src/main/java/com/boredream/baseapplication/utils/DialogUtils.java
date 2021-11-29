@@ -1,44 +1,148 @@
 package com.boredream.baseapplication.utils;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.view.View;
+import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
+
+import com.blankj.utilcode.util.StringUtils;
+import com.boredream.baseapplication.R;
+import com.boredream.baseapplication.dialog.BottomSelectDialog;
+import com.boredream.baseapplication.listener.OnPickImageListener;
+
+import java.util.Arrays;
+
 
 /**
  * 对话框工具类, 提供常用对话框显示, 使用support.v7包内的AlertDialog样式
  */
 public class DialogUtils {
 
-    public static ProgressDialog createProgressDialog(Context context) {
-        return createProgressDialog(context, true);
-    }
+    /**
+     * 选择拍照还是相册对话框
+     */
+    public static Dialog showImagePickDialog(Context context, OnPickImageListener listener) {
+        BottomSelectDialog dialog = new BottomSelectDialog(context,
+                Arrays.asList(R.drawable.ic_camera, R.drawable.ic_albums),
+                Arrays.asList("拍照", "相册"),
+                (parent, view, position, id) -> {
+                    if (listener == null) return;
 
-    public static ProgressDialog createProgressDialog(Context context, boolean needCancle) {
-        ProgressDialog dialog = new ProgressDialog(context);
-        dialog.setMessage("加载中");
-        dialog.setCancelable(needCancle);
-        dialog.setCanceledOnTouchOutside(false);
+                    if (position == 0) {
+                        listener.onCamera();
+                    } else if (position == 1) {
+                        listener.onAlbum();
+                    }
+                });
+        dialog.show();
         return dialog;
     }
 
-    public static Dialog showCommonDialog(Context context, String message,
-                                          DialogInterface.OnClickListener listener) {
-        return new AlertDialog.Builder(context)
-                .setMessage(message)
-                .setPositiveButton("确定", listener)
-                .setNegativeButton("取消", null)
-                .show();
+    /**
+     * 自定义确定按钮/取消对话框
+     */
+    public static Dialog show2BtnDialog(@NonNull Context context, @NonNull String title, String content, String ok, View.OnClickListener okListener) {
+        return show2BtnDialog(context, title, content, true, "取消", ok, null, okListener);
     }
 
-    public static Dialog showConfirmDialog(Context context, String message,
-                                           DialogInterface.OnClickListener listener) {
-        return new AlertDialog.Builder(context)
-                .setMessage(message)
-                .setPositiveButton("确定", listener)
-                .show();
+    /**
+     * 确定/取消对话框
+     */
+    public static Dialog show2BtnDialog(@NonNull Context context, @NonNull String title, String content, View.OnClickListener okListener) {
+        return show2BtnDialog(context, title, content, true, "取消", "确定", null, okListener);
     }
 
+    /**
+     * 俩按钮对话框
+     */
+    public static Dialog show2BtnDialog(@NonNull Context context,
+                                        @NonNull String title,
+                                        String content,
+                                        boolean autoClose,
+                                        String cancel,
+                                        String ok,
+                                        View.OnClickListener cancelListener,
+                                        View.OnClickListener okListener) {
+        View view = View.inflate(context, R.layout.dialog_common, null);
+        DialogViewHolder holder = new DialogViewHolder(view);
+
+        Dialog dialog = new Dialog(context, R.style.custom_dialog);
+        dialog.setContentView(view);
+        holder.tv_title.setText(title);
+        if (StringUtils.isEmpty(content)) {
+            holder.tv_content.setVisibility(View.GONE);
+        } else {
+            holder.tv_content.setVisibility(View.VISIBLE);
+            holder.tv_content.setText(content);
+        }
+        if (cancel != null) holder.tv_cancel.setText(cancel);
+        holder.tv_cancel.setOnClickListener(v -> {
+            if (autoClose) dialog.dismiss();
+            if (cancelListener != null) cancelListener.onClick(v);
+        });
+        if (ok != null) holder.tv_ok.setText(ok);
+        holder.tv_ok.setOnClickListener(v -> {
+            if (autoClose) dialog.dismiss();
+            if (okListener != null) okListener.onClick(v);
+        });
+        dialog.show();
+
+        return dialog;
+    }
+
+    /**
+     * 单按钮对话框
+     */
+    public static Dialog show1BtnDialog(Context context, String title, String content) {
+        return show1BtnDialog(context, title, content, "确定", null);
+    }
+
+    /**
+     * 单按钮对话框
+     */
+    public static Dialog show1BtnDialog(Context context, String title, String content,
+                                        String ok, View.OnClickListener okListener) {
+        View view = View.inflate(context, R.layout.dialog_common, null);
+        DialogViewHolder holder = new DialogViewHolder(view);
+        holder.btnDivider.setVisibility(View.GONE);
+        holder.tv_cancel.setVisibility(View.GONE);
+
+        Dialog dialog = new Dialog(context, R.style.custom_dialog);
+        dialog.setContentView(view);
+        holder.tv_title.setText(title);
+        if (StringUtils.isEmpty(content)) {
+            holder.tv_content.setVisibility(View.GONE);
+        } else {
+            holder.tv_content.setVisibility(View.VISIBLE);
+            holder.tv_content.setText(content);
+        }
+        if (ok != null) holder.tv_ok.setText(ok);
+        holder.tv_ok.setOnClickListener(v -> {
+            dialog.dismiss();
+            if (okListener != null) okListener.onClick(v);
+        });
+        dialog.show();
+
+        return dialog;
+    }
+
+    static class DialogViewHolder {
+
+        public View btnDivider;
+        public TextView tv_title;
+        public TextView tv_content;
+        public TextView tv_cancel;
+        public TextView tv_ok;
+
+        public DialogViewHolder(View view) {
+            btnDivider = view.findViewById(R.id.v_btn_divider);
+            tv_title = view.findViewById(R.id.alert_tv_title);
+            tv_content = view.findViewById(R.id.alert_tv_content);
+            tv_cancel = view.findViewById(R.id.alert_tv_cancel);
+            tv_ok = view.findViewById(R.id.alert_tv_ok);
+        }
+
+    }
 }
