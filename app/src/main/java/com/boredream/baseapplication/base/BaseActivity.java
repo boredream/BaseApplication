@@ -26,7 +26,7 @@ public class BaseActivity extends RxAppCompatActivity implements BaseView {
     }
 
     protected void setStatusBar() {
-        BarUtils.setStatusBarLightMode(this, true);
+        BarUtils.setStatusBarLightMode(this, false);
         BarUtils.transparentStatusBar(this);
     }
 

@@ -7,25 +7,49 @@ import com.boredream.baseapplication.entity.TheDay;
 import com.boredream.baseapplication.entity.Todo;
 import com.boredream.baseapplication.entity.TodoGroup;
 import com.boredream.baseapplication.entity.User;
+import com.boredream.baseapplication.entity.dto.FileUploadPolicyDTO;
 import com.boredream.baseapplication.entity.dto.PageResultDTO;
 import com.boredream.baseapplication.entity.dto.WxLoginDTO;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface ApiService {
 
     /**
-    * 添加日记
-    */
+     * 获取上传凭证
+     */
+    @GET("/api/file/getUploadPolicy")
+    Observable<BaseResponse<FileUploadPolicyDTO>> getFileGetUploadPolicy();
+
+    /**
+     * 上传图片
+     */
+    @Multipart
+    @POST
+    Observable<HashMap<String, String>> uploadFile7niu(
+            @Url String url,
+            @Part MultipartBody.Part file,
+            @Part("token") RequestBody token,
+            @Part("key") RequestBody key);
+
+    /**
+     * 添加日记
+     */
     @POST("/api/diary")
     Observable<BaseResponse<String>> postDiary(
             @Body Diary info);
@@ -62,12 +86,6 @@ public interface ApiService {
     @DELETE("/api/diary/{id}")
     Observable<BaseResponse<String>> deleteDiary(
             @Path("id") int id);
-
-    /**
-     * 获取上传凭证
-     */
-    @GET("/api/file/getUploadPolicy")
-    Observable<BaseResponse<String>> getFileGetUploadPolicy();
 
     /**
      * 添加纪念日

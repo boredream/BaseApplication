@@ -10,7 +10,8 @@ import androidx.annotation.NonNull;
 import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.dialog.BottomSelectDialog;
-import com.boredream.baseapplication.listener.OnPickImageListener;
+import com.boredream.baseapplication.image.picker.OnPickImageListener;
+import com.boredream.baseapplication.image.picker.PickImageActivity;
 
 import java.util.Arrays;
 
@@ -19,6 +20,24 @@ import java.util.Arrays;
  * 对话框工具类, 提供常用对话框显示, 使用support.v7包内的AlertDialog样式
  */
 public class DialogUtils {
+
+    /**
+     * 选择拍照还是相册对话框
+     */
+    public static Dialog showImagePickDialog(PickImageActivity activity) {
+        BottomSelectDialog dialog = new BottomSelectDialog(activity,
+                Arrays.asList(R.drawable.ic_camera, R.drawable.ic_albums),
+                Arrays.asList("拍照", "相册"),
+                (parent, view, position, id) -> {
+                    if (position == 0) {
+                        activity.takeAlbum();
+                    } else if (position == 1) {
+                        activity.takeAlbum();
+                    }
+                });
+        dialog.show();
+        return dialog;
+    }
 
     /**
      * 选择拍照还是相册对话框

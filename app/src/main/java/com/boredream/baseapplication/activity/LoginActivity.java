@@ -35,8 +35,6 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.btn_login)
     Button btnLogin;
 
-    private User user;
-
     public static void start(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);

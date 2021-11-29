@@ -1,4 +1,4 @@
-package com.boredream.baseapplication.listener;
+package com.boredream.baseapplication.image.picker;
 
 public interface OnPickImageListener {
 

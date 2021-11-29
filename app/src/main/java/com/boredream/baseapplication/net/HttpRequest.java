@@ -43,6 +43,7 @@ public class HttpRequest {
     private String host;
     private OkHttpClient client;
     private Retrofit retrofit;
+    private Retrofit dataStreamRetrofit;
 
     public String getHost() {
         return host;
@@ -79,18 +80,33 @@ public class HttpRequest {
                 .writeTimeout(timeout, TimeUnit.SECONDS)
                 .readTimeout(timeout, TimeUnit.SECONDS);
         builder.addInterceptor(headerInterceptor);
-
-        client = builder.build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(host)
                 .addConverterFactory(GsonConverterFactory.create()) // gson
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // rxjava 响应式编程
-                .client(client)
+                .client(builder.build())
+                .build();
+
+        OkHttpClient.Builder dataStreamBuilder = new OkHttpClient.Builder()
+                .sslSocketFactory(createSSLSocketFactory(), createTrustManager())
+                .hostnameVerifier(createVerifier())
+                .connectTimeout(timeout, TimeUnit.SECONDS)
+                .writeTimeout(timeout, TimeUnit.SECONDS)
+                .readTimeout(timeout, TimeUnit.SECONDS);
+        dataStreamRetrofit = new Retrofit.Builder()
+                .baseUrl(host)
+                .addConverterFactory(GsonConverterFactory.create()) // gson
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // rxjava 响应式编程
+                .client(dataStreamBuilder.build())
                 .build();
     }
 
     public ApiService getApiService() {
         return retrofit.create(ApiService.class);
+    }
+
+    public ApiService getDataStreamApiService() {
+        return dataStreamRetrofit.create(ApiService.class);
     }
 
     private static HostnameVerifier createVerifier() {

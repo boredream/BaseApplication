@@ -1,4 +1,4 @@
-package com.boredream.baseapplication.utils;
+package com.boredream.baseapplication.image;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -61,20 +61,17 @@ public class ImageUtils {
         String[] items = new String[]{"拍照", "相册"};
         new AlertDialog.Builder(activity)
                 .setTitle(title)
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        switch (which) {
-                            case 0:
-                                pickImageFromCamera(activity, addRequest);
-                                break;
-                            case 1:
-                                pickImageFromAlbum(activity, addRequest);
-                                break;
-                            default:
-                                break;
-                        }
+                .setItems(items, (dialog, which) -> {
+                    dialog.dismiss();
+                    switch (which) {
+                        case 0:
+                            pickImageFromCamera(activity, addRequest);
+                            break;
+                        case 1:
+                            pickImageFromAlbum(activity, addRequest);
+                            break;
+                        default:
+                            break;
                     }
                 })
                 .setNegativeButton("取消", null)
@@ -166,8 +163,7 @@ public class ImageUtils {
         values.put(MediaStore.Images.Media.TITLE, name);
         values.put(MediaStore.Images.Media.DISPLAY_NAME, name + ".jpeg");
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-        Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        return uri;
+        return context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
     /**

@@ -2,9 +2,8 @@ package com.boredream.baseapplication.base;
 
 
 import android.app.Application;
-import android.content.Context;
 
-import com.boredream.baseapplication.utils.AppKeeper;
+import com.blankj.utilcode.util.Utils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -16,7 +15,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppKeeper.init(this);
+        Utils.init(this);
         initRefresh();
     }
 
