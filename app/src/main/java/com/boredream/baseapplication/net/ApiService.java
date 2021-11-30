@@ -99,8 +99,8 @@ public interface ApiService {
      */
     @GET("/api/the_day/page")
     Observable<BaseResponse<PageResultDTO<TheDay>>> getTheDayPage(
-            @Query("page") int page,
             @Query("queryDate") String queryDate,
+            @Query("page") int page,
             @Query("size") int size);
 
     /**

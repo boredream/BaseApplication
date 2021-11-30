@@ -14,6 +14,7 @@
 
     <!-- txtsize -->
     <dimen name="txt_display1">60dp</dimen>
+    <dimen name="txt_display2">36dp</dimen>
     <dimen name="txt_headline">24dp</dimen>
     <dimen name="txt_title">20dp</dimen>
     <dimen name="txt_subhead">16dp</dimen>

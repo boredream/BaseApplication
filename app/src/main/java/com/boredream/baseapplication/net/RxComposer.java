@@ -2,6 +2,8 @@ package com.boredream.baseapplication.net;
 
 import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.base.BaseView;
+import com.boredream.baseapplication.view.loading.ILoadingView;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,6 +27,16 @@ public class RxComposer {
                 .compose(defaultFailed(view))
                 .compose(handleProgress(view));
     }
+
+    public static <T> ObservableTransformer<BaseResponse<T>, T> commonRefresh(
+            BaseView view, ILoadingView loadingView, boolean loadMore) {
+        return upstream -> upstream.compose(schedulers())
+                .compose(lifecycle(view))
+                .compose(defaultResponse())
+                .compose(defaultFailed(view))
+                .compose(handleRefresh(loadingView, loadMore));
+    }
+
 
     ////////////////////////////// 基础compose //////////////////////////////
 
@@ -80,16 +92,13 @@ public class RxComposer {
                 .doOnNext((Consumer<T>) t -> view.dismissProgress()); // 正常返回时
     }
 
-//    /**
-//     * 刷新控件统一处理，发送请求时自动 showRefresh，请求成功/失败时自动 dismissRefresh
-//     *
-//     * @param showContentLoading 显示列表中的loading样式，需要setEmptyAdapterWrap
-//     * @param loadMore    true-加载更多, false-下拉刷新
-//     */
-//    public static <T> ObservableTransformer<T, T> handleRefresh(final BaseView view, boolean showContentLoading, boolean loadMore) {
-//        return upstream -> upstream.observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe(disposable -> view.showRefresh(showContentLoading, loadMore))
-//                .doOnError(throwable -> view.dismissRefresh(showContentLoading, loadMore))
-//                .doOnNext((Consumer<T>) t -> view.dismissRefresh(showContentLoading, loadMore));
-//    }
+    /**
+     * 刷新控件统一处理
+     */
+    public static <T> ObservableTransformer<T, T> handleRefresh(ILoadingView loadingView, boolean loadMore) {
+        return upstream -> upstream.observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> loadingView.doOnSubscribe(loadMore))
+                .doOnError(throwable -> loadingView.doOnError(throwable, loadMore))
+                .doOnNext(t -> loadingView.doOnNext(t, loadMore));
+    }
 }

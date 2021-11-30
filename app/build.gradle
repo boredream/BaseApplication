@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.boredream.baseapplication"
+        applicationId "com.boredream.lovebook"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -21,6 +21,22 @@ android {
         }
     }
 
+    signingConfigs {
+        debug {
+            keyAlias "boredreamDebug"
+            keyPassword "bore123456"
+            storeFile file("boredreamDebug")
+            storePassword "bore123456"
+        }
+
+        release {
+            keyAlias "boredream"
+            keyPassword "bore123456"
+            storeFile file("boredream")
+            storePassword "bore123456"
+        }
+    }
+
     lintOptions {
         abortOnError false
         disable 'MissingTranslation'
@@ -30,6 +46,14 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
 }
 
@@ -60,11 +84,13 @@ dependencies {
     implementation "com.jakewharton:butterknife:10.1.0"
     annotationProcessor "com.jakewharton:butterknife-compiler:10.1.0"
 
+    // refresh
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'//没有使用特殊Header，可以不加这行
+
     // others
     implementation 'com.blankj:utilcodex:1.30.6'
     implementation "org.greenrobot:eventbus:3.0.0"
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'//没有使用特殊Header，可以不加这行
     implementation 'com.yanzhenjie.permission:x:2.0.1'
 
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.base.BaseActivity;
 import com.boredream.baseapplication.base.BaseResponse;
@@ -78,6 +79,13 @@ public class TheDayEditActivity extends BaseActivity {
     }
 
     private void commit() {
+        String name = etwcName.getText().toString().trim();
+        if(StringUtils.isEmpty(name)) {
+            showTip("名字不能为空");
+            return;
+        }
+        info.setName(name);
+
         Observable<BaseResponse<String>> observable;
         if (isEdit) {
             observable = HttpRequest.getInstance()

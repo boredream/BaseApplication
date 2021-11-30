@@ -14,35 +14,24 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
-    <style name="TextViewHeadline" parent="TextAppearance.AppCompat.Headline">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/txt_black</item>
-    </style>
-
-    <style name="TextViewTitle" parent="TextAppearance.AppCompat.Title">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/txt_black</item>
-    </style>
-
     <style name="TextViewSubhead" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/txt_subhead</item>
         <item name="android:textColor">@color/txt_black</item>
     </style>
 
     <style name="TextViewBody" parent="TextAppearance.AppCompat.Body1">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">@dimen/txt_body</item>
+        <item name="android:textSize">@dimen/txt_body</item>
         <item name="android:textColor">@color/txt_black</item>
     </style>
 
     <style name="TextViewCaption" parent="TextAppearance.AppCompat.Caption">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/txt_caption</item>
         <item name="android:textColor">@color/txt_light_gray</item>
     </style>
 

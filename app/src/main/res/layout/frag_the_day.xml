@@ -97,22 +97,13 @@
 
     </RelativeLayout>
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refresh"
+    <com.boredream.baseapplication.view.loading.RefreshListLayout
+        android:id="@+id/rll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rl_header"
-        android:background="@color/white">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
-            style="style/RecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        android:background="@color/white"
+        android:overScrollMode="never" />
 
     <com.boredream.baseapplication.view.FabView
         android:id="@+id/fab"
