@@ -26,6 +26,9 @@ public class User extends BaseEntity {
     // 伴侣用户id
     private Long cpUserId;
 
+    // 伴侣在一起时间
+    private String cpTogetherDate;
+
     // 伴侣用户
     private User cpUser;
 
@@ -40,6 +43,17 @@ public class User extends BaseEntity {
 
     // 生日
     private String birthday;
+
+    /**
+     *  取自己或对方的在一起时间
+     */
+    public String getBothTogetherDate() {
+        String date = cpTogetherDate;
+        if(date == null && cpUser != null) {
+            date = cpUser.getCpTogetherDate();
+        }
+        return date;
+    }
 
     public String getUsername() {
         return username;
@@ -87,6 +101,14 @@ public class User extends BaseEntity {
 
     public void setCpUser(User cpUser) {
         this.cpUser = cpUser;
+    }
+
+    public String getCpTogetherDate() {
+        return cpTogetherDate;
+    }
+
+    public void setCpTogetherDate(String cpTogetherDate) {
+        this.cpTogetherDate = cpTogetherDate;
     }
 
     public String getNickname() {

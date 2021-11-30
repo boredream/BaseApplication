@@ -5,32 +5,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import androidx.collection.ArraySet;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.CollectionUtils;
-import com.blankj.utilcode.util.SizeUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.activity.TheDayEditActivity;
 import com.boredream.baseapplication.adapter.TheDayAdapter;
 import com.boredream.baseapplication.base.BaseFragment;
+import com.boredream.baseapplication.dialog.WheelDatePickDialog;
 import com.boredream.baseapplication.entity.TheDay;
+import com.boredream.baseapplication.entity.User;
 import com.boredream.baseapplication.entity.dto.PageResultDTO;
+import com.boredream.baseapplication.entity.event.TheDayUpdateEvent;
 import com.boredream.baseapplication.listener.OnSelectedListener;
+import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
+import com.boredream.baseapplication.utils.DateUtils;
+import com.boredream.baseapplication.utils.UserKeeper;
 import com.boredream.baseapplication.view.decoration.LastPaddingItemDecoration;
 import com.boredream.baseapplication.view.loading.RefreshListLayout;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,14 +46,18 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
     View view;
     Unbinder unbinder;
 
-    @BindView(R.id.iv_right_add)
-    ImageView ivRightAdd;
-    @BindView(R.id.rl_right)
-    RelativeLayout rlRight;
-    @BindView(R.id.rl_left)
-    RelativeLayout rlLeft;
+    @BindView(R.id.tv)
+    TextView tv;
+    @BindView(R.id.tv_together_days)
+    TextView tvTogetherDays;
+    @BindView(R.id.iv_right)
+    ImageView ivRight;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
     @BindView(R.id.rll)
     RefreshListLayout rll;
+    @BindView(R.id.iv_right_add)
+    ImageView ivRightAdd;
 
     private int curPage;
     private ArrayList<TheDay> infoList = new ArrayList<>();
@@ -59,6 +67,7 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = View.inflate(activity, R.layout.frag_the_day, null);
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         initView();
         initData();
         return view;
@@ -68,9 +77,18 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(TheDayUpdateEvent event) {
+        loadData(false);
     }
 
     private void initView() {
+        tvTogetherDays.setOnClickListener(v -> updateTogetherDate());
+        tv.setOnClickListener(v -> updateTogetherDate());
+
         rll.setEnableRefresh(true);
         rll.setEnableLoadmore(false);
         rll.setOnRefreshListener(refresh -> loadData(false));
@@ -82,7 +100,67 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
     }
 
     private void initData() {
+        setHeadInfo();
         loadData(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setHeadInfo();
+    }
+
+    private void setHeadInfo() {
+        setTogetherDays();
+
+        // TODO: chunyang 11/30/21 性别？
+        User user = UserKeeper.getSingleton().getUser();
+        GlideHelper.loadOvalImg(ivLeft, user.getAvatar(), R.drawable.avatar_girl);
+        User cpUser = user.getCpUser();
+        if (cpUser != null) {
+            GlideHelper.loadOvalImg(ivRight, cpUser.getAvatar(), R.drawable.avatar_boy);
+            ivRightAdd.setVisibility(View.GONE);
+        } else {
+            ivRightAdd.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setTogetherDays() {
+        User user = UserKeeper.getSingleton().getUser();
+        String bothTogetherDate = user.getBothTogetherDate();
+        if (bothTogetherDate != null) {
+            tv.setText("我们已恋爱");
+            int days = DateUtils.calculateDayDiff(Calendar.getInstance(), DateUtils.str2calendar(bothTogetherDate));
+            tvTogetherDays.setText(String.valueOf(days));
+        } else {
+            tv.setText("点我设置时间");
+            tvTogetherDays.setText("1");
+        }
+    }
+
+    private void updateTogetherDate() {
+        User user = UserKeeper.getSingleton().getUser();
+        String oldData = user.getBothTogetherDate();
+        WheelDatePickDialog dialog = new WheelDatePickDialog(activity, oldData);
+        dialog.setListener(calendar -> {
+            String date = DateUtils.calendar2str(calendar);
+            User newUser = new User();
+            newUser.setCpTogetherDate(date);
+
+            HttpRequest.getInstance()
+                    .getApiService()
+                    .putUser(user.getId(), newUser)
+                    .compose(RxComposer.commonProgress(this))
+                    .subscribe(new SimpleObserver<String>() {
+                        @Override
+                        public void onNext(String s) {
+                            user.setCpTogetherDate(date);
+                            setTogetherDays();
+                            showTip("设置成功");
+                        }
+                    });
+        });
+        dialog.show();
     }
 
     private void loadData(boolean loadMore) {

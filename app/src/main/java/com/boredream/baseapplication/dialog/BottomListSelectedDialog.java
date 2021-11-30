@@ -30,7 +30,7 @@ public class BottomListSelectedDialog<T extends Serializable> extends BottomDial
     public BottomListSelectedDialog(Context context, String title, ArrayList<T> items, T selectedItem) {
         super(context);
         this.title = title;
-        this.items = items;
+        this.items = new ArrayList<>(items);
         this.selectedItem = selectedItem;
 
         setContentView(R.layout.dialog_bottom_list);

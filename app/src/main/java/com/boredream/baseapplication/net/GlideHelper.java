@@ -49,8 +49,10 @@ public class GlideHelper {
     }
 
     public static void loadOvalImg(ImageView iv, String model) {
-        int defaultImg = R.drawable.rect_gray;
+        loadOvalImg(iv, model, R.drawable.rect_gray);
+    }
 
+    public static void loadOvalImg(ImageView iv, String model, int defaultImg) {
         CircleCrop circleCrop = new CircleCrop();
         RequestOptions options = new RequestOptions()
                 .transform(new MultiTransformation<>(new CenterCrop(), circleCrop))

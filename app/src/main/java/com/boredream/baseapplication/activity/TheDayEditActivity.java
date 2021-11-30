@@ -3,18 +3,24 @@ package com.boredream.baseapplication.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.base.BaseActivity;
 import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.entity.TheDay;
+import com.boredream.baseapplication.entity.event.TheDayUpdateEvent;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
+import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.view.EditTextWithClear;
 import com.boredream.baseapplication.view.SettingItemView;
 import com.boredream.baseapplication.view.TitleBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +38,8 @@ public class TheDayEditActivity extends BaseActivity {
     SettingItemView sivDate;
     @BindView(R.id.siv_notify_type)
     SettingItemView sivNotifyType;
+    @BindView(R.id.btn_delete)
+    Button btnDelete;
 
     private TheDay info;
     private boolean isEdit;
@@ -67,6 +75,8 @@ public class TheDayEditActivity extends BaseActivity {
                 .setRight("完成", v -> commit());
         sivDate.setDateAction(date -> info.setTheDayDate(date));
         sivNotifyType.setSpinnerAction(data -> info.setNotifyTypeStr(data), "累计天数", "每年倒数");
+        btnDelete.setVisibility(isEdit ? View.VISIBLE : View.GONE);
+        btnDelete.setOnClickListener(v -> delete());
     }
 
     private void initData() {
@@ -80,7 +90,7 @@ public class TheDayEditActivity extends BaseActivity {
 
     private void commit() {
         String name = etwcName.getText().toString().trim();
-        if(StringUtils.isEmpty(name)) {
+        if (StringUtils.isEmpty(name)) {
             showTip("名字不能为空");
             return;
         }
@@ -102,9 +112,26 @@ public class TheDayEditActivity extends BaseActivity {
                     @Override
                     public void onNext(String s) {
                         showTip("提交成功");
+                        EventBus.getDefault().post(new TheDayUpdateEvent());
                         finish();
                     }
                 });
+    }
+
+    private void delete() {
+        DialogUtils.show2BtnDialog(this, "删除此条记录", "删除后无法恢复，请问确认删除吗？",
+                v -> HttpRequest.getInstance()
+                        .getApiService()
+                        .deleteTheDay(info.getId())
+                        .compose(RxComposer.commonProgress(TheDayEditActivity.this))
+                        .subscribe(new SimpleObserver<String>() {
+                            @Override
+                            public void onNext(String s) {
+                                showTip("删除成功");
+                                EventBus.getDefault().post(new TheDayUpdateEvent());
+                                finish();
+                            }
+                        }));
     }
 
 }
