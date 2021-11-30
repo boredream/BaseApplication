@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,16 +49,26 @@ public class TheDayAdapter extends RecyclerView.Adapter<TheDayAdapter.ViewHolder
         TheDay data = infoList.get(position);
         holder.tvName.setText(data.getName());
         String date = data.getTheDayDate();
-        if(StringUtils.isEmpty(date)) {
+        if (StringUtils.isEmpty(date)) {
             holder.ivAdd.setVisibility(View.VISIBLE);
             holder.tvNotifyType.setVisibility(View.GONE);
             holder.tvDayCount.setVisibility(View.GONE);
             holder.tv.setVisibility(View.GONE);
+
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.tvName.getLayoutParams();
+            params.addRule(RelativeLayout.CENTER_VERTICAL);
+
+            holder.tvDate.setVisibility(View.GONE);
         } else {
             holder.ivAdd.setVisibility(View.GONE);
             holder.tvNotifyType.setVisibility(View.VISIBLE);
             holder.tvDayCount.setVisibility(View.VISIBLE);
             holder.tv.setVisibility(View.VISIBLE);
+
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.tvName.getLayoutParams();
+            params.removeRule(RelativeLayout.CENTER_VERTICAL);
+
+            holder.tvDate.setVisibility(View.VISIBLE);
             try {
                 date = DateUtils.calendar2str(DateUtils.str2calendar(data.getTheDayDate()), "yyyy/MM/dd（EEEE）");
             } catch (Exception e) {

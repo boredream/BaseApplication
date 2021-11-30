@@ -70,7 +70,7 @@ public class TheDayEditActivity extends BaseActivity {
     }
 
     private void initData() {
-        if (isEdit) {
+        if (!isEdit) {
             return;
         }
         etwcName.setText(info.getName());

@@ -24,6 +24,7 @@ import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
+import com.boredream.baseapplication.view.decoration.LastPaddingItemDecoration;
 import com.boredream.baseapplication.view.loading.RefreshListLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -70,12 +71,13 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
     }
 
     private void initView() {
-        rll.setEnableLoadmore(true);
-        rll.setEnableRefresh(false);
+        rll.setEnableRefresh(true);
+        rll.setEnableLoadmore(false);
         rll.setOnRefreshListener(refresh -> loadData(false));
         rll.setOnLoadmoreListener(refresh -> loadData(true));
         rll.getRv().setLayoutManager(new LinearLayoutManager(activity));
         rll.getRv().setAdapter(adapter = new TheDayAdapter(infoList));
+        rll.getRv().addItemDecoration(new LastPaddingItemDecoration());
         adapter.setOnItemClickListener(this);
     }
 
