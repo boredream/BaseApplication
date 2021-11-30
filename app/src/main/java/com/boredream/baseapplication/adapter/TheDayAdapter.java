@@ -15,6 +15,7 @@ import com.boredream.baseapplication.entity.TheDay;
 import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.utils.DateUtils;
 
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -75,6 +76,32 @@ public class TheDayAdapter extends RecyclerView.Adapter<TheDayAdapter.ViewHolder
                 date = data.getTheDayDate();
             }
             holder.tvDate.setText(date);
+
+            // 计算显示的天数
+            if (data.getNotifyType() == TheDay.NOTIFY_TYPE_YEAR_COUNT_DOWN) {
+                // 按年倒计天数
+                Calendar theDayCalendar = DateUtils.str2calendar(data.getTheDayDate());
+
+                // 年份取今年，月日取纪念日的
+                Calendar curYearTheDayCalendar = Calendar.getInstance();
+                curYearTheDayCalendar.set(Calendar.MONTH, theDayCalendar.get(Calendar.MONTH));
+                curYearTheDayCalendar.set(Calendar.DAY_OF_MONTH, theDayCalendar.get(Calendar.DAY_OF_MONTH));
+
+                int days = DateUtils.calculateDayDiff(curYearTheDayCalendar, Calendar.getInstance());
+                if(days < 0) {
+                    // 代表今年的今年日已经过了，取明年的
+                    curYearTheDayCalendar.add(Calendar.YEAR, 1);
+                    days = DateUtils.calculateDayDiff(curYearTheDayCalendar, Calendar.getInstance());
+                }
+
+                holder.tvNotifyType.setText("还有");
+                holder.tvDayCount.setText(String.valueOf(days));
+            } else {
+                // 累计天数
+                int days = DateUtils.calculateDayDiff(Calendar.getInstance(), DateUtils.str2calendar(data.getTheDayDate()));
+                holder.tvNotifyType.setText("已经");
+                holder.tvDayCount.setText(String.valueOf(days));
+            }
         }
 
         holder.itemView.setOnClickListener(v -> {

@@ -13,12 +13,12 @@ public class TheDay extends Belong2UserEntity {
     /**
      * 提醒方式 累计天数
      */
-    public static final int NOTIFY_TYPE_TOTAL_COUNT = 0;
+    public static final int NOTIFY_TYPE_TOTAL_COUNT = 1;
 
     /**
      * 提醒方式 按年倒计天数
      */
-    public static final int NOTIFY_TYPE_YEAR_COUNT_DOWN = 1;
+    public static final int NOTIFY_TYPE_YEAR_COUNT_DOWN = 2;
 
     // 名称
     private String name;
@@ -30,11 +30,22 @@ public class TheDay extends Belong2UserEntity {
     private int notifyType;
 
     public void setNotifyTypeStr(String data) {
-        notifyType = "每年倒数".equals(data) ? NOTIFY_TYPE_YEAR_COUNT_DOWN : NOTIFY_TYPE_TOTAL_COUNT;
+        if ("每年倒数".equals(data)) {
+            notifyType = NOTIFY_TYPE_YEAR_COUNT_DOWN;
+        } else if ("累计天数".equals(data)) {
+            notifyType = NOTIFY_TYPE_TOTAL_COUNT;
+        } else {
+            notifyType = 0;
+        }
     }
 
     public String getNotifyTypeStr() {
-        return NOTIFY_TYPE_YEAR_COUNT_DOWN == notifyType ? "每年倒数" : "累计天数";
+        if (NOTIFY_TYPE_YEAR_COUNT_DOWN == notifyType) {
+            return "每年倒数";
+        } else if (NOTIFY_TYPE_TOTAL_COUNT == notifyType) {
+            return "累计天数";
+        }
+        return null;
     }
 
     public String getName() {
