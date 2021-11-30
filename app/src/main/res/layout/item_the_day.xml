@@ -39,13 +39,12 @@
 
         <TextView
             android:id="@+id/tv_day_count"
+            style="@style/TextViewDigital"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/tv"
             android:layout_marginRight="@dimen/margin_tiny"
             android:layout_toLeftOf="@id/tv"
-            android:includeFontPadding="false"
-            android:lineSpacingExtra="0dp"
             android:text="36"
             android:textColor="@color/txt_black"
             android:textSize="@dimen/txt_display2" />

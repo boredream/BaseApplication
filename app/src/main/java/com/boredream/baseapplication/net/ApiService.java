@@ -59,8 +59,8 @@ public interface ApiService {
      */
     @GET("/api/diary/month")
     Observable<BaseResponse<List<Diary>>> getDiaryMonth(
-            @Query("page") int page,
             @Query("queryDate") String queryDate,
+            @Query("page") int page,
             @Query("size") int size);
 
     /**
@@ -69,7 +69,6 @@ public interface ApiService {
     @GET("/api/diary/page")
     Observable<BaseResponse<PageResultDTO<Diary>>> getDiaryPage(
             @Query("page") int page,
-            @Query("queryDate") String queryDate,
             @Query("size") int size);
 
     /**
@@ -77,15 +76,15 @@ public interface ApiService {
      */
     @PUT("/api/diary/{id}")
     Observable<BaseResponse<String>> putDiary(
-            @Body Diary info,
-            @Path("id") int id);
+            @Path("id") Long id,
+            @Body Diary info);
 
     /**
      * 删除日记
      */
     @DELETE("/api/diary/{id}")
     Observable<BaseResponse<String>> deleteDiary(
-            @Path("id") int id);
+            @Path("id") Long id);
 
     /**
      * 添加纪念日
@@ -99,7 +98,6 @@ public interface ApiService {
      */
     @GET("/api/the_day/page")
     Observable<BaseResponse<PageResultDTO<TheDay>>> getTheDayPage(
-            @Query("queryDate") String queryDate,
             @Query("page") int page,
             @Query("size") int size);
 

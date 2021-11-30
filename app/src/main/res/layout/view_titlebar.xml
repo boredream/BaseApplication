@@ -1,45 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/status_bar_padding"
-    android:background="@color/colorPrimary"
-    android:gravity="center_vertical">
-
-    <TextView
-        android:id="@+id/title_tv"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_bar_height"
-        android:gravity="center"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:text="标题"
-        android:textColor="@color/white"
-        android:textSize="@dimen/txt_title" />
+    android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/title_iv_left"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/title_bar_height"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:scaleType="center"
-        android:src="@drawable/ic_left_arrow_white" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/rl_title_content"
+        android:layout_alignBottom="@+id/rl_title_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_titlebar" />
 
-    <TextView
-        android:id="@+id/title_tv_right"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/title_bar_height"
-        android:layout_alignParentRight="true"
-        android:clickable="true"
-        android:focusable="true"
+    <RelativeLayout
+        android:id="@+id/rl_title_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:text="完成"
-        android:textColor="@color/white"
-        android:textSize="@dimen/txt_body" />
+        android:paddingTop="@dimen/status_bar_padding">
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bar_height"
+            android:gravity="center"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:text="标题"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_title" />
+
+        <ImageView
+            android:id="@+id/title_iv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/title_bar_height"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:scaleType="center"
+            android:src="@drawable/ic_left_arrow_white"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/title_tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/title_bar_height"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:text="完成"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_body"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

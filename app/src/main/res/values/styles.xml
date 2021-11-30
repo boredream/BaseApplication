@@ -14,6 +14,19 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
+    <style name="TextViewDigital">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingExtra">0dp</item>
+    </style>
+
+    <style name="TextViewLinesContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/txt_body</item>
+        <item name="android:textColor">@color/txt_gray</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+    </style>
+
     <style name="TextViewSubhead" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.boredream.baseapplication.R;
+import com.boredream.baseapplication.entity.User;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -46,6 +47,14 @@ public class GlideHelper {
                 .load(model)
                 .apply(options)
                 .into(iv);
+    }
+
+    public static void loadAvatar(ImageView iv, User user) {
+        int defaultAvatar = R.drawable.avatar_girl;
+        if("男".equals(user.getGender())) {
+            defaultAvatar = R.drawable.avatar_boy;
+        }
+        loadOvalImg(iv, user.getAvatar(), defaultAvatar);
     }
 
     public static void loadOvalImg(ImageView iv, String model) {

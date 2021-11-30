@@ -113,12 +113,11 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
     private void setHeadInfo() {
         setTogetherDays();
 
-        // TODO: chunyang 11/30/21 性别？
         User user = UserKeeper.getSingleton().getUser();
-        GlideHelper.loadOvalImg(ivLeft, user.getAvatar(), R.drawable.avatar_girl);
+        GlideHelper.loadAvatar(ivLeft, user);
         User cpUser = user.getCpUser();
         if (cpUser != null) {
-            GlideHelper.loadOvalImg(ivRight, cpUser.getAvatar(), R.drawable.avatar_boy);
+            GlideHelper.loadAvatar(ivRight, cpUser);
             ivRightAdd.setVisibility(View.GONE);
         } else {
             ivRightAdd.setVisibility(View.VISIBLE);
@@ -173,7 +172,7 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
 
         HttpRequest.getInstance()
                 .getApiService()
-                .getTheDayPage(null, page, 20)
+                .getTheDayPage(page, 20)
                 .compose(RxComposer.commonRefresh(this, rll, loadMore))
                 .subscribe(new SimpleObserver<PageResultDTO<TheDay>>() {
                     @Override

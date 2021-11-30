@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.base.BaseActivity;
 import com.boredream.baseapplication.base.BaseFragment;
+import com.boredream.baseapplication.fragment.DiaryFragment;
 import com.boredream.baseapplication.fragment.FragmentController;
 import com.boredream.baseapplication.fragment.MineFragment;
 import com.boredream.baseapplication.fragment.TheDayFragment;
@@ -62,7 +63,7 @@ public class MainActivity extends BaseActivity {
 
         ArrayList<BaseFragment> fragments = new ArrayList<>();
         fragments.add(new TheDayFragment());
-        fragments.add(new TheDayFragment());
+        fragments.add(new DiaryFragment());
         fragments.add(new MineFragment());
         fragments.add(new MineFragment());
 

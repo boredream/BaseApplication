@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.boredream.baseapplication.view.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.boredream.baseapplication.view.EditTextWithClear
+        android:id="@+id/etwc_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        app:hint="记录你想说的内容..." />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:background="@color/divider_gray" />
+
+    <com.boredream.baseapplication.view.SettingItemView
+        android:id="@+id/siv_date"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        app:name="日期"
+        app:showRightArrow="true" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        style="@style/ButtonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="92dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:text="删除"
+        android:visibility="gone" />
+
+</LinearLayout>
