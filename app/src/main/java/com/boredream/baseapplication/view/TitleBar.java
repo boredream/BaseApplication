@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,9 +24,9 @@ public class TitleBar extends FrameLayout {
     @BindView(R.id.title_iv_left)
     ImageView titleIvLeft;
     @BindView(R.id.title_tv_right)
-    TextView titleTvRight;
+    DrawableTextView titleTvRight;
 
-    public TextView getTvRight() {
+    public DrawableTextView getTvRight() {
         return titleTvRight;
     }
 

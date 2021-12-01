@@ -1,10 +1,11 @@
 package com.boredream.baseapplication.view.calendar;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.boredream.baseapplication.R;
 import com.haibin.calendarview.Calendar;
@@ -53,9 +54,15 @@ public final class DefaultMonthView extends MonthView {
     @Override
     protected void onDrawScheme(Canvas canvas, Calendar calendar, int x, int y) {
         float cx = x + 0.5f * mItemWidth;
-        float radius = SizeUtils.dp2px(2);
+        float radius = SizeUtils.dp2px(12);
         float cy = y + 0.9f * mItemHeight;
-        canvas.drawCircle(cx, cy, radius, mCusHintPaint);
+//        canvas.drawCircle(cx, cy, radius, mCusHintPaint);
+        int left = (int) (cx - radius + 0.5f);
+        int top = (int) (cy - radius + 0.5f);
+        int right = (int) (cx + radius + 0.5f);
+        int bottom = (int) (cy + radius + 0.5f);
+        Rect rect = new Rect(left, top, right, bottom);
+        canvas.drawBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_love), null, rect, mCusHintPaint);
     }
 
     /**

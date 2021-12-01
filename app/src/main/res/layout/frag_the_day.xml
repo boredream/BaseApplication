@@ -120,8 +120,7 @@
         <com.boredream.baseapplication.view.loading.RefreshListLayout
             android:id="@+id/rll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never" />
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

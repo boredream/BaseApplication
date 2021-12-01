@@ -62,6 +62,7 @@ public class RefreshListLayout extends SmartRefreshLayout implements ILoadingVie
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_refresh_list_layout, this);
         ButterKnife.bind(this);
+        setOverScrollMode(OVER_SCROLL_NEVER);
     }
 
     public void checkEmpty() {

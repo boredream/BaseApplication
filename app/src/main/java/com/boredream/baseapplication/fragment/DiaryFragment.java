@@ -1,16 +1,20 @@
 package com.boredream.baseapplication.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.activity.DiaryEditActivity;
 import com.boredream.baseapplication.adapter.DiaryAdapter;
+import com.boredream.baseapplication.adapter.DiaryCalendarAdapter;
 import com.boredream.baseapplication.base.BaseFragment;
 import com.boredream.baseapplication.entity.Diary;
 import com.boredream.baseapplication.entity.dto.PageResultDTO;
@@ -23,7 +27,6 @@ import com.boredream.baseapplication.view.TitleBar;
 import com.boredream.baseapplication.view.decoration.LastPaddingItemDecoration;
 import com.boredream.baseapplication.view.loading.RefreshListLayout;
 import com.haibin.calendarview.CalendarLayout;
-import com.haibin.calendarview.CalendarUtil;
 import com.haibin.calendarview.CalendarView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,12 +52,20 @@ public class DiaryFragment extends BaseFragment {
     TitleBar titleBar;
     @BindView(R.id.rll_list)
     RefreshListLayout rllList;
+    @BindView(R.id.ll_calendar)
+    LinearLayout llCalendar;
     @BindView(R.id.calendar_layout)
     CalendarLayout calendarLayout;
     @BindView(R.id.calendarView)
     CalendarView calendarView;
     @BindView(R.id.rll_calendar)
     RefreshListLayout rllCalendar;
+    @BindView(R.id.iv_pre_month)
+    ImageView ivPreMonth;
+    @BindView(R.id.tv_year_month)
+    TextView tvYearMonth;
+    @BindView(R.id.iv_next_month)
+    ImageView ivNextMonth;
 
     private boolean showCalendar;
 
@@ -90,19 +101,22 @@ public class DiaryFragment extends BaseFragment {
     private void initView() {
         titleBar.setTitle("日记")
                 .setLeftMode()
-                .setRight("列表模式", v -> changeShowCalendar(!showCalendar));
+                .setRight("", v -> changeShowCalendar(!showCalendar));
+
+        rllList.setEnableRefresh(true);
+        rllList.setEnableLoadmore(false);
+        rllList.setOnRefreshListener(refresh -> loadData(false));
+        rllList.setOnLoadmoreListener(refresh -> loadData(true));
+        rllList.getRv().setLayoutManager(new LinearLayoutManager(activity));
+        rllList.getRv().setAdapter(new DiaryAdapter(listInfoList));
+        rllList.getRv().addItemDecoration(new LastPaddingItemDecoration());
 
         selectedDay = Calendar.getInstance();
-        initRefreshListLayout(rllList, listInfoList);
-        initRefreshListLayout(rllCalendar, calendarInfoList);
         rllCalendar.setEnableRefresh(false);
-        calendarView.setOnMonthChangeListener((year, month) -> {
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.set(Calendar.YEAR, year);
-//            calendar.set(Calendar.MONTH, month);
-//            curYearMonth = DateUtils.calendar2str(calendar, "yyyy-MM");
-//            loadCalendarData();
-        });
+        rllCalendar.setEnableLoadmore(false);
+        rllCalendar.getRv().setLayoutManager(new LinearLayoutManager(activity));
+        rllCalendar.getRv().setAdapter(new DiaryCalendarAdapter(calendarInfoList));
+        rllCalendar.getRv().addItemDecoration(new LastPaddingItemDecoration());
         calendarView.setOnCalendarSelectListener(new CalendarView.OnCalendarSelectListener() {
             @Override
             public void onCalendarOutOfRange(com.haibin.calendarview.Calendar calendar) {
@@ -112,38 +126,35 @@ public class DiaryFragment extends BaseFragment {
             @Override
             public void onCalendarSelect(com.haibin.calendarview.Calendar calendar, boolean isClick) {
                 selectedDay.setTimeInMillis(calendar.getTimeInMillis());
+                tvYearMonth.setText(getCurYearMonth());
                 loadCalendarData();
             }
         });
-    }
-
-    private void initRefreshListLayout(RefreshListLayout rll, ArrayList<Diary> infoList) {
-        rll.setEnableRefresh(true);
-        rll.setEnableLoadmore(false);
-        rll.setOnRefreshListener(refresh -> loadData(false));
-        rll.setOnLoadmoreListener(refresh -> loadData(true));
-        rll.getRv().setLayoutManager(new LinearLayoutManager(activity));
-        rll.getRv().setAdapter(new DiaryAdapter(infoList));
-        rll.getRv().addItemDecoration(new LastPaddingItemDecoration());
+        ivPreMonth.setOnClickListener(v -> calendarView.scrollToPre());
+        ivNextMonth.setOnClickListener(v -> calendarView.scrollToNext());
     }
 
     private void changeShowCalendar(boolean showCalendar) {
         this.showCalendar = showCalendar;
         titleBar.getTvRight().setText(showCalendar ? "列表模式" : "日历模式");
-        calendarLayout.setVisibility(showCalendar ? View.VISIBLE : View.GONE);
+        Drawable drawable = getResources().getDrawable(showCalendar
+                ? R.drawable.ic_diary_list
+                : R.drawable.ic_diary_calendar);
+        titleBar.getTvRight().setDrawables(new Drawable[]{drawable, null, null, null});
+        llCalendar.setVisibility(showCalendar ? View.VISIBLE : View.GONE);
         rllList.setVisibility(showCalendar ? View.GONE : View.VISIBLE);
 
         // 切换样式的时候清空，并重新拉取数据
-//        listInfoList.clear();
-//        rllList.checkEmpty();
-//        allMonthCalendarInfoList.clear();
-//        calendarInfoList.clear();
-//        rllCalendar.checkEmpty();
+        listInfoList.clear();
+        rllList.checkEmpty();
+        allMonthCalendarInfoList.clear();
+        calendarInfoList.clear();
+        rllCalendar.checkEmpty();
         loadData(false);
     }
 
     private void initData() {
-        loadData(false);
+        changeShowCalendar(false);
     }
 
     private void loadData(boolean loadMore) {
@@ -156,13 +167,17 @@ public class DiaryFragment extends BaseFragment {
 
     private void loadCalendarData() {
         // 先从缓存取当月数据
-        String curYearMonth = DateUtils.calendar2str(selectedDay, "yyyy-MM");
+        String curYearMonth = getCurYearMonth();
         boolean success = loadDayDateFromLocal(curYearMonth);
 
         if (!success) {
             // 无数据，从服务器拉取
             loadMonthDataFromRemote(curYearMonth);
         }
+    }
+
+    private String getCurYearMonth() {
+        return DateUtils.calendar2str(selectedDay, "yyyy-MM");
     }
 
     private boolean loadDayDateFromLocal(String curYearMonth) {
@@ -206,7 +221,7 @@ public class DiaryFragment extends BaseFragment {
     private void updateCalendarHint() {
         for (Map.Entry<String, ArrayList<Diary>> entry : allMonthCalendarInfoList.entrySet()) {
             ArrayList<Diary> list = entry.getValue();
-            if(list != null) {
+            if (list != null) {
                 for (Diary diary : list) {
                     Calendar calendar = DateUtils.str2calendar(diary.getDiaryDate());
                     com.haibin.calendarview.Calendar schema = new com.haibin.calendarview.Calendar();
