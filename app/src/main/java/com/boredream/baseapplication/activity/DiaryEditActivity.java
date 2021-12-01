@@ -15,12 +15,15 @@ import com.boredream.baseapplication.entity.event.DiaryUpdateEvent;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
+import com.boredream.baseapplication.utils.DateUtils;
 import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.view.EditTextWithClear;
 import com.boredream.baseapplication.view.SettingItemView;
 import com.boredream.baseapplication.view.TitleBar;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +79,8 @@ public class DiaryEditActivity extends BaseActivity {
 
     private void initData() {
         if (!isEdit) {
+            // 新增默认设置今天日期
+            sivDate.setText(DateUtils.calendar2str(Calendar.getInstance()));
             return;
         }
         etwcName.setText(info.getContent());

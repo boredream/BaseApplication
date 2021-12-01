@@ -95,7 +95,7 @@ public class DiaryFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(DiaryUpdateEvent event) {
-        loadData(false);
+        refresh();
     }
 
     private void initView() {
@@ -105,8 +105,8 @@ public class DiaryFragment extends BaseFragment {
 
         rllList.setEnableRefresh(true);
         rllList.setEnableLoadmore(false);
-        rllList.setOnRefreshListener(refresh -> loadData(false));
-        rllList.setOnLoadmoreListener(refresh -> loadData(true));
+        rllList.setOnRefreshListener(refresh -> loadListData(false));
+        rllList.setOnLoadmoreListener(refresh -> loadListData(true));
         rllList.getRv().setLayoutManager(new LinearLayoutManager(activity));
         rllList.getRv().setAdapter(new DiaryAdapter(listInfoList));
         rllList.getRv().addItemDecoration(new LastPaddingItemDecoration());
@@ -127,7 +127,7 @@ public class DiaryFragment extends BaseFragment {
             public void onCalendarSelect(com.haibin.calendarview.Calendar calendar, boolean isClick) {
                 selectedDay.setTimeInMillis(calendar.getTimeInMillis());
                 tvYearMonth.setText(getCurYearMonth());
-                loadCalendarData();
+                loadCalendarData(false);
             }
         });
         ivPreMonth.setOnClickListener(v -> calendarView.scrollToPre());
@@ -144,31 +144,30 @@ public class DiaryFragment extends BaseFragment {
         llCalendar.setVisibility(showCalendar ? View.VISIBLE : View.GONE);
         rllList.setVisibility(showCalendar ? View.GONE : View.VISIBLE);
 
-        // 切换样式的时候清空，并重新拉取数据
-        listInfoList.clear();
-        rllList.checkEmpty();
-        allMonthCalendarInfoList.clear();
-        calendarInfoList.clear();
-        rllCalendar.checkEmpty();
-        loadData(false);
+        // 切换样式的时候重新拉取数据
+        refresh();
+    }
+
+    private void refresh() {
+        if (showCalendar) {
+            loadCalendarData(true);
+        } else {
+            loadListData(false);
+        }
     }
 
     private void initData() {
         changeShowCalendar(false);
     }
 
-    private void loadData(boolean loadMore) {
-        if (showCalendar) {
-            loadCalendarData();
-        } else {
-            loadListData(loadMore);
-        }
-    }
-
-    private void loadCalendarData() {
-        // 先从缓存取当月数据
+    private void loadCalendarData(boolean skipLocal) {
+        boolean success = false;
         String curYearMonth = getCurYearMonth();
-        boolean success = loadDayDateFromLocal(curYearMonth);
+
+        if (!skipLocal) {
+            // 先从缓存取当月数据
+            success = loadDayDateFromLocal(curYearMonth);
+        }
 
         if (!success) {
             // 无数据，从服务器拉取
@@ -219,6 +218,7 @@ public class DiaryFragment extends BaseFragment {
     }
 
     private void updateCalendarHint() {
+        Map<String, com.haibin.calendarview.Calendar> schemaList = new HashMap<>();
         for (Map.Entry<String, ArrayList<Diary>> entry : allMonthCalendarInfoList.entrySet()) {
             ArrayList<Diary> list = entry.getValue();
             if (list != null) {
@@ -228,10 +228,11 @@ public class DiaryFragment extends BaseFragment {
                     schema.setYear(calendar.get(Calendar.YEAR));
                     schema.setMonth(calendar.get(Calendar.MONTH) + 1);
                     schema.setDay(calendar.get(Calendar.DAY_OF_MONTH));
-                    calendarView.addSchemeDate(schema);
+                    schemaList.put(schema.toString(), schema);
                 }
             }
         }
+        calendarView.setSchemeDate(schemaList);
     }
 
     private void loadListData(boolean loadMore) {

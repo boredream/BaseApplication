@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -27,8 +26,6 @@ public class MainActivity extends BaseActivity {
     FrameLayout flContent;
     @BindView(R.id.rg_bottom_tab)
     RadioGroup rgBottomTab;
-    @BindView(R.id.container)
-    LinearLayout container;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);

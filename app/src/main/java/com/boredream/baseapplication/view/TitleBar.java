@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,6 +67,7 @@ public class TitleBar extends FrameLayout {
     }
 
     public TitleBar setLeftBack() {
+        titleIvLeft.setVisibility(View.VISIBLE);
         titleIvLeft.setOnClickListener(v -> {
             if (getContext() instanceof Activity) {
                 ((Activity) getContext()).finish();
