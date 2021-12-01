@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.boredream.baseapplication.view.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <com.boredream.baseapplication.view.loading.RefreshListLayout
+        android:id="@+id/rll_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_bar"
+        android:overScrollMode="never" />
+
     <com.haibin.calendarview.CalendarLayout
         android:id="@+id/calendar_layout"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent"
         android:layout_below="@+id/title_bar"
         android:orientation="vertical"
@@ -24,13 +32,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:calendar_height="40dp"
-            app:calendar_padding="40dp"
+            app:calendar_padding="32dp"
             app:month_view="com.boredream.baseapplication.view.calendar.DefaultMonthView"
             app:week_bar_height="40dp"
             app:week_start_with="mon" />
 
         <com.boredream.baseapplication.view.loading.RefreshListLayout
-            android:id="@+id/rll_content"
+            android:id="@+id/rll_calendar"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

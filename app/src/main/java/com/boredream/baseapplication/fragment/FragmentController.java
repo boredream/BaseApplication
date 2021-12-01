@@ -17,7 +17,6 @@ import java.util.ArrayList;
  */
 public class FragmentController {
 
-
     private RadioGroup rg;
     private int containerId;
     private FragmentManager fm;

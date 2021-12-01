@@ -27,6 +27,10 @@ public class TitleBar extends FrameLayout {
     @BindView(R.id.title_tv_right)
     TextView titleTvRight;
 
+    public TextView getTvRight() {
+        return titleTvRight;
+    }
+
     public TitleBar(Context context) {
         super(context);
         initView(context, null);

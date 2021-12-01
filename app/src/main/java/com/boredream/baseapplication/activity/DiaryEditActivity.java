@@ -1,6 +1,6 @@
 package com.boredream.baseapplication.activity;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,8 +28,6 @@ import io.reactivex.Observable;
 
 public class DiaryEditActivity extends BaseActivity {
 
-    public static final int REQ_CODE_EDIT_TEXT = 40001;
-
     @BindView(R.id.title_bar)
     TitleBar titleBar;
     @BindView(R.id.etwc_name)
@@ -42,10 +40,10 @@ public class DiaryEditActivity extends BaseActivity {
     private Diary info;
     private boolean isEdit;
 
-    public static void start(Activity context, Diary info) {
+    public static void start(Context context, Diary info) {
         Intent intent = new Intent(context, DiaryEditActivity.class);
         intent.putExtra("info", info);
-        context.startActivityForResult(intent, REQ_CODE_EDIT_TEXT);
+        context.startActivity(intent);
     }
 
     @Override

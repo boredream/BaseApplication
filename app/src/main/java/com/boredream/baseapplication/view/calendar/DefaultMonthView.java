@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.boredream.baseapplication.R;
 import com.haibin.calendarview.Calendar;
@@ -15,6 +16,7 @@ public final class DefaultMonthView extends MonthView {
     private Paint mCusTextPaint = new Paint();
     private Paint mCusOtherTextPaint = new Paint();
     private Paint mCusSelectTextPaint = new Paint();
+    private int mCusSelectBgRadius;
     private Paint mCusSelectBgPaint = new Paint();
     private Paint mCusHintPaint = new Paint();
 
@@ -34,10 +36,9 @@ public final class DefaultMonthView extends MonthView {
      */
     @Override
     protected boolean onDrawSelected(Canvas canvas, Calendar calendar, int x, int y, boolean hasScheme) {
-        float cx = x + 0.5f *  mItemWidth;
-        float cy = y + 0.5f *  mItemHeight;
-        float radius = 0.5f * mItemWidth;
-        canvas.drawCircle(cx, cy, radius, mCusSelectBgPaint);
+        float cx = x + 0.5f * mItemWidth;
+        float cy = y + 0.4f * mItemHeight;
+        canvas.drawCircle(cx, cy, mCusSelectBgRadius, mCusSelectBgPaint);
         return true;
     }
 
@@ -51,10 +52,10 @@ public final class DefaultMonthView extends MonthView {
      */
     @Override
     protected void onDrawScheme(Canvas canvas, Calendar calendar, int x, int y) {
-        float hintX = x + 0.5f * mItemWidth - SizeUtils.dp2px(6f);
-        float hintY = y + 1f * mItemHeight / 6 + mTextBaseLine - SizeUtils.dp2px(4f);
-        float radius = SizeUtils.dp2px(1.5f);
-        canvas.drawCircle(hintX, hintY, radius, mCusHintPaint);
+        float cx = x + 0.5f * mItemWidth;
+        float radius = SizeUtils.dp2px(2);
+        float cy = y + 0.9f * mItemHeight;
+        canvas.drawCircle(cx, cy, radius, mCusHintPaint);
     }
 
     /**
@@ -69,9 +70,9 @@ public final class DefaultMonthView extends MonthView {
      */
     @Override
     protected void onDrawText(Canvas canvas, Calendar calendar, int x, int y, boolean hasScheme, boolean isSelected) {
-        int cx = x + mItemWidth / 2;
-        int cy = y + mItemHeight / 2;
-        int top = y - mItemHeight / 6;
+        float cx = x + 0.5f * mItemWidth;
+        float cy = y + 0.5f * mItemHeight;
+        float top = y - 1f * mItemHeight / 6;
 
         String text = calendar.isCurrentDay() ? "今" : String.valueOf(calendar.getDay());
         if (isSelected) {
@@ -94,20 +95,21 @@ public final class DefaultMonthView extends MonthView {
         mCusTextPaint.setStyle(Paint.Style.FILL);
         mCusTextPaint.setTextAlign(Paint.Align.CENTER);
         mCusTextPaint.setColor(getResources().getColor(R.color.txt_gray));
-        mCusTextPaint.setTextSize(SizeUtils.dp2px(14));
+        mCusTextPaint.setTextSize(SizeUtils.dp2px(12));
 
         mCusOtherTextPaint.setAntiAlias(true);
         mCusOtherTextPaint.setStyle(Paint.Style.FILL);
         mCusOtherTextPaint.setTextAlign(Paint.Align.CENTER);
         mCusOtherTextPaint.setColor(0xFFBBBBBB);
-        mCusOtherTextPaint.setTextSize(SizeUtils.dp2px(14));
+        mCusOtherTextPaint.setTextSize(SizeUtils.dp2px(12));
 
         mCusSelectTextPaint.setAntiAlias(true);
         mCusSelectTextPaint.setStyle(Paint.Style.FILL);
         mCusSelectTextPaint.setTextAlign(Paint.Align.CENTER);
         mCusSelectTextPaint.setColor(getResources().getColor(R.color.white));
-        mCusSelectTextPaint.setTextSize(SizeUtils.dp2px(14));
+        mCusSelectTextPaint.setTextSize(SizeUtils.dp2px(12));
 
+        mCusSelectBgRadius = SizeUtils.dp2px(15);
         mCusSelectBgPaint.setAntiAlias(true);
         mCusSelectBgPaint.setStyle(Paint.Style.FILL);
         mCusSelectBgPaint.setColor(getResources().getColor(R.color.colorPrimary));

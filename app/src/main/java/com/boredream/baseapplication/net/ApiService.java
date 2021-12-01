@@ -58,7 +58,7 @@ public interface ApiService {
      * 按月查询日记
      */
     @GET("/api/diary/month")
-    Observable<BaseResponse<List<Diary>>> getDiaryMonth(
+    Observable<BaseResponse<PageResultDTO<Diary>>> getDiaryMonth(
             @Query("queryDate") String queryDate,
             @Query("page") int page,
             @Query("size") int size);

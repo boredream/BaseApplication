@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.boredream.baseapplication.R;
+import com.boredream.baseapplication.activity.DiaryEditActivity;
 import com.boredream.baseapplication.entity.Diary;
-import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.utils.DateUtils;
 import com.boredream.baseapplication.view.RingLineView;
@@ -27,14 +27,9 @@ import butterknife.ButterKnife;
 public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> {
 
     private List<Diary> infoList;
-    private OnSelectedListener<Diary> onSelectedListener;
 
     // TODO: chunyang 11/30/21 合并日期头
     private ArrayList<String> dateHeaderList = new ArrayList<>();
-
-    public void setOnItemClickListener(OnSelectedListener<Diary> onSelectedListener) {
-        this.onSelectedListener = onSelectedListener;
-    }
 
     public DiaryAdapter(List<Diary> infoList) {
         this.infoList = infoList;
@@ -64,11 +59,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
         GlideHelper.loadAvatar(holder.ivUserAvatar, data.getUser());
         holder.tvUserName.setText(data.getUser().getNickname());
 
-        holder.flCard.setOnClickListener(v -> {
-            if (onSelectedListener != null) {
-                onSelectedListener.onSelected(data);
-            }
-        });
+        holder.flCard.setOnClickListener(v -> DiaryEditActivity.start(holder.itemView.getContext(), data));
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
