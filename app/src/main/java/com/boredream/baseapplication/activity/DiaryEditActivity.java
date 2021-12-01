@@ -96,6 +96,7 @@ public class DiaryEditActivity extends BaseActivity {
             return;
         }
         info.setContent(name);
+        info.setDiaryDate(sivDate.getText());
 
         Observable<BaseResponse<String>> observable;
         if (isEdit) {

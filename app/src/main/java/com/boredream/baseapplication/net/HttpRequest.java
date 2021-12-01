@@ -54,7 +54,8 @@ public class HttpRequest {
     }
 
     private HttpRequest() {
-        host = "http://10.32.10.36:8080/api/";
+//        host = "http://10.32.10.36:8080/api/";
+        host = "https://www.papikoala.cn/api/";
 
         Interceptor headerInterceptor = chain -> {
             Request.Builder builder = chain.request().newBuilder()
