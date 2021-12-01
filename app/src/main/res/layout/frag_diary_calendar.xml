@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.boredream.baseapplication.view.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.haibin.calendarview.CalendarLayout
+        android:id="@+id/calendar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_bar"
+        android:orientation="vertical"
+        app:calendar_content_view_id="@+id/rll_content"
+        app:calendar_show_mode="only_month_view"
+        app:default_status="expand">
+
+        <com.haibin.calendarview.CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:calendar_height="40dp"
+            app:calendar_padding="40dp"
+            app:month_view="com.boredream.baseapplication.view.calendar.DefaultMonthView"
+            app:week_bar_height="40dp"
+            app:week_start_with="mon" />
+
+        <com.boredream.baseapplication.view.loading.RefreshListLayout
+            android:id="@+id/rll_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.haibin.calendarview.CalendarLayout>
+
+    <com.boredream.baseapplication.view.FabView
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="12dp" />
+
+</RelativeLayout>

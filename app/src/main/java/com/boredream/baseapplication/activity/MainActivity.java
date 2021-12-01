@@ -11,11 +11,11 @@ import android.widget.RadioGroup;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.base.BaseActivity;
 import com.boredream.baseapplication.base.BaseFragment;
-import com.boredream.baseapplication.fragment.DiaryFragment;
+import com.boredream.baseapplication.fragment.DiaryCalendarFragment;
+import com.boredream.baseapplication.fragment.DiaryListFragment;
 import com.boredream.baseapplication.fragment.FragmentController;
 import com.boredream.baseapplication.fragment.MineFragment;
 import com.boredream.baseapplication.fragment.TheDayFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -63,8 +63,8 @@ public class MainActivity extends BaseActivity {
 
         ArrayList<BaseFragment> fragments = new ArrayList<>();
         fragments.add(new TheDayFragment());
-        fragments.add(new DiaryFragment());
-        fragments.add(new MineFragment());
+        fragments.add(new DiaryListFragment());
+        fragments.add(new DiaryCalendarFragment());
         fragments.add(new MineFragment());
 
         new FragmentController(this, rgBottomTab, R.id.fl_content, fragments);

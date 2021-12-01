@@ -3,13 +3,13 @@ package com.boredream.baseapplication.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.entity.Diary;
 import com.boredream.baseapplication.listener.OnSelectedListener;
@@ -28,6 +28,8 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
 
     private List<Diary> infoList;
     private OnSelectedListener<Diary> onSelectedListener;
+
+    // TODO: chunyang 11/30/21 合并日期头
     private ArrayList<String> dateHeaderList = new ArrayList<>();
 
     public void setOnItemClickListener(OnSelectedListener<Diary> onSelectedListener) {
@@ -61,6 +63,12 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
         holder.tvContent.setText(data.getContent());
         GlideHelper.loadAvatar(holder.ivUserAvatar, data.getUser());
         holder.tvUserName.setText(data.getUser().getNickname());
+
+        holder.flCard.setOnClickListener(v -> {
+            if (onSelectedListener != null) {
+                onSelectedListener.onSelected(data);
+            }
+        });
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,6 +83,8 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
         TextView tvYearMonth;
         @BindView(R.id.rl_date_header)
         RelativeLayout rlDateHeader;
+        @BindView(R.id.fl_card)
+        FrameLayout flCard;
         @BindView(R.id.tv_content)
         TextView tvContent;
         @BindView(R.id.iv_user_avatar)
