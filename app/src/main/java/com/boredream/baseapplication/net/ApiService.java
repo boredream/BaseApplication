@@ -162,8 +162,8 @@ public interface ApiService {
      */
     @PUT("/api/todo_group/{id}")
     Observable<BaseResponse<String>> putTodoGroup(
-            @Body TodoGroup info,
-            @Path("id") Long id);
+            @Path("id") Long id,
+            @Body TodoGroup info);
 
     /**
      * 删除清单组

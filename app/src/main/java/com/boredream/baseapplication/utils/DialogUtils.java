@@ -23,6 +23,10 @@ import java.util.Arrays;
  */
 public class DialogUtils {
 
+    public static Dialog showDeleteConfirmDialog(Context context, View.OnClickListener okListener) {
+        return DialogUtils.show2BtnDialog(context, "提示", "是否确认删除？", okListener);
+    }
+
     public static Dialog showCalendarPickDialog(Context context, String oldData, OnDatePickListener listener) {
         if (StringUtils.isEmpty(oldData)) {
             oldData = null;

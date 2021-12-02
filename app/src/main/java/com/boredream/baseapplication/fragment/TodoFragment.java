@@ -13,6 +13,7 @@ import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.adapter.TodoGroupAdapter;
 import com.boredream.baseapplication.base.BaseFragment;
 import com.boredream.baseapplication.dialog.BottomInputDialog;
+import com.boredream.baseapplication.dialog.BottomSelectDialog;
 import com.boredream.baseapplication.entity.Todo;
 import com.boredream.baseapplication.entity.TodoGroup;
 import com.boredream.baseapplication.entity.event.TodoUpdateEvent;
@@ -20,6 +21,7 @@ import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
+import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.view.TitleBar;
 import com.boredream.baseapplication.view.loading.RefreshListLayout;
 
@@ -28,6 +30,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class TodoFragment extends BaseFragment {
+public class TodoFragment extends BaseFragment implements OnSelectedListener<TodoGroup> {
 
     View view;
     Unbinder unbinder;
@@ -80,29 +83,7 @@ public class TodoFragment extends BaseFragment {
         rllList.setEnableLoadmore(false);
         rllList.setOnRefreshListener(refresh -> loadData());
         rllList.getRv().setLayoutManager(new LinearLayoutManager(activity));
-        rllList.getRv().setAdapter(new TodoGroupAdapter(infoList));
-    }
-
-    private void addTodoGroup() {
-        BottomInputDialog dialog = new BottomInputDialog(activity, "清单组名称", null, new OnSelectedListener<String>() {
-            @Override
-            public void onSelected(String data) {
-                TodoGroup group = new TodoGroup();
-                group.setName(data);
-                HttpRequest.getInstance()
-                        .getApiService()
-                        .postTodoGroup(group)
-                        .compose(RxComposer.commonProgress(TodoFragment.this))
-                        .subscribe(new SimpleObserver<String>() {
-                            @Override
-                            public void onNext(String s) {
-                                showTip("创建成功");
-                                loadData();
-                            }
-                        });
-            }
-        });
-        dialog.show();
+        rllList.getRv().setAdapter(new TodoGroupAdapter(infoList, this));
     }
 
     private void initData() {
@@ -135,5 +116,74 @@ public class TodoFragment extends BaseFragment {
                         rllList.checkEmpty();
                     }
                 });
+    }
+
+    @Override
+    public void onSelected(TodoGroup data) {
+        BottomSelectDialog dialog = new BottomSelectDialog(activity, null,
+                Arrays.asList("重命名", "删除"),
+                (parent, view, position, id) -> {
+                    switch (position) {
+                        case 0:
+                            renameGroup(data);
+                            break;
+                        case 1:
+                            deleteGroup(data);
+                            break;
+                    }
+                });
+        dialog.show();
+    }
+
+    private void deleteGroup(TodoGroup group) {
+        DialogUtils.showDeleteConfirmDialog(getContext(),
+                v -> HttpRequest.getInstance()
+                        .getApiService()
+                        .deleteTodoGroup(group.getId())
+                        .compose(RxComposer.commonProgress(this))
+                        .subscribe(new SimpleObserver<String>() {
+                            @Override
+                            public void onNext(String s) {
+                                showTip("删除成功");
+                                loadData();
+                            }
+                        }));
+    }
+
+    private void addTodoGroup() {
+        BottomInputDialog dialog = new BottomInputDialog(activity, "清单组名称", null, data -> {
+            TodoGroup group = new TodoGroup();
+            group.setName(data);
+            HttpRequest.getInstance()
+                    .getApiService()
+                    .postTodoGroup(group)
+                    .compose(RxComposer.commonProgress(this))
+                    .subscribe(new SimpleObserver<String>() {
+                        @Override
+                        public void onNext(String s) {
+                            showTip("创建成功");
+                            loadData();
+                        }
+                    });
+        });
+        dialog.show();
+    }
+
+    private void renameGroup(TodoGroup group) {
+        BottomInputDialog dialog = new BottomInputDialog(activity, "清单组名称", group.getName(), data -> {
+            group.setName(data);
+            HttpRequest.getInstance()
+                    .getApiService()
+                    .putTodoGroup(group.getId(), group)
+                    .compose(RxComposer.commonProgress(this))
+                    .subscribe(new SimpleObserver<String>() {
+                        @Override
+                        public void onNext(String s) {
+                            showTip("修改成功");
+                            loadData();
+                        }
+                    });
+        });
+        dialog.show();
     }
 }

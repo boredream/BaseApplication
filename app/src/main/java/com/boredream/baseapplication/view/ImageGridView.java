@@ -201,7 +201,7 @@ public class ImageGridView extends RecyclerView {
         }
 
         private void deleteImage(ImageInfo imageInfo) {
-            DialogUtils.show2BtnDialog(getContext(), "提示", "是否确认删除？",
+            DialogUtils.showDeleteConfirmDialog(getContext(),
                     v -> {
                         // 如果手动处理删除，则不做remove操作
                         infoList.remove(imageInfo);
