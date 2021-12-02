@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.listener.OnSelectedListener;
@@ -44,6 +45,7 @@ public class BottomInputDialog extends BottomDialog {
         if (!StringUtils.isEmpty(oldValue)) {
             etwcContent.setText(oldValue);
         }
+        etwcContent.post(() -> KeyboardUtils.showSoftInput(etwcContent));
     }
 
     private void performClick() {
@@ -54,6 +56,7 @@ public class BottomInputDialog extends BottomDialog {
         }
 
         if (listener != null) listener.onSelected(value);
+        KeyboardUtils.hideSoftInput(etwcContent);
         dismiss();
     }
 }

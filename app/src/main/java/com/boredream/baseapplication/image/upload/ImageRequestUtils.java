@@ -1,5 +1,6 @@
 package com.boredream.baseapplication.image.upload;
 
+import com.blankj.utilcode.util.CollectionUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -64,6 +65,11 @@ public class ImageRequestUtils {
                     }
                 }
             }
+        }
+
+        if(CollectionUtils.isEmpty(localImagePathJeList)) {
+            // 无需上传
+            return Observable.just(t);
         }
 
         // 上传本地图片后替换成url

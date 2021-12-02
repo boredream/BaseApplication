@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.blankj.utilcode.util.CollectionUtils;
 import com.boredream.baseapplication.R;
+import com.boredream.baseapplication.activity.TodoEditActivity;
 import com.boredream.baseapplication.adapter.TodoGroupAdapter;
 import com.boredream.baseapplication.base.BaseFragment;
 import com.boredream.baseapplication.dialog.BottomInputDialog;
@@ -17,7 +18,6 @@ import com.boredream.baseapplication.dialog.BottomSelectDialog;
 import com.boredream.baseapplication.entity.Todo;
 import com.boredream.baseapplication.entity.TodoGroup;
 import com.boredream.baseapplication.entity.event.TodoUpdateEvent;
-import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
@@ -38,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class TodoFragment extends BaseFragment implements OnSelectedListener<TodoGroup> {
+public class TodoFragment extends BaseFragment implements TodoGroupAdapter.OnTodoActionListener {
 
     View view;
     Unbinder unbinder;
@@ -119,16 +119,42 @@ public class TodoFragment extends BaseFragment implements OnSelectedListener<Tod
     }
 
     @Override
-    public void onSelected(TodoGroup data) {
+    public void onTodoEdit(Todo todo) {
+        TodoEditActivity.start(activity, todo);
+    }
+
+    @Override
+    public void onTodoAdd(Long groupId) {
+        BottomInputDialog dialog = new BottomInputDialog(activity, "清单名称", null, data -> {
+            Todo param = new Todo();
+            param.setTodoGroupId(groupId);
+            param.setName(data);
+            HttpRequest.getInstance()
+                    .getApiService()
+                    .postTodo(param)
+                    .compose(RxComposer.commonProgress(this))
+                    .subscribe(new SimpleObserver<String>() {
+                        @Override
+                        public void onNext(String s) {
+                            showTip("创建成功");
+                            loadData();
+                        }
+                    });
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void onTodoGroupMore(TodoGroup group) {
         BottomSelectDialog dialog = new BottomSelectDialog(activity, null,
                 Arrays.asList("重命名", "删除"),
                 (parent, view, position, id) -> {
                     switch (position) {
                         case 0:
-                            renameGroup(data);
+                            renameGroup(group);
                             break;
                         case 1:
-                            deleteGroup(data);
+                            deleteGroup(group);
                             break;
                     }
                 });
@@ -152,11 +178,11 @@ public class TodoFragment extends BaseFragment implements OnSelectedListener<Tod
 
     private void addTodoGroup() {
         BottomInputDialog dialog = new BottomInputDialog(activity, "清单组名称", null, data -> {
-            TodoGroup group = new TodoGroup();
-            group.setName(data);
+            TodoGroup param = new TodoGroup();
+            param.setName(data);
             HttpRequest.getInstance()
                     .getApiService()
-                    .postTodoGroup(group)
+                    .postTodoGroup(param)
                     .compose(RxComposer.commonProgress(this))
                     .subscribe(new SimpleObserver<String>() {
                         @Override

@@ -9,11 +9,10 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.boredream.baseapplication.R;
+import com.boredream.baseapplication.activity.TodoEditActivity;
 import com.boredream.baseapplication.entity.Todo;
-import com.boredream.baseapplication.image.picker.OnPickImageListener;
-import com.boredream.baseapplication.image.picker.PickImageActivity;
+import com.boredream.baseapplication.entity.TodoGroup;
 import com.boredream.baseapplication.net.GlideHelper;
-import com.boredream.baseapplication.utils.DialogUtils;
 
 import java.util.List;
 
@@ -22,10 +21,14 @@ import butterknife.ButterKnife;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
-    private List<Todo> infoList;
+    private final TodoGroup group;
+    private final List<Todo> infoList;
+    private final TodoGroupAdapter.OnTodoActionListener onTodoActionListener;
 
-    public TodoAdapter(List<Todo> infoList) {
+    public TodoAdapter(TodoGroup group, List<Todo> infoList, TodoGroupAdapter.OnTodoActionListener onTodoActionListener) {
+        this.group = group;
         this.infoList = infoList;
+        this.onTodoActionListener = onTodoActionListener;
     }
 
     @Override
@@ -46,7 +49,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             holder.ivImage.setScaleType(ImageView.ScaleType.CENTER);
             holder.ivImage.setImageResource(R.drawable.ic_add_red);
             holder.ivImage.setOnClickListener(v -> {
-                // TODO: chunyang 12/2/21
+                if (onTodoActionListener != null) {
+                    onTodoActionListener.onTodoAdd(group.getId());
+                }
             });
         } else {
             Todo data = infoList.get(position);
@@ -59,7 +64,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             }
             holder.tvName.setText(data.getName());
             holder.ivImage.setOnClickListener(v -> {
-                // TODO: chunyang 12/2/21
+                if (onTodoActionListener != null) {
+                    onTodoActionListener.onTodoEdit(data);
+                }
             });
         }
     }
@@ -76,4 +83,5 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             ButterKnife.bind(this, itemView);
         }
     }
+
 }

@@ -30,6 +30,7 @@
         <activity android:name=".activity.EditTextActivity" />
         <activity android:name=".activity.TheDayEditActivity" />
         <activity android:name=".activity.DiaryEditActivity" />
+        <activity android:name=".activity.TodoEditActivity" />
         <activity android:name=".activity.ImageBrowserActivity" />
     </application>
 

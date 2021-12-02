@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.entity.Todo;
 import com.boredream.baseapplication.entity.TodoGroup;
-import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.view.decoration.GridDecoration;
 
 import java.util.List;
@@ -23,12 +22,20 @@ import butterknife.ButterKnife;
 
 public class TodoGroupAdapter extends RecyclerView.Adapter<TodoGroupAdapter.ViewHolder> {
 
-    private List<TodoGroup> infoList;
-    private OnSelectedListener<TodoGroup> onGroupActionListener;
+    public interface OnTodoActionListener {
+        void onTodoGroupMore(TodoGroup group);
 
-    public TodoGroupAdapter(List<TodoGroup> infoList, OnSelectedListener<TodoGroup> onGroupActionListener) {
+        void onTodoEdit(Todo todo);
+
+        void onTodoAdd(Long groupId);
+    }
+
+    private List<TodoGroup> infoList;
+    private OnTodoActionListener onTodoActionListener;
+
+    public TodoGroupAdapter(List<TodoGroup> infoList, OnTodoActionListener onTodoActionListener) {
         this.infoList = infoList;
-        this.onGroupActionListener = onGroupActionListener;
+        this.onTodoActionListener = onTodoActionListener;
     }
 
     @Override
@@ -57,8 +64,8 @@ public class TodoGroupAdapter extends RecyclerView.Adapter<TodoGroupAdapter.View
         }
         holder.tvGroupName.setText(name);
         holder.ivGroupMore.setOnClickListener(v -> {
-            if (onGroupActionListener != null) {
-                onGroupActionListener.onSelected(data);
+            if (onTodoActionListener != null) {
+                onTodoActionListener.onTodoGroupMore(data);
             }
         });
 
@@ -71,7 +78,7 @@ public class TodoGroupAdapter extends RecyclerView.Adapter<TodoGroupAdapter.View
             }
         }
         holder.tvGroupProgress.setText(String.format(Locale.getDefault(), "%d/%d", progress, totalSize));
-        holder.rvTodoList.setAdapter(new TodoAdapter(todoList));
+        holder.rvTodoList.setAdapter(new TodoAdapter(data, todoList, onTodoActionListener));
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
