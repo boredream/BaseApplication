@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.boredream.baseapplication.R;
-import com.boredream.baseapplication.activity.TodoEditActivity;
 import com.boredream.baseapplication.entity.Todo;
 import com.boredream.baseapplication.entity.TodoGroup;
 import com.boredream.baseapplication.net.GlideHelper;
@@ -57,7 +56,11 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             Todo data = infoList.get(position);
             if (data.isDone()) {
                 holder.ivImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                GlideHelper.loadOvalImg(holder.ivImage, data.getImages());
+                String image = data.getImages();
+                if (image != null && image.contains(",")) {
+                    image = image.split(",")[0];
+                }
+                GlideHelper.loadOvalImg(holder.ivImage, image);
             } else {
                 holder.ivImage.setScaleType(ImageView.ScaleType.CENTER);
                 holder.ivImage.setImageResource(R.drawable.ic_lock);

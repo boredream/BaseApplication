@@ -56,7 +56,7 @@ public class TodoEditActivity extends PickImageActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diary_edit);
+        setContentView(R.layout.activity_todo_edit);
         ButterKnife.bind(this);
 
         initExtras();
@@ -96,6 +96,7 @@ public class TodoEditActivity extends PickImageActivity {
             showTip("内容不能为空");
             return;
         }
+        info.setName(name);
         info.setDetail(etwcDesc.getText().toString().trim());
         info.setDoneDate(sivDate.getText());
         info.setImages(igv.getImages());
