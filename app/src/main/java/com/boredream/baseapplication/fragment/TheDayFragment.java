@@ -19,12 +19,14 @@ import com.boredream.baseapplication.entity.TheDay;
 import com.boredream.baseapplication.entity.User;
 import com.boredream.baseapplication.entity.dto.PageResultDTO;
 import com.boredream.baseapplication.entity.event.TheDayUpdateEvent;
+import com.boredream.baseapplication.listener.OnDatePickListener;
 import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
 import com.boredream.baseapplication.utils.DateUtils;
+import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.utils.UserKeeper;
 import com.boredream.baseapplication.view.decoration.LastPaddingItemDecoration;
 import com.boredream.baseapplication.view.loading.RefreshListLayout;
@@ -140,8 +142,8 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
     private void updateTogetherDate() {
         User user = UserKeeper.getSingleton().getUser();
         String oldData = user.getBothTogetherDate();
-        WheelDatePickDialog dialog = new WheelDatePickDialog(activity, oldData);
-        dialog.setListener(calendar -> {
+
+        DialogUtils.showCalendarPickDialog(activity, oldData, calendar -> {
             String date = DateUtils.calendar2str(calendar);
             User newUser = new User();
             newUser.setCpTogetherDate(date);
@@ -159,7 +161,6 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
                         }
                     });
         });
-        dialog.show();
     }
 
     private void loadData(boolean loadMore) {

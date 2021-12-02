@@ -12,11 +12,11 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.dialog.BottomListSelectedDialog;
-import com.boredream.baseapplication.dialog.WheelDatePickDialog;
 import com.boredream.baseapplication.entity.SettingItem;
 import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.utils.DateUtils;
+import com.boredream.baseapplication.utils.DialogUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -129,18 +129,13 @@ public class SettingItemView extends RelativeLayout {
     public void setDateAction(OnSelectedListener<String> listener) {
         setOnClickListener(v -> {
             String oldData = tvRight.getText().toString().trim();
-            if (StringUtils.isEmpty(oldData)) {
-                oldData = null;
-            }
-            WheelDatePickDialog dialog = new WheelDatePickDialog(getContext(), oldData);
-            dialog.setListener(calendar -> {
+            DialogUtils.showCalendarPickDialog(getContext(), oldData, calendar -> {
                 String date = DateUtils.calendar2str(calendar);
                 setRightText(date);
                 if (listener != null) {
                     listener.onSelected(date);
                 }
             });
-            dialog.show();
         });
     }
 

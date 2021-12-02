@@ -6,18 +6,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+
 import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
-import com.boredream.baseapplication.base.BaseActivity;
 import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.entity.Diary;
 import com.boredream.baseapplication.entity.event.DiaryUpdateEvent;
+import com.boredream.baseapplication.image.picker.OnPickImageListener;
+import com.boredream.baseapplication.image.picker.PickImageActivity;
+import com.boredream.baseapplication.image.upload.ImageRequestUtils;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
 import com.boredream.baseapplication.utils.DateUtils;
 import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.view.EditTextWithClear;
+import com.boredream.baseapplication.view.ImageGridView;
 import com.boredream.baseapplication.view.SettingItemView;
 import com.boredream.baseapplication.view.TitleBar;
 
@@ -28,8 +33,10 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Function;
 
-public class DiaryEditActivity extends BaseActivity {
+public class DiaryEditActivity extends PickImageActivity {
 
     @BindView(R.id.title_bar)
     TitleBar titleBar;
@@ -37,6 +44,8 @@ public class DiaryEditActivity extends BaseActivity {
     EditTextWithClear etwcName;
     @BindView(R.id.siv_date)
     SettingItemView sivDate;
+    @BindView(R.id.igv)
+    ImageGridView igv;
     @BindView(R.id.btn_delete)
     Button btnDelete;
 
@@ -85,8 +94,12 @@ public class DiaryEditActivity extends BaseActivity {
         }
         etwcName.setText(info.getContent());
         sivDate.setText(info.getDiaryDate());
+        igv.setImages(info.getImages());
+    }
 
-        // TODO: chunyang 11/30/21 image
+    @Override
+    protected void onSinglePickImageResult(@NonNull String path) {
+        igv.addLocalImage(path);
     }
 
     private void commit() {
@@ -97,6 +110,7 @@ public class DiaryEditActivity extends BaseActivity {
         }
         info.setContent(name);
         info.setDiaryDate(sivDate.getText());
+        info.setImages(igv.getImages());
 
         Observable<BaseResponse<String>> observable;
         if (isEdit) {
@@ -109,7 +123,9 @@ public class DiaryEditActivity extends BaseActivity {
                     .postDiary(info);
         }
 
-        observable.compose(RxComposer.commonProgress(this))
+        ImageRequestUtils.checkImage4update(info)
+                .flatMap((Function<Diary, ObservableSource<BaseResponse<String>>>) diary -> observable)
+                .compose(RxComposer.commonProgress(this))
                 .subscribe(new SimpleObserver<String>() {
                     @Override
                     public void onNext(String s) {

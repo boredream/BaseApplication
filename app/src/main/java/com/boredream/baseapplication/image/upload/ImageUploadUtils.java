@@ -89,12 +89,12 @@ public class ImageUploadUtils {
 
         new Thread(() -> {
             try {
-                File file = new File(FileUtils.getUploadDir(), FileUtils.createUploadPhotoName());
-                FileOutputStream fos = new FileOutputStream(file);
+                File uploadFile = new File(FileUtils.getUploadDir(), FileUtils.createUploadPhotoName());
+                FileOutputStream fos = new FileOutputStream(uploadFile);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fos);
                 Log.i("DDD", "ImageUtils compress success " + bitmap.getWidth() + ":" + bitmap.getHeight());
 
-                ProgressRequestBody imageBody = new ProgressRequestBody(file,
+                ProgressRequestBody imageBody = new ProgressRequestBody(uploadFile,
                         percentage -> handler.post(() -> listener.onProgressChanged(percentage)));
                 MultipartBody.Part part = MultipartBody.Part.createFormData(
                         "file", "image.jpeg", imageBody);
@@ -110,7 +110,7 @@ public class ImageUploadUtils {
                             RequestBody tokenRequestBody = RequestBody.create(
                                     MediaType.parse("multipart/form-data"), dto.getToken());
                             RequestBody keyRequestBody = RequestBody.create(
-                                    MediaType.parse("multipart/form-data"), com.blankj.utilcode.util.FileUtils.getFileName(filepath));
+                                    MediaType.parse("multipart/form-data"), com.blankj.utilcode.util.FileUtils.getFileName(uploadFile));
 
                             // 上传
                             return HttpRequest.getInstance()
@@ -128,7 +128,7 @@ public class ImageUploadUtils {
                                 });
 
                                 try {
-                                    file.delete();
+                                    uploadFile.delete();
                                 } catch (Exception e) {
                                     Log.i("DDD", "ImageUtils delete upload file error");
                                 }
@@ -142,7 +142,7 @@ public class ImageUploadUtils {
                                 });
 
                                 try {
-                                    file.delete();
+                                    uploadFile.delete();
                                 } catch (Exception exception) {
                                     Log.i("DDD", "ImageUtils delete upload file error");
                                 }

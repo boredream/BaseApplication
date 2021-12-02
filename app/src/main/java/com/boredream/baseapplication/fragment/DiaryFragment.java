@@ -19,10 +19,12 @@ import com.boredream.baseapplication.base.BaseFragment;
 import com.boredream.baseapplication.entity.Diary;
 import com.boredream.baseapplication.entity.dto.PageResultDTO;
 import com.boredream.baseapplication.entity.event.DiaryUpdateEvent;
+import com.boredream.baseapplication.listener.OnDatePickListener;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
 import com.boredream.baseapplication.utils.DateUtils;
+import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.view.TitleBar;
 import com.boredream.baseapplication.view.decoration.LastPaddingItemDecoration;
 import com.boredream.baseapplication.view.loading.RefreshListLayout;
@@ -132,6 +134,13 @@ public class DiaryFragment extends BaseFragment {
         });
         ivPreMonth.setOnClickListener(v -> calendarView.scrollToPre());
         ivNextMonth.setOnClickListener(v -> calendarView.scrollToNext());
+        tvYearMonth.setOnClickListener(v -> {
+            String oldData = DateUtils.calendar2str(selectedDay);
+            DialogUtils.showCalendarPickDialog(activity, oldData, calendar ->
+                    calendarView.scrollToCalendar(calendar.get(Calendar.YEAR),
+                            calendar.get(Calendar.MONTH) + 1,
+                            calendar.get(Calendar.DAY_OF_MONTH)));
+        });
     }
 
     private void changeShowCalendar(boolean showCalendar) {

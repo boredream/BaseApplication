@@ -30,6 +30,14 @@
         app:name="日期"
         app:showRightArrow="true" />
 
+    <com.boredream.baseapplication.view.ImageGridView
+        android:id="@+id/igv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="12dp" />
+
     <Button
         android:id="@+id/btn_delete"
         style="@style/ButtonPrimary"
