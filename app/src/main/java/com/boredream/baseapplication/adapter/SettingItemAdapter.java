@@ -2,9 +2,12 @@ package com.boredream.baseapplication.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.boredream.baseapplication.entity.SettingItem;
 import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.view.SettingItemView;
@@ -32,6 +35,13 @@ public class SettingItemAdapter extends RecyclerView.Adapter<SettingItemAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         SettingItemView v = new SettingItemView(parent.getContext());
+        // 阴影，y4 b8
+        ImageView ivLeft = v.getIvLeft();
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ivLeft.getLayoutParams();
+        params.width += SizeUtils.dp2px(16);
+        params.leftMargin -= SizeUtils.dp2px(8);
+        params.rightMargin -= SizeUtils.dp2px(8);
+        ivLeft.setPadding(0, SizeUtils.dp2px(8), 0, 0);
         return new ViewHolder(v);
     }
 

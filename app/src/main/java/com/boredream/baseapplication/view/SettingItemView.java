@@ -37,7 +37,9 @@ public class SettingItemView extends RelativeLayout {
     @BindView(R.id.iv_right_arrow)
     ImageView ivRightArrow;
 
-    private View dividerView;
+    public ImageView getIvLeft() {
+        return ivLeft;
+    }
 
     public SettingItemView(Context context) {
         super(context);
@@ -58,7 +60,7 @@ public class SettingItemView extends RelativeLayout {
         LayoutInflater.from(context).inflate(R.layout.view_setting_item, this);
         ButterKnife.bind(this);
 
-        dividerView = new View(context);
+        View dividerView = new View(context);
         dividerView.setBackgroundResource(R.color.divider_gray);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 1);
         params.leftMargin = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);

@@ -5,21 +5,22 @@
     android:background="@drawable/bg_white2gray_sel"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin">
 
     <ImageView
         android:id="@+id/iv_left"
         android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_marginRight="10dp"
-        android:scaleType="centerCrop" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="-10dp"
+        android:scaleType="center" />
 
     <TextView
         android:id="@+id/tv_name"
         style="@style/TextViewBody"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_weight="1"
         android:text="设置" />
 

@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,10 +20,10 @@ import com.boredream.baseapplication.entity.User;
 import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.utils.UserKeeper;
-import com.boredream.baseapplication.view.decoration.LeftPaddingItemDecoration;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +38,8 @@ public class MineFragment extends BaseFragment {
     ImageView ivAvatar;
     @BindView(R.id.tv_name)
     TextView tvName;
-    @BindView(R.id.rl_header)
-    RelativeLayout rlHeader;
+    @BindView(R.id.tv_id)
+    TextView tvId;
     @BindView(R.id.rv_items)
     RecyclerView rvItems;
     @BindView(R.id.btn_logout)
@@ -73,15 +72,16 @@ public class MineFragment extends BaseFragment {
             cpUserAvatar = user.getCpUser().getAvatar();
         }
         List<SettingItem> settingList = Arrays.asList(
-                new SettingItem(R.drawable.ic_notifications_black_24dp, "另一半", "解绑", cpUserAvatar, false),
-                new SettingItem(R.drawable.ic_notifications_black_24dp, "秀恩爱", null, null, false),
-                new SettingItem(R.drawable.ic_notifications_black_24dp, "推荐给大家", null, null, false),
-                new SettingItem(R.drawable.ic_notifications_black_24dp, "关于我们", null, null, false),
-                new SettingItem(R.drawable.ic_notifications_black_24dp, "反馈", null, null, false)
+                new SettingItem(R.drawable.ic_setting_cp, "另一半", "解绑", cpUserAvatar, false),
+                new SettingItem(R.drawable.ic_setting_love, "秀恩爱", null, null, false),
+                new SettingItem(R.drawable.ic_setting_recommend, "推荐给大家", null, null, false),
+                new SettingItem(R.drawable.ic_setting_about, "关于我们", null, null, false),
+                new SettingItem(R.drawable.ic_setting_feed, "反馈", null, null, false)
         );
         rvItems.setAdapter(new SettingItemAdapter(settingList));
         GlideHelper.loadOvalImg(ivAvatar, user.getAvatar());
         tvName.setText(user.getNickname());
+        tvId.setText(String.format(Locale.getDefault(), "ID: %d", user.getId()));
     }
 
     @OnClick(R.id.btn_logout)
