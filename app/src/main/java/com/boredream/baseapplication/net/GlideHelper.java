@@ -35,7 +35,7 @@ public class GlideHelper {
     }
 
     public static void loadRoundedImg(ImageView iv, String model, int corner) {
-        int defaultImg = R.drawable.rect_gray;
+        int defaultImg = R.drawable.correct_gray;
 
         RoundedCorners corners = new RoundedCorners(SizeUtils.dp2px(corner));
         RequestOptions options = new RequestOptions()
@@ -58,7 +58,7 @@ public class GlideHelper {
     }
 
     public static void loadOvalImg(ImageView iv, String model) {
-        loadOvalImg(iv, model, R.drawable.rect_gray);
+        loadOvalImg(iv, model, R.drawable.oval_primary_light_solid);
     }
 
     public static void loadOvalImg(ImageView iv, String model, int defaultImg) {

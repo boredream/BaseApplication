@@ -36,16 +36,17 @@ public class BottomInputDialog extends BottomDialog {
         dialogTitle = findViewById(R.id.bottom_dialog_title);
         etwcContent = findViewById(R.id.etwc_content);
         dialogTitle.setOnClickListener(v -> performClick());
+        setOnDismissListener(dialog -> KeyboardUtils.hideSoftInput(etwcContent));
     }
 
     private void initData() {
-        String hint = "请输入" + (StringUtils.isEmpty(title) ? "" : title);
+        String hint = StringUtils.isEmpty(title) ? "" : title;
         dialogTitle.setTitle(hint);
         etwcContent.setHint(hint);
         if (!StringUtils.isEmpty(oldValue)) {
             etwcContent.setText(oldValue);
         }
-        etwcContent.post(() -> KeyboardUtils.showSoftInput(etwcContent));
+        etwcContent.post(KeyboardUtils::showSoftInput);
     }
 
     private void performClick() {

@@ -99,6 +99,7 @@ public class TodoEditActivity extends PickImageActivity {
         info.setDetail(etwcDesc.getText().toString().trim());
         info.setDoneDate(sivDate.getText());
         info.setImages(igv.getImages());
+        info.setDone(true);
 
         ImageRequestUtils.checkImage4update(info)
                 .flatMap((Function<Todo, ObservableSource<BaseResponse<String>>>) diary ->
