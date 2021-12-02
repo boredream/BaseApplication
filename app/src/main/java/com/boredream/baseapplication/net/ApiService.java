@@ -120,7 +120,7 @@ public interface ApiService {
      * 查询所有清单
      */
     @GET("/api/todo")
-    Observable<BaseResponse<PageResultDTO<Todo>>> getTodo();
+    Observable<BaseResponse<List<Todo>>> getTodo();
 
     /**
      * 添加清单
@@ -143,6 +143,12 @@ public interface ApiService {
     @DELETE("/api/todo/{id}")
     Observable<BaseResponse<String>> deleteTodo(
             @Path("id") Long id);
+
+    /**
+     * 查询所有清单组
+     */
+    @GET("/api/todo_group")
+    Observable<BaseResponse<List<TodoGroup>>> getTodoGroup();
 
     /**
      * 添加清单组

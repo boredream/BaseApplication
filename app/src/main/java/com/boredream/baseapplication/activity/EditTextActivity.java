@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.fragment.app.Fragment;
+
 import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.base.BaseActivity;
@@ -21,6 +23,13 @@ public class EditTextActivity extends BaseActivity {
     TitleBar titleBar;
     @BindView(R.id.etwc_content)
     EditTextWithClear etwc_content;
+
+    public static void start(Fragment context, String title, String oldValue) {
+        Intent intent = new Intent(context.getActivity(), EditTextActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("oldValue", oldValue);
+        context.startActivityForResult(intent, REQ_CODE_EDIT_TEXT);
+    }
 
     public static void start(Activity context, String title, String oldValue) {
         Intent intent = new Intent(context, EditTextActivity.class);

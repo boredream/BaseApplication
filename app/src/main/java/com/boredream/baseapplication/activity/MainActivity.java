@@ -14,6 +14,7 @@ import com.boredream.baseapplication.fragment.DiaryFragment;
 import com.boredream.baseapplication.fragment.FragmentController;
 import com.boredream.baseapplication.fragment.MineFragment;
 import com.boredream.baseapplication.fragment.TheDayFragment;
+import com.boredream.baseapplication.fragment.TodoFragment;
 
 import java.util.ArrayList;
 
@@ -60,7 +61,7 @@ public class MainActivity extends BaseActivity {
         ArrayList<BaseFragment> fragments = new ArrayList<>();
         fragments.add(new TheDayFragment());
         fragments.add(new DiaryFragment());
-        fragments.add(new MineFragment());
+        fragments.add(new TodoFragment());
         fragments.add(new MineFragment());
 
         new FragmentController(this, rgBottomTab, R.id.fl_content, fragments);

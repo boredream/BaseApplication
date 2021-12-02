@@ -10,20 +10,25 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_centerInParent="true"
-        android:background="@drawable/correct12_15lgray"
+        android:background="@drawable/oval_gray"
         android:scaleType="center"
-        android:src="@drawable/ic_image_add"
+        android:src="@drawable/ic_lock"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_image_remove"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_image_remove"
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:lines="2"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/txt_body"
+        app:layout_constraintLeft_toLeftOf="@id/iv_image"
         app:layout_constraintRight_toRightOf="@id/iv_image"
-        app:layout_constraintTop_toTopOf="@id/iv_image" />
+        app:layout_constraintTop_toBottomOf="@id/iv_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

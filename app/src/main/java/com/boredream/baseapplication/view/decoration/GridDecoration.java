@@ -10,16 +10,13 @@ import com.blankj.utilcode.util.SizeUtils;
 public class GridDecoration extends RecyclerView.ItemDecoration {
 
     private int padding;
-    private int itemColumnCount;
 
-    public GridDecoration(int padding, int itemColumnCount) {
+    public GridDecoration(int padding) {
         this.padding = padding;
-        this.itemColumnCount = itemColumnCount;
     }
 
     public GridDecoration() {
-        itemColumnCount = 3;
-        padding = SizeUtils.dp2px(8);
+        padding = SizeUtils.dp2px(5);
     }
 
     @Override

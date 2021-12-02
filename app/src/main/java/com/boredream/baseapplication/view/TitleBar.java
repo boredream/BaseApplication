@@ -3,6 +3,7 @@ package com.boredream.baseapplication.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -77,8 +78,15 @@ public class TitleBar extends FrameLayout {
     }
 
     public TitleBar setRight(String text, OnClickListener listener) {
+        return setRight(text, null, listener);
+    }
+
+    public TitleBar setRight(String text, Integer res, OnClickListener listener) {
         titleTvRight.setVisibility(VISIBLE);
         titleTvRight.setText(text);
+        if (res != null) {
+            titleTvRight.setDrawables(new Drawable[]{getResources().getDrawable(res), null, null, null});
+        }
         titleTvRight.setOnClickListener(listener);
         return this;
     }
