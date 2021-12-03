@@ -36,8 +36,8 @@ public class TheDayEditActivity extends BaseActivity {
     SettingItemView sivDate;
     @BindView(R.id.siv_notify_type)
     SettingItemView sivNotifyType;
-    @BindView(R.id.btn_delete)
-    Button btnDelete;
+    @BindView(R.id.btn_commit)
+    Button btnCommit;
 
     private TheDay info;
     private boolean isEdit;
@@ -68,13 +68,13 @@ public class TheDayEditActivity extends BaseActivity {
     }
 
     private void initView() {
-        titleBar.setTitle(isEdit ? "修改纪念日" : "添加纪念日")
-                .setLeftBack()
-                .setRight("完成", v -> commit());
-        sivDate.setDateAction(date -> info.setTheDayDate(date));
+        titleBar.setTitle(isEdit ? "修改纪念日" : "添加纪念日").setLeftBack();
+        if (isEdit) {
+            titleBar.setRight("删除", v -> delete());
+        }
         sivNotifyType.setSpinnerAction(data -> info.setNotifyTypeStr(data), "累计天数", "每年倒数");
-        btnDelete.setVisibility(isEdit ? View.VISIBLE : View.GONE);
-        btnDelete.setOnClickListener(v -> delete());
+        btnCommit.setText(isEdit ? "修改" : "添加");
+        btnCommit.setOnClickListener(v -> commit());
     }
 
     private void initData() {

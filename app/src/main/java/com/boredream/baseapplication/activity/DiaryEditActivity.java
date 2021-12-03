@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 
@@ -13,7 +14,6 @@ import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.entity.Diary;
 import com.boredream.baseapplication.entity.event.DiaryUpdateEvent;
-import com.boredream.baseapplication.image.picker.OnPickImageListener;
 import com.boredream.baseapplication.image.picker.PickImageActivity;
 import com.boredream.baseapplication.image.upload.ImageRequestUtils;
 import com.boredream.baseapplication.net.HttpRequest;
@@ -21,7 +21,6 @@ import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
 import com.boredream.baseapplication.utils.DateUtils;
 import com.boredream.baseapplication.utils.DialogUtils;
-import com.boredream.baseapplication.view.EditTextWithClear;
 import com.boredream.baseapplication.view.ImageGridView;
 import com.boredream.baseapplication.view.SettingItemView;
 import com.boredream.baseapplication.view.TitleBar;
@@ -40,14 +39,14 @@ public class DiaryEditActivity extends PickImageActivity {
 
     @BindView(R.id.title_bar)
     TitleBar titleBar;
-    @BindView(R.id.etwc_name)
-    EditTextWithClear etwcName;
+    @BindView(R.id.et_content)
+    EditText etContent;
     @BindView(R.id.siv_date)
     SettingItemView sivDate;
     @BindView(R.id.igv)
     ImageGridView igv;
-    @BindView(R.id.btn_delete)
-    Button btnDelete;
+    @BindView(R.id.btn_commit)
+    Button btnCommit;
 
     private Diary info;
     private boolean isEdit;
@@ -78,12 +77,13 @@ public class DiaryEditActivity extends PickImageActivity {
     }
 
     private void initView() {
-        titleBar.setTitle(isEdit ? "修改日记" : "添加日记")
-                .setLeftBack()
-                .setRight("完成", v -> commit());
+        titleBar.setTitle(isEdit ? "修改日记" : "添加日记").setLeftBack();
+        if (isEdit) {
+            titleBar.setRight("删除", v -> delete());
+        }
         sivDate.setDateAction(date -> info.setDiaryDate(date));
-        btnDelete.setVisibility(isEdit ? View.VISIBLE : View.GONE);
-        btnDelete.setOnClickListener(v -> delete());
+        btnCommit.setText(isEdit ? "修改" : "添加");
+        btnCommit.setOnClickListener(v -> commit());
     }
 
     private void initData() {
@@ -92,7 +92,7 @@ public class DiaryEditActivity extends PickImageActivity {
             sivDate.setText(DateUtils.calendar2str(Calendar.getInstance()));
             return;
         }
-        etwcName.setText(info.getContent());
+        etContent.setText(info.getContent());
         sivDate.setText(info.getDiaryDate());
         igv.setImages(info.getImages());
     }
@@ -103,12 +103,12 @@ public class DiaryEditActivity extends PickImageActivity {
     }
 
     private void commit() {
-        String name = etwcName.getText().toString().trim();
-        if (StringUtils.isEmpty(name)) {
+        String content = etContent.getText().toString().trim();
+        if (StringUtils.isEmpty(content)) {
             showTip("内容不能为空");
             return;
         }
-        info.setContent(name);
+        info.setContent(content);
         info.setDiaryDate(sivDate.getText());
         info.setImages(igv.getImages());
 
