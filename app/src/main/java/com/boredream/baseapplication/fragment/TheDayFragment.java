@@ -98,6 +98,17 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
         rll.getRv().setAdapter(adapter = new TheDayAdapter(infoList));
         rll.getRv().addItemDecoration(new LastPaddingItemDecoration());
         adapter.setOnItemClickListener(this);
+        rll.setOnDefaultAction(new RefreshListLayout.OnDefaultActionListener() {
+            @Override
+            public void onRefresh() {
+                loadData(false);
+            }
+
+            @Override
+            public void onCreate() {
+                onAdd();
+            }
+        });
     }
 
     private void initData() {
@@ -196,7 +207,7 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
     }
 
     @OnClick(R.id.fab)
-    public void onClick() {
+    public void onAdd() {
         TheDayEditActivity.start(activity, null);
     }
 }

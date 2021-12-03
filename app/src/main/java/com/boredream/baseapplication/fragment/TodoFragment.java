@@ -85,6 +85,17 @@ public class TodoFragment extends BaseFragment implements TodoGroupAdapter.OnTod
         rllList.setOnRefreshListener(refresh -> loadData());
         rllList.getRv().setLayoutManager(new LinearLayoutManager(activity));
         rllList.getRv().setAdapter(new TodoGroupAdapter(infoList, this));
+        rllList.setOnDefaultAction(new RefreshListLayout.OnDefaultActionListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+
+            @Override
+            public void onCreate() {
+                addTodoGroup();
+            }
+        });
     }
 
     private void initData() {

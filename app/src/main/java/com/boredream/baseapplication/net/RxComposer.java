@@ -3,7 +3,6 @@ package com.boredream.baseapplication.net;
 import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.base.BaseView;
 import com.boredream.baseapplication.view.loading.ILoadingView;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -76,7 +75,7 @@ public class RxComposer {
     public static <T> ObservableTransformer<T, T> defaultFailed(final BaseView view) {
         return upstream -> upstream.observeOn(AndroidSchedulers.mainThread())
                 .doOnError(throwable -> {
-                    String error = ErrorConstants.parseHttpErrorInfo(view, throwable);
+                    String error = ErrorConstants.parseHttpErrorInfo(throwable);
                     throwable.printStackTrace();
                     view.showTip(error);
                 });

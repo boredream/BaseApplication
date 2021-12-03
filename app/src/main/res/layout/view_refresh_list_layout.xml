@@ -19,25 +19,42 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:paddingTop="64dp">
 
             <ImageView
                 android:id="@+id/refresh_list_iv_empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_empty" />
+                android:src="@drawable/default_empty" />
 
             <TextView
                 android:id="@+id/refresh_list_tv_empty"
-                style="@style/TextViewSubhead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="暂无数据"
-                android:textColor="@color/txt_gray" />
+                android:layout_marginTop="52dp"
+                android:text="暂无信息"
+                android:textColor="@color/txt_gray"
+                android:textSize="@dimen/txt_subhead" />
+
+            <TextView
+                android:id="@+id/refresh_list_tv_empty_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="您还没有创建任何信息哦"
+                android:textColor="@color/txt_light_gray"
+                android:textSize="@dimen/txt_caption" />
+
+            <Button
+                android:id="@+id/refresh_btn_empty"
+                style="@style/ButtonPrimary"
+                android:layout_width="152dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="32dp"
+                android:text="立即刷新"
+                android:visibility="invisible" />
 
         </LinearLayout>
 

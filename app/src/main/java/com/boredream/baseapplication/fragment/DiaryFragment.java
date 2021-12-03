@@ -112,6 +112,17 @@ public class DiaryFragment extends BaseFragment {
         rllList.getRv().setLayoutManager(new LinearLayoutManager(activity));
         rllList.getRv().setAdapter(new DiaryAdapter(listInfoList));
         rllList.getRv().addItemDecoration(new LastPaddingItemDecoration());
+        rllList.setOnDefaultAction(new RefreshListLayout.OnDefaultActionListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+
+            @Override
+            public void onCreate() {
+                onAdd();
+            }
+        });
 
         selectedDay = Calendar.getInstance();
         rllCalendar.setEnableRefresh(false);
@@ -272,7 +283,7 @@ public class DiaryFragment extends BaseFragment {
     }
 
     @OnClick(R.id.fab)
-    public void onClick() {
+    public void onAdd() {
         DiaryEditActivity.start(activity, null);
     }
 }
