@@ -4,6 +4,8 @@ package com.boredream.baseapplication.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -12,10 +14,12 @@ import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.base.BaseActivity;
 import com.boredream.baseapplication.entity.LoginRequest;
 import com.boredream.baseapplication.entity.User;
+import com.boredream.baseapplication.net.ErrorConstants;
 import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
+import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.utils.TokenKeeper;
 import com.boredream.baseapplication.utils.UserKeeper;
 import com.boredream.baseapplication.view.EditTextWithClear;
@@ -49,10 +53,6 @@ public class LoginActivity extends BaseActivity {
 
         initExtras();
         initView();
-
-        // FIXME: 2019-08-26
-        etUsername.setText("18501683421");
-        etPassword.setText("123456");
     }
 
     private void initExtras() {
@@ -60,6 +60,7 @@ public class LoginActivity extends BaseActivity {
 
     private void initView() {
         GlideHelper.loadRoundedImg(ivLogo, R.mipmap.ic_launcher, 16);
+        etPassword.getEt().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         btnLogin.setOnClickListener(v -> login());
     }
 
@@ -85,22 +86,47 @@ public class LoginActivity extends BaseActivity {
                 .getApiService()
                 .postUserLogin(request)
                 .compose(RxComposer.commonProgress(this))
-                .flatMap(new Function<String, ObservableSource<User>>() {
-                    @Override
-                    public ObservableSource<User> apply(String token) throws Exception {
-                        TokenKeeper.getSingleton().setToken(token);
-                        return HttpRequest.getInstance()
-                                .getApiService()
-                                .getUserInfo()
-                                .compose(RxComposer.commonProgress(LoginActivity.this));
-                    }
+                .flatMap((Function<String, ObservableSource<User>>) token -> {
+                    TokenKeeper.getSingleton().setToken(token);
+                    return HttpRequest.getInstance()
+                            .getApiService()
+                            .getUserInfo()
+                            .compose(RxComposer.commonProgress(LoginActivity.this));
                 })
                 .subscribe(new SimpleObserver<User>() {
                     @Override
                     public void onNext(User user) {
                         loginSuccess(user);
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (ErrorConstants.compareApiError(e, "用户不存在")) {
+                            register(request);
+                        }
+                    }
                 });
+    }
+
+    private void register(LoginRequest request) {
+        DialogUtils.show2BtnDialog(this, "注册", "您的账号是第一次登录，是否创建用户？", v ->
+                HttpRequest.getInstance()
+                        .getApiService()
+                        .postUserRegister(request)
+                        .compose(RxComposer.commonProgress(LoginActivity.this))
+                        .flatMap((Function<String, ObservableSource<User>>) token -> {
+                            TokenKeeper.getSingleton().setToken(token);
+                            return HttpRequest.getInstance()
+                                    .getApiService()
+                                    .getUserInfo()
+                                    .compose(RxComposer.commonProgress(LoginActivity.this));
+                        })
+                        .subscribe(new SimpleObserver<User>() {
+                            @Override
+                            public void onNext(User user) {
+                                loginSuccess(user);
+                            }
+                        }));
     }
 
     private void loginSuccess(User user) {

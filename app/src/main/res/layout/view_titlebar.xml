@@ -4,15 +4,16 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/title_iv_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/rl_title_content"
-        android:layout_alignBottom="@+id/rl_title_content"
+        android:layout_alignTop="@+id/title_rl_content"
+        android:layout_alignBottom="@+id/title_rl_content"
         android:scaleType="centerCrop"
         android:src="@drawable/bg_titlebar" />
 
     <RelativeLayout
-        android:id="@+id/rl_title_content"
+        android:id="@+id/title_rl_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

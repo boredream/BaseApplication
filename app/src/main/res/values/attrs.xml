@@ -22,6 +22,7 @@
     <declare-styleable name="EditTextWithClear">
         <attr name="hint" format="string" />
         <attr name="text" format="string" />
+        <attr name="textSize" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="SettingItemView">

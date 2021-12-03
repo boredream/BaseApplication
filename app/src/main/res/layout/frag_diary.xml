@@ -71,7 +71,7 @@
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shadow_12pri_y2b12"
+                android:background="@drawable/shadow_correct_12pri_y2b12"
                 app:calendar_height="40dp"
                 app:calendar_padding="8dp"
                 app:month_view="com.boredream.baseapplication.view.calendar.DefaultMonthView"

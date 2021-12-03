@@ -176,15 +176,15 @@ public interface ApiService {
      * 绑定伴侣
      */
     @PUT("/api/user/cp/{cpUserId}")
-    Observable<BaseResponse<String>> putUserCp(
-            @Path("cpUserId") int cpUserId);
+    Observable<BaseResponse<User>> bindUserCp(
+            @Path("cpUserId") Long cpUserId);
 
     /**
      * 解绑伴侣
      */
     @DELETE("/api/user/cp/{cpUserId}")
-    Observable<BaseResponse<String>> deleteUserCp(
-            @Path("cpUserId") int cpUserId);
+    Observable<BaseResponse<Boolean>> unbindUserCp(
+            @Path("cpUserId") Long cpUserId);
 
     /**
      * getUserInfo

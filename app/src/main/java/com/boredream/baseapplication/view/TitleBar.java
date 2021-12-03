@@ -13,7 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.boredream.baseapplication.R;
 
 import butterknife.BindView;
@@ -25,6 +27,8 @@ public class TitleBar extends FrameLayout {
     TextView titleTv;
     @BindView(R.id.title_iv_left)
     ImageView titleIvLeft;
+    @BindView(R.id.title_iv_bg)
+    ImageView titleIvBg;
     @BindView(R.id.title_tv_right)
     DrawableTextView titleTvRight;
 
@@ -91,4 +95,13 @@ public class TitleBar extends FrameLayout {
         return this;
     }
 
+    public TitleBar hideBg() {
+        titleIvBg.setVisibility(View.GONE);
+        titleTv.setTextColor(getResources().getColor(R.color.txt_black));
+        titleIvLeft.setColorFilter(ContextCompat.getColor(getContext(), R.color.txt_gray), android.graphics.PorterDuff.Mode.MULTIPLY);
+        if (getContext() instanceof Activity) {
+            BarUtils.setStatusBarLightMode((Activity) getContext(), true);
+        }
+        return this;
+    }
 }

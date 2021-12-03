@@ -9,17 +9,15 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
+import com.boredream.baseapplication.activity.InviteCpActivity;
 import com.boredream.baseapplication.activity.TheDayEditActivity;
 import com.boredream.baseapplication.adapter.TheDayAdapter;
 import com.boredream.baseapplication.base.BaseFragment;
-import com.boredream.baseapplication.dialog.WheelDatePickDialog;
 import com.boredream.baseapplication.entity.TheDay;
 import com.boredream.baseapplication.entity.User;
 import com.boredream.baseapplication.entity.dto.PageResultDTO;
 import com.boredream.baseapplication.entity.event.TheDayUpdateEvent;
-import com.boredream.baseapplication.listener.OnDatePickListener;
 import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.net.HttpRequest;
@@ -123,6 +121,7 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
             ivRightAdd.setVisibility(View.GONE);
         } else {
             ivRightAdd.setVisibility(View.VISIBLE);
+            ivRightAdd.setOnClickListener(v -> InviteCpActivity.start(activity));
         }
     }
 
