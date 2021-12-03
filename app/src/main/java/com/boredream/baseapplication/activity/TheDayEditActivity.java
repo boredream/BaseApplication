@@ -72,6 +72,7 @@ public class TheDayEditActivity extends BaseActivity {
         if (isEdit) {
             titleBar.setRight("删除", v -> delete());
         }
+        sivDate.setDateAction(date -> info.setTheDayDate(date));
         sivNotifyType.setSpinnerAction(data -> info.setNotifyTypeStr(data), "累计天数", "每年倒数");
         btnCommit.setText(isEdit ? "修改" : "添加");
         btnCommit.setOnClickListener(v -> commit());
