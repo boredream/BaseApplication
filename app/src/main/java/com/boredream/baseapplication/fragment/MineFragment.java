@@ -18,6 +18,7 @@ import com.boredream.baseapplication.adapter.SettingItemAdapter;
 import com.boredream.baseapplication.base.BaseFragment;
 import com.boredream.baseapplication.entity.SettingItem;
 import com.boredream.baseapplication.entity.User;
+import com.boredream.baseapplication.entity.event.UserUpdateEvent;
 import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.net.HttpRequest;
@@ -26,6 +27,10 @@ import com.boredream.baseapplication.net.SimpleObserver;
 import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.utils.UserKeeper;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -33,11 +38,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class MineFragment extends BaseFragment implements OnSelectedListener<SettingItem> {
-
-    private Unbinder unbinder;
 
     @BindView(R.id.iv_avatar)
     ImageView ivAvatar;
@@ -56,7 +58,8 @@ public class MineFragment extends BaseFragment implements OnSelectedListener<Set
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = View.inflate(activity, R.layout.frag_mine, null);
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         initView();
         initData();
         return view;
@@ -65,7 +68,12 @@ public class MineFragment extends BaseFragment implements OnSelectedListener<Set
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserUpdateEvent(UserUpdateEvent event) {
+        setUserInfo();
     }
 
     private void initView() {
@@ -75,13 +83,6 @@ public class MineFragment extends BaseFragment implements OnSelectedListener<Set
 
     private void initData() {
         setSettingItems();
-        setUserInfo();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // TODO: chunyang 12/3/21 收到通知重新拉取
         setUserInfo();
     }
 
@@ -114,16 +115,18 @@ public class MineFragment extends BaseFragment implements OnSelectedListener<Set
             cpSettingItem.setRightText("绑定");
             cpSettingItem.setRightImage(null);
         }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onSelected(SettingItem data) {
-        switch(data.getName()) {
+        switch (data.getName()) {
             case "另一半":
                 User user = UserKeeper.getSingleton().getUser();
                 if (user.getCpUser() != null) {
                     // 解绑
-                    unbindCp(user.getCpUser().getId());
+                    DialogUtils.show2BtnDialog(activity, "提示", "是否确认解除绑定？",
+                            (view) -> unbindCp(user.getCpUser().getId()));
                 } else {
                     // 绑定
                     InviteCpActivity.start(activity);
@@ -155,7 +158,8 @@ public class MineFragment extends BaseFragment implements OnSelectedListener<Set
                         user.setCpUser(null);
                         UserKeeper.getSingleton().setUser(user);
 
-                        setUserInfo();
+                        EventBus.getDefault().post(new UserUpdateEvent());
+                        showTip("另一半解绑成功");
                     }
                 });
     }

@@ -104,6 +104,13 @@
         <item name="android:overScrollMode">never</item>
     </style>
 
+    <style name="SettingItemViewEdit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="level">small</item>
+        <item name="showRightArrow">true</item>
+    </style>
+
     <!-- 自定义对话框 -->
     <style name="custom_dialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowFrame">@null</item>

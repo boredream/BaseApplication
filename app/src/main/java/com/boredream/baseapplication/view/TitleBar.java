@@ -62,6 +62,7 @@ public class TitleBar extends FrameLayout {
     }
 
     public TitleBar setLeftMode() {
+        titleTv.setTextSize(20);
         titleTv.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         return this;
     }

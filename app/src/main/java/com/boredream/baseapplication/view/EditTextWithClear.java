@@ -47,6 +47,7 @@ public class EditTextWithClear extends RelativeLayout {
         LayoutInflater.from(context).inflate(R.layout.view_edit_text_with_clear, this);
         ButterKnife.bind(this);
 
+        etContent.setOnFocusChangeListener((v, hasFocus) -> updateClearIcon());
         etContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -55,7 +56,7 @@ public class EditTextWithClear extends RelativeLayout {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ivClear.setVisibility(StringUtils.isEmpty(s) ? View.GONE : View.VISIBLE);
+                updateClearIcon();
             }
 
             @Override
@@ -75,6 +76,10 @@ public class EditTextWithClear extends RelativeLayout {
         String hint = ta.getString(R.styleable.EditTextWithClear_hint);
         etContent.setText(text);
         etContent.setHint(hint);
+    }
+
+    private void updateClearIcon() {
+        ivClear.setVisibility(!StringUtils.isEmpty(getText()) && etContent.hasFocus() ? View.VISIBLE : View.GONE);
     }
 
     public void setText(CharSequence text) {

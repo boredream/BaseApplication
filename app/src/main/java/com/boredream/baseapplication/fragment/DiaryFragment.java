@@ -19,7 +19,7 @@ import com.boredream.baseapplication.base.BaseFragment;
 import com.boredream.baseapplication.entity.Diary;
 import com.boredream.baseapplication.entity.dto.PageResultDTO;
 import com.boredream.baseapplication.entity.event.DiaryUpdateEvent;
-import com.boredream.baseapplication.listener.OnDatePickListener;
+import com.boredream.baseapplication.entity.event.UserUpdateEvent;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
@@ -43,12 +43,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class DiaryFragment extends BaseFragment {
-
-    View view;
-    Unbinder unbinder;
 
     @BindView(R.id.title_bar)
     TitleBar titleBar;
@@ -80,8 +76,8 @@ public class DiaryFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = View.inflate(activity, R.layout.frag_diary, null);
-        unbinder = ButterKnife.bind(this, view);
+        View view = View.inflate(activity, R.layout.frag_diary, null);
+        ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         initView();
         initData();
@@ -91,12 +87,16 @@ public class DiaryFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         EventBus.getDefault().unregister(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(DiaryUpdateEvent event) {
+        refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserUpdateEvent(UserUpdateEvent event) {
         refresh();
     }
 

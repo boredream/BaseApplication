@@ -28,7 +28,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:text="标题"
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_title" />
+            android:textSize="@dimen/txt_subhead" />
 
         <ImageView
             android:id="@+id/title_iv_left"
@@ -55,7 +55,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:text="完成"
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_body"
+            android:textSize="@dimen/txt_caption"
             android:visibility="gone" />
 
     </RelativeLayout>

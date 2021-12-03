@@ -18,6 +18,7 @@ import com.boredream.baseapplication.dialog.BottomSelectDialog;
 import com.boredream.baseapplication.entity.Todo;
 import com.boredream.baseapplication.entity.TodoGroup;
 import com.boredream.baseapplication.entity.event.TodoUpdateEvent;
+import com.boredream.baseapplication.entity.event.UserUpdateEvent;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
@@ -36,12 +37,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class TodoFragment extends BaseFragment implements TodoGroupAdapter.OnTodoActionListener {
-
-    View view;
-    Unbinder unbinder;
 
     @BindView(R.id.title_bar)
     TitleBar titleBar;
@@ -54,8 +51,8 @@ public class TodoFragment extends BaseFragment implements TodoGroupAdapter.OnTod
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = View.inflate(activity, R.layout.frag_todo, null);
-        unbinder = ButterKnife.bind(this, view);
+        View view = View.inflate(activity, R.layout.frag_todo, null);
+        ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         initView();
         initData();
@@ -65,13 +62,17 @@ public class TodoFragment extends BaseFragment implements TodoGroupAdapter.OnTod
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         EventBus.getDefault().unregister(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(TodoUpdateEvent event) {
         loadData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserUpdateEvent(UserUpdateEvent event) {
+        initData();
     }
 
     private void initView() {

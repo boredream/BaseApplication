@@ -41,6 +41,10 @@ public class SettingItemView extends RelativeLayout {
         return ivLeft;
     }
 
+    public TextView getTvRight() {
+        return tvRight;
+    }
+
     public SettingItemView(Context context) {
         super(context);
         initView(context, null);
@@ -74,11 +78,18 @@ public class SettingItemView extends RelativeLayout {
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SettingItemView);
         int icon = ta.getResourceId(R.styleable.SettingItemView_icon, -1);
+        int level = ta.getInt(R.styleable.SettingItemView_level, 0);
         String name = ta.getString(R.styleable.SettingItemView_name);
         String rightText = ta.getString(R.styleable.SettingItemView_rightText);
         String rightImage = ta.getString(R.styleable.SettingItemView_rightImage);
         boolean showRightArrow = ta.getBoolean(R.styleable.SettingItemView_showRightArrow, false);
         setData(new SettingItem(icon == -1 ? null : icon, name, rightText, rightImage, showRightArrow));
+
+        if(level == 1) {
+            // small
+            tvName.setTextSize(12);
+            tvRight.setTextSize(10);
+        }
     }
 
     public void setName(String str) {

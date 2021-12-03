@@ -12,12 +12,15 @@ import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.entity.User;
+import com.boredream.baseapplication.entity.event.UserUpdateEvent;
 import com.boredream.baseapplication.image.picker.PickImageActivity;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
 import com.boredream.baseapplication.utils.UserKeeper;
 import com.boredream.baseapplication.view.TitleBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,11 +84,15 @@ public class InviteCpActivity extends PickImageActivity {
                 .subscribe(new SimpleObserver<User>() {
                     @Override
                     public void onNext(User cp) {
-                        // 绑定成功，重新获取个人信息
+                        // 绑定成功
                         User user = UserKeeper.getSingleton().getUser();
                         user.setCpUserId(cp.getId());
                         user.setCpUser(cp);
                         UserKeeper.getSingleton().setUser(user);
+
+                        EventBus.getDefault().post(new UserUpdateEvent());
+                        showTip("另一半绑定成功");
+                        finish();
                     }
                 });
     }

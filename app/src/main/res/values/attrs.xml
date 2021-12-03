@@ -26,6 +26,10 @@
     </declare-styleable>
 
     <declare-styleable name="SettingItemView">
+        <attr name="level" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="small" value="1" />
+        </attr>
         <attr name="icon" format="reference" />
         <attr name="name" format="string" />
         <attr name="rightText" format="string" />

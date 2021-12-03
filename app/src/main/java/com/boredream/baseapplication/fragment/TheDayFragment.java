@@ -18,6 +18,7 @@ import com.boredream.baseapplication.entity.TheDay;
 import com.boredream.baseapplication.entity.User;
 import com.boredream.baseapplication.entity.dto.PageResultDTO;
 import com.boredream.baseapplication.entity.event.TheDayUpdateEvent;
+import com.boredream.baseapplication.entity.event.UserUpdateEvent;
 import com.boredream.baseapplication.listener.OnSelectedListener;
 import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.net.HttpRequest;
@@ -39,12 +40,8 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class TheDayFragment extends BaseFragment implements OnSelectedListener<TheDay> {
-
-    View view;
-    Unbinder unbinder;
 
     @BindView(R.id.tv)
     TextView tv;
@@ -65,8 +62,8 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = View.inflate(activity, R.layout.frag_the_day, null);
-        unbinder = ButterKnife.bind(this, view);
+        View view = View.inflate(activity, R.layout.frag_the_day, null);
+        ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         initView();
         initData();
@@ -76,13 +73,17 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         EventBus.getDefault().unregister(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(TheDayUpdateEvent event) {
+    public void onTheDayUpdateEvent(TheDayUpdateEvent event) {
         loadData(false);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserUpdateEvent(UserUpdateEvent event) {
+        initData();
     }
 
     private void initView() {

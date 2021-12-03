@@ -16,6 +16,7 @@ import com.boredream.baseapplication.dialog.BottomListSelectedDialog;
 import com.boredream.baseapplication.dialog.WheelDatePickDialog;
 import com.boredream.baseapplication.entity.SettingItem;
 import com.boredream.baseapplication.entity.User;
+import com.boredream.baseapplication.entity.event.UserUpdateEvent;
 import com.boredream.baseapplication.image.picker.PickImageActivity;
 import com.boredream.baseapplication.image.upload.ImageRequestUtils;
 import com.boredream.baseapplication.listener.OnSelectedListener;
@@ -26,6 +27,8 @@ import com.boredream.baseapplication.utils.DateUtils;
 import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.utils.UserKeeper;
 import com.boredream.baseapplication.view.TitleBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,9 +46,9 @@ public class UserInfoActivity extends PickImageActivity implements OnSelectedLis
     @BindView(R.id.rv_items)
     RecyclerView rvItems;
 
-    private User user;
     private List<SettingItem> settingList;
     private SettingItemAdapter adapter;
+    private User newUser;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, UserInfoActivity.class);
@@ -63,27 +66,30 @@ public class UserInfoActivity extends PickImageActivity implements OnSelectedLis
     }
 
     private void initView() {
-        user = UserKeeper.getSingleton().getUser();
         titleBar.setTitle("个人资料").setLeftBack().setRight("完成", v -> commit());
         rvItems.setLayoutManager(new LinearLayoutManager(this));
-//        rvItems.addItemDecoration(new LeftPaddingItemDecoration(this));
     }
 
     private void commit() {
+        User user = UserKeeper.getSingleton().getUser();
         user.setAvatar(settingList.get(0).getRightImage());
         user.setNickname(settingList.get(1).getRightText());
         user.setGender(settingList.get(2).getRightText());
         user.setBirthday(settingList.get(3).getRightText());
 
         ImageRequestUtils.checkImage4update(user)
-                .flatMap((Function<User, ObservableSource<BaseResponse<String>>>) user ->
-                        HttpRequest.getInstance()
-                                .getApiService()
-                                .putUser(user.getId(), user))
+                .flatMap((Function<User, ObservableSource<BaseResponse<String>>>) newUser -> {
+                    UserInfoActivity.this.newUser = newUser;
+                    return HttpRequest.getInstance()
+                            .getApiService()
+                            .putUser(newUser.getId(), newUser);
+                })
                 .compose(RxComposer.commonProgress(this))
                 .subscribe(new SimpleObserver<String>() {
                     @Override
                     public void onNext(String s) {
+                        UserKeeper.getSingleton().setUser(newUser);
+                        EventBus.getDefault().post(new UserUpdateEvent());
                         showTip("修改成功");
                         finish();
                     }
@@ -91,6 +97,7 @@ public class UserInfoActivity extends PickImageActivity implements OnSelectedLis
     }
 
     private void loadData() {
+        User user = UserKeeper.getSingleton().getUser();
         settingList = Arrays.asList(
                 new SettingItem(null, "头像", null, user.getAvatar(), true),
                 new SettingItem(null, "昵称", user.getNickname(), null, true),
