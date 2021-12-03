@@ -13,7 +13,7 @@
     <com.boredream.baseapplication.view.EditTextWithClear
         android:id="@+id/etwc_name"
         android:layout_width="match_parent"
-        android:layout_height="74dp"
+        android:layout_height="72dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         app:hint="请输入清单名称" />
 
