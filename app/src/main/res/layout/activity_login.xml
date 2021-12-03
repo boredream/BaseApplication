@@ -76,6 +76,7 @@
         android:layout_marginTop="12dp"
         android:gravity="center"
         android:text="手机验证码登录"
+        android:visibility="invisible"
         android:alpha="0.4"
         android:textColor="@color/red"
         android:textSize="@dimen/txt_body" />
@@ -93,6 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
         android:text="没有账号？直接输入账号密码即可完成注册"
+        android:textSize="@dimen/txt_caption"
         android:textColor="@color/txt_light_gray" />
 
 </LinearLayout>

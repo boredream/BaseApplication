@@ -11,9 +11,9 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
+import com.boredream.baseapplication.base.BaseActivity;
 import com.boredream.baseapplication.entity.User;
 import com.boredream.baseapplication.entity.event.UserUpdateEvent;
-import com.boredream.baseapplication.image.picker.PickImageActivity;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class InviteCpActivity extends PickImageActivity {
+public class InviteCpActivity extends BaseActivity {
 
     @BindView(R.id.title_bar)
     TitleBar titleBar;

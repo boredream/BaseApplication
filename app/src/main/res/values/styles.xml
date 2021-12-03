@@ -111,6 +111,14 @@
         <item name="showRightArrow">true</item>
     </style>
 
+    <style name="EditTextTitle" parent="EditTextSingleLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+    </style>
+
     <!-- 自定义对话框 -->
     <style name="custom_dialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowFrame">@null</item>
