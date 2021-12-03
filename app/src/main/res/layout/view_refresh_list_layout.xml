@@ -18,7 +18,6 @@
             android:id="@+id/refresh_list_ll_empty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingTop="64dp">

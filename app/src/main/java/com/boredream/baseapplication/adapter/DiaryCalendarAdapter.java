@@ -40,7 +40,7 @@ public class DiaryCalendarAdapter extends RecyclerView.Adapter<DiaryCalendarAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Diary data = infoList.get(position);
-        holder.tvContent.setText(data.getContent());
+        holder.tvContent.setText(data.getContent().replace("\n", " "));
         GlideHelper.loadAvatar(holder.ivAvatar, data.getUser());
         holder.itemView.setOnClickListener(v -> DiaryEditActivity.start(holder.itemView.getContext(), data));
     }
