@@ -5,12 +5,14 @@ import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 
@@ -69,12 +71,12 @@ public class EditTextWithClear extends RelativeLayout {
         if (attrs == null) {
             return;
         }
-        TypedArray ta = context.obtainStyledAttributes(attrs,
-                R.styleable.EditTextWithClear);
-
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.EditTextWithClear);
         String text = ta.getString(R.styleable.EditTextWithClear_text);
+        float textSize = ta.getDimension(R.styleable.EditTextWithClear_textSize, SizeUtils.dp2px(14));
         String hint = ta.getString(R.styleable.EditTextWithClear_hint);
         etContent.setText(text);
+        etContent.setTextSize(SizeUtils.px2dp(textSize));
         etContent.setHint(hint);
     }
 
