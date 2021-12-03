@@ -81,7 +81,7 @@ public class MineFragment extends BaseFragment {
         rvItems.setAdapter(new SettingItemAdapter(settingList));
         GlideHelper.loadOvalImg(ivAvatar, user.getAvatar());
         tvName.setText(user.getNickname());
-        tvId.setText(String.format(Locale.getDefault(), "ID: %d", user.getId()));
+        tvId.setText(String.format(Locale.getDefault(), "ID: %s", user.getShowId()));
     }
 
     @OnClick(R.id.btn_logout)

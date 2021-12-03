@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.util.StringUtils;
@@ -13,11 +12,13 @@ import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.base.BaseActivity;
 import com.boredream.baseapplication.entity.LoginRequest;
 import com.boredream.baseapplication.entity.User;
+import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
 import com.boredream.baseapplication.utils.TokenKeeper;
 import com.boredream.baseapplication.utils.UserKeeper;
+import com.boredream.baseapplication.view.EditTextWithClear;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,12 +27,12 @@ import io.reactivex.functions.Function;
 
 public class LoginActivity extends BaseActivity {
 
-    @BindView(R.id.iv_close)
-    ImageView ivClose;
-    @BindView(R.id.et_username)
-    EditText etUsername;
-    @BindView(R.id.et_password)
-    EditText etPassword;
+    @BindView(R.id.iv_logo)
+    ImageView ivLogo;
+    @BindView(R.id.etwc_username)
+    EditTextWithClear etUsername;
+    @BindView(R.id.etwc_password)
+    EditTextWithClear etPassword;
     @BindView(R.id.btn_login)
     Button btnLogin;
 
@@ -58,7 +59,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
-        ivClose.setOnClickListener(v -> finish());
+        GlideHelper.loadRoundedImg(ivLogo, R.mipmap.ic_launcher, 16);
         btnLogin.setOnClickListener(v -> login());
     }
 
@@ -67,7 +68,7 @@ public class LoginActivity extends BaseActivity {
         String password = etPassword.getText().toString().trim();
 
         if (StringUtils.isEmpty(username)) {
-            showTip("用户名不能为空");
+            showTip("手机号不能为空");
             return;
         }
 
@@ -88,7 +89,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public ObservableSource<User> apply(String token) throws Exception {
                         TokenKeeper.getSingleton().setToken(token);
-                        return  HttpRequest.getInstance()
+                        return HttpRequest.getInstance()
                                 .getApiService()
                                 .getUserInfo()
                                 .compose(RxComposer.commonProgress(LoginActivity.this));

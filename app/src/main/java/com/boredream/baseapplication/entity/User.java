@@ -44,12 +44,23 @@ public class User extends BaseEntity {
     // 生日
     private String birthday;
 
+    public String getShowId() {
+        Long id = getId();
+        StringBuilder sb = new StringBuilder();
+        int maxLength = 6;
+        for (int i = 0; i < maxLength - String.valueOf(id).length(); i++) {
+            sb.append("0");
+        }
+        sb.append(id);
+        return sb.toString();
+    }
+
     /**
-     *  取自己或对方的在一起时间
+     * 取自己或对方的在一起时间
      */
     public String getBothTogetherDate() {
         String date = cpTogetherDate;
-        if(date == null && cpUser != null) {
+        if (date == null && cpUser != null) {
             date = cpUser.getCpTogetherDate();
         }
         return date;

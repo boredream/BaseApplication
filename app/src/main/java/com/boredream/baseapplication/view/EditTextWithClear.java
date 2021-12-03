@@ -24,6 +24,10 @@ public class EditTextWithClear extends RelativeLayout {
     @BindView(R.id.iv_clear)
     ImageView ivClear;
 
+    public EditText getEt() {
+        return etContent;
+    }
+
     public EditTextWithClear(Context context) {
         super(context);
         initView(context, null);

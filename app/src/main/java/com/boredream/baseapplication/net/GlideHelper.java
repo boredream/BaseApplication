@@ -16,7 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 public class GlideHelper {
 
-    public static void loadImage(ImageView iv, String model) {
+    public static void loadImage(ImageView iv, Object model) {
         int defaultImg = R.drawable.rect_gray;
 
         RequestOptions options = new RequestOptions()
@@ -30,11 +30,11 @@ public class GlideHelper {
                 .into(iv);
     }
 
-    public static void loadRoundedImg(ImageView iv, String model) {
+    public static void loadRoundedImg(ImageView iv, Object model) {
         loadRoundedImg(iv, model, 4);
     }
 
-    public static void loadRoundedImg(ImageView iv, String model, int corner) {
+    public static void loadRoundedImg(ImageView iv, Object model, int corner) {
         int defaultImg = R.drawable.correct_gray;
 
         RoundedCorners corners = new RoundedCorners(SizeUtils.dp2px(corner));
@@ -57,11 +57,11 @@ public class GlideHelper {
         loadOvalImg(iv, user.getAvatar(), defaultAvatar);
     }
 
-    public static void loadOvalImg(ImageView iv, String model) {
+    public static void loadOvalImg(ImageView iv, Object model) {
         loadOvalImg(iv, model, R.drawable.oval_primary_light_solid);
     }
 
-    public static void loadOvalImg(ImageView iv, String model, int defaultImg) {
+    public static void loadOvalImg(ImageView iv, Object model, int defaultImg) {
         CircleCrop circleCrop = new CircleCrop();
         RequestOptions options = new RequestOptions()
                 .transform(new MultiTransformation<>(new CenterCrop(), circleCrop))
