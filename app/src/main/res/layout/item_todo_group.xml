@@ -17,7 +17,7 @@
             android:layout_height="16dp"
             android:layout_marginRight="6dp"
             android:scaleType="center"
-            android:src="@drawable/ic_todo_group1" />
+            android:src="@drawable/ic_todo_cus" />
 
         <TextView
             android:id="@+id/tv_group_name"
