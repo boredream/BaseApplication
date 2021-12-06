@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.entity.Todo;
 import com.boredream.baseapplication.entity.TodoGroup;
@@ -60,12 +61,18 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
                 if (image != null && image.contains(",")) {
                     image = image.split(",")[0];
                 }
-                GlideHelper.loadOvalImg(holder.ivImage, image);
+                GlideHelper.loadOvalImg(holder.ivImage, image, R.drawable.img_todo_done_default);
             } else {
                 holder.ivImage.setScaleType(ImageView.ScaleType.CENTER);
                 holder.ivImage.setImageResource(R.drawable.ic_lock);
             }
             holder.tvName.setText(data.getName());
+            String doneDate = data.getDoneDate();
+            if(StringUtils.isEmpty(doneDate)) {
+                holder.tvDate.setText("");
+            } else {
+                holder.tvDate.setText(doneDate);
+            }
             holder.ivImage.setOnClickListener(v -> {
                 if (onTodoActionListener != null) {
                     onTodoActionListener.onTodoEdit(data);
@@ -80,6 +87,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         ImageView ivImage;
         @BindView(R.id.tv_name)
         TextView tvName;
+        @BindView(R.id.tv_date)
+        TextView tvDate;
 
         public ViewHolder(View itemView) {
             super(itemView);
