@@ -123,4 +123,5 @@
 -keep class com.boredream.baseapplication.entity.**{*;}
 -keep class com.boredream.baseapplication.constants.**{*;}
 -keep class com.boredream.baseapplication.view.**{*;}
+-keep class com.haibin.calendarview.**{*;}
 
