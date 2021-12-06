@@ -46,6 +46,7 @@
         <activity android:name=".activity.TodoEditActivity" />
         <activity android:name=".activity.InviteCpActivity" />
         <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.FeedBackActivity" />
     </application>
 
 </manifest>

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.activity.AboutActivity;
+import com.boredream.baseapplication.activity.FeedBackActivity;
 import com.boredream.baseapplication.activity.InviteCpActivity;
 import com.boredream.baseapplication.activity.UserInfoActivity;
 import com.boredream.baseapplication.adapter.SettingItemAdapter;
@@ -157,6 +158,7 @@ public class MineFragment extends BaseFragment implements OnSelectedListener<Set
                 AboutActivity.start(activity);
                 break;
             case "反馈":
+                FeedBackActivity.start(activity);
                 break;
         }
     }

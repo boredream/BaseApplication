@@ -2,6 +2,7 @@ package com.boredream.baseapplication.net;
 
 import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.entity.Diary;
+import com.boredream.baseapplication.entity.FeedBack;
 import com.boredream.baseapplication.entity.LoginRequest;
 import com.boredream.baseapplication.entity.TheDay;
 import com.boredream.baseapplication.entity.Todo;
@@ -171,6 +172,13 @@ public interface ApiService {
     @DELETE("/api/todo_group/{id}")
     Observable<BaseResponse<String>> deleteTodoGroup(
             @Path("id") Long id);
+
+    /**
+     * 添加意见反馈
+     */
+    @POST("/api/feed_back")
+    Observable<BaseResponse<String>> postFeedBack(
+            @Body FeedBack info);
 
     /**
      * 绑定伴侣

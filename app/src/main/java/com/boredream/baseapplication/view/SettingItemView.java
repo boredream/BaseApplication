@@ -41,6 +41,10 @@ public class SettingItemView extends RelativeLayout {
         return ivLeft;
     }
 
+    public ImageView getIvRight() {
+        return ivRight;
+    }
+
     public TextView getTvRight() {
         return tvRight;
     }

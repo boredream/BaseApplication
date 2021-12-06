@@ -11,10 +11,8 @@ import java.util.List;
  */
 public class TodoGroup extends Belong2UserEntity {
 
-	// 名称
     private String name;
 
-    // TODO: chunyang 12/2/21 一对多关系，放服务器处理数据结构
     private List<Todo> todoList;
 
     public String getName() {
