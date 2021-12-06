@@ -12,11 +12,6 @@
 
     <declare-styleable name="DialogTitle">
         <attr name="title" />
-        <attr name="close_style" format="enum">
-            <enum name="button" value="0" />
-            <enum name="fork" value="1" />
-        </attr>
-        <attr name="close_text" format="string" />
     </declare-styleable>
 
     <declare-styleable name="EditTextWithClear">

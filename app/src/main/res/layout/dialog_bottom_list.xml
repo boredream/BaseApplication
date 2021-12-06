@@ -10,9 +10,7 @@
     <com.boredream.baseapplication.view.DialogTitle
         android:id="@+id/bottom_dialog_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:close_style="button"
-        app:close_text="确定">
+        android:layout_height="wrap_content" >
 
     </com.boredream.baseapplication.view.DialogTitle>
 
@@ -22,5 +20,13 @@
         android:layout_height="340dp">
 
     </com.boredream.baseapplication.view.WheelView>
+
+    <Button
+        android:id="@+id/btn_ok"
+        style="@style/ButtonPrimary"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:text="确定">
+
+    </Button>
 
 </LinearLayout>

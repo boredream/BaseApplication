@@ -10,7 +10,6 @@
         android:id="@+id/dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:close_style="fork"
         app:title="选择日期">
 
     </com.boredream.baseapplication.view.DialogTitle>
