@@ -50,23 +50,22 @@ public class GlideHelper {
     }
 
     public static void loadAvatar(ImageView iv, User user) {
-        int defaultAvatar = R.drawable.avatar_girl;
-        if("男".equals(user.getGender())) {
-            defaultAvatar = R.drawable.avatar_boy;
-        }
-        loadOvalImg(iv, user.getAvatar(), defaultAvatar);
+        loadOvalImg(iv, user.getAvatar(), user.getAvatarDefaultImg());
     }
 
     public static void loadOvalImg(ImageView iv, Object model) {
         loadOvalImg(iv, model, R.drawable.oval_primary_light_solid);
     }
 
-    public static void loadOvalImg(ImageView iv, Object model, int defaultImg) {
+    public static void loadOvalImg(ImageView iv, Object model, Integer defaultImg) {
         CircleCrop circleCrop = new CircleCrop();
         RequestOptions options = new RequestOptions()
-                .transform(new MultiTransformation<>(new CenterCrop(), circleCrop))
-                .placeholder(defaultImg)
-                .error(defaultImg);
+                .transform(new MultiTransformation<>(new CenterCrop(), circleCrop));
+
+        if (defaultImg != null) {
+            options = options.placeholder(defaultImg)
+                    .error(defaultImg);
+        }
 
         Glide.with(iv.getContext())
                 .load(model)

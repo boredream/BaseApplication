@@ -1,5 +1,6 @@
 package com.boredream.baseapplication.entity;
 
+import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.base.BaseEntity;
 
 /**
@@ -53,6 +54,17 @@ public class User extends BaseEntity {
         }
         sb.append(id);
         return sb.toString();
+    }
+
+    /**
+     * 默认头像
+     */
+    public int getAvatarDefaultImg() {
+        int defaultAvatar = R.drawable.avatar_girl;
+        if("男".equals(gender)) {
+            defaultAvatar = R.drawable.avatar_boy;
+        }
+        return defaultAvatar;
     }
 
     /**
@@ -153,4 +165,5 @@ public class User extends BaseEntity {
     public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
+
 }

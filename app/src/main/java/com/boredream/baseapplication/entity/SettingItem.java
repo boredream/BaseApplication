@@ -6,6 +6,7 @@ public class SettingItem {
     private String name;
     private String rightText;
     private String rightImage;
+    private Integer rightImageDefault;
     private boolean showRightArrow;
 
     public SettingItem(Integer icon, String name, String rightText, String rightImage, boolean showRightArrow) {
@@ -46,6 +47,14 @@ public class SettingItem {
 
     public void setRightImage(String rightImage) {
         this.rightImage = rightImage;
+    }
+
+    public Integer getRightImageDefault() {
+        return rightImageDefault;
+    }
+
+    public void setRightImageDefault(Integer rightImageDefault) {
+        this.rightImageDefault = rightImageDefault;
     }
 
     public boolean isShowRightArrow() {

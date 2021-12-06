@@ -112,7 +112,7 @@ public class SettingItemView extends RelativeLayout {
         tvName.setText(data.getName());
         setIcon(data.getIcon());
         setRightText(data.getRightText());
-        setRightImage(data.getRightImage());
+        setRightImage(data.getRightImage(), data.getRightImageDefault());
         ivRightArrow.setVisibility(data.isShowRightArrow() ? View.VISIBLE : View.GONE);
     }
 
@@ -126,9 +126,14 @@ public class SettingItemView extends RelativeLayout {
     }
 
     public void setRightImage(String rightImage) {
-        if (rightImage != null) {
+        setRightImage(rightImage, null);
+    }
+
+    public void setRightImage(String rightImage, Integer rightImageDefault) {
+        // TODO: chunyang 12/6/21 show right image 和 right image url 分开字段
+        if (rightImage != null || rightImageDefault != null) {
             ivRight.setVisibility(View.VISIBLE);
-            GlideHelper.loadOvalImg(ivRight, rightImage);
+            GlideHelper.loadOvalImg(ivRight, rightImage, rightImageDefault);
         } else {
             ivRight.setVisibility(View.GONE);
         }
