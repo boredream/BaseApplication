@@ -30,8 +30,6 @@ public class RefreshListLayout extends SmartRefreshLayout implements ILoadingVie
     LinearLayout llEmpty;
     @BindView(R.id.refresh_list_ll_loading)
     LinearLayout llLoading;
-    @BindView(R.id.refresh_list_tv_empty_desc)
-    TextView tvEmptyDesc;
     @BindView(R.id.refresh_btn_empty)
     Button btnEmpty;
 
@@ -75,12 +73,10 @@ public class RefreshListLayout extends SmartRefreshLayout implements ILoadingVie
         String errorInfo = ErrorConstants.parseHttpErrorInfo(e);
         if ("网络未连接".equals(errorInfo)) {
             ivEmpty.setImageResource(R.drawable.default_offline);
-            tvEmpty.setText("暂无信号");
-            tvEmptyDesc.setText("您的网络当前没有信号哦");
+            tvEmpty.setText("网络当前没有信号哦~");
         } else {
             ivEmpty.setImageResource(R.drawable.default_empty);
-            tvEmpty.setText("数据加载失败");
-            tvEmptyDesc.setText("您的当前页面加载失败哦");
+            tvEmpty.setText("当前页面加载失败哦~");
         }
         btnEmpty.setText("立即刷新");
         btnEmpty.setVisibility(View.VISIBLE);
@@ -96,10 +92,8 @@ public class RefreshListLayout extends SmartRefreshLayout implements ILoadingVie
         rv.getAdapter().notifyDataSetChanged();
         if (rv.getAdapter().getItemCount() == 0) {
             ivEmpty.setImageResource(R.drawable.default_empty);
-            tvEmpty.setText("暂无信息");
-            tvEmptyDesc.setText("您还没有创建任何信息哦");
-            btnEmpty.setText("立即创建");
-            btnEmpty.setVisibility(View.VISIBLE);
+            tvEmpty.setText("还没有创建任何信息哦~");
+            btnEmpty.setVisibility(View.INVISIBLE);
             btnEmpty.setOnClickListener(v -> {
                 if (onDefaultAction != null) {
                     onDefaultAction.onCreate();

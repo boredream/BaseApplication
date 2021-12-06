@@ -29,14 +29,15 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:scaleType="center"
-            android:src="@drawable/ic_psw" />
+            android:src="@drawable/ic_username" />
 
         <com.boredream.baseapplication.view.EditTextWithClear
             android:id="@+id/etwc_username"
             style="@style/EditTextSingleLine"
             android:layout_height="52dp"
             android:layout_marginLeft="12dp"
-            app:hint="请输入您的手机号" />
+            app:hint="请输入您的手机号"
+            app:textSize="@dimen/txt_subhead" />
     </LinearLayout>
 
     <View
@@ -55,14 +56,15 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:scaleType="center"
-            android:src="@drawable/ic_psw" />
+            android:src="@drawable/ic_password" />
 
         <com.boredream.baseapplication.view.EditTextWithClear
             android:id="@+id/etwc_password"
             style="@style/EditTextSingleLine"
             android:layout_height="52dp"
             android:layout_marginLeft="12dp"
-            app:hint="请输入您的密码" />
+            app:hint="请输入您的密码"
+            app:textSize="@dimen/txt_subhead" />
     </LinearLayout>
 
     <View
@@ -74,12 +76,12 @@
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginTop="12dp"
+        android:alpha="0.4"
         android:gravity="center"
         android:text="手机验证码登录"
-        android:visibility="invisible"
-        android:alpha="0.4"
         android:textColor="@color/red"
-        android:textSize="@dimen/txt_body" />
+        android:textSize="@dimen/txt_body"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/btn_login"
@@ -92,9 +94,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_medium"
         android:text="没有账号？直接输入账号密码即可完成注册"
-        android:textSize="@dimen/txt_caption"
-        android:textColor="@color/txt_light_gray" />
+        android:textColor="@color/txt_light_gray"
+        android:textSize="@dimen/txt_caption" />
 
 </LinearLayout>

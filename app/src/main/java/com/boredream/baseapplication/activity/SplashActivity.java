@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.base.BaseActivity;
 import com.boredream.baseapplication.entity.User;
+import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
@@ -53,8 +54,8 @@ public class SplashActivity extends BaseActivity {
 
     private void init() {
 //        AppHelper.isNormalEnter = true;
-
         iv = findViewById(R.id.iv);
+        GlideHelper.loadRoundedImg(iv, R.mipmap.ic_launcher, 16);
         checkPermission();
     }
 

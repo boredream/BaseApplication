@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.activity.InviteCpActivity;
 import com.boredream.baseapplication.activity.TheDayEditActivity;
+import com.boredream.baseapplication.activity.UserInfoActivity;
 import com.boredream.baseapplication.adapter.TheDayAdapter;
 import com.boredream.baseapplication.base.BaseFragment;
 import com.boredream.baseapplication.entity.TheDay;
@@ -127,13 +128,16 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
 
         User user = UserKeeper.getSingleton().getUser();
         GlideHelper.loadAvatar(ivLeft, user);
+        ivLeft.setOnClickListener(v -> UserInfoActivity.start(activity));
+
         User cpUser = user.getCpUser();
         if (cpUser != null) {
             GlideHelper.loadAvatar(ivRight, cpUser);
             ivRightAdd.setVisibility(View.GONE);
+            ivRight.setOnClickListener(null);
         } else {
             ivRightAdd.setVisibility(View.VISIBLE);
-            ivRightAdd.setOnClickListener(v -> InviteCpActivity.start(activity));
+            ivRight.setOnClickListener(v -> InviteCpActivity.start(activity));
         }
     }
 

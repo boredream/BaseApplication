@@ -87,8 +87,8 @@ public class SettingItemView extends RelativeLayout {
 
         if(level == 1) {
             // small
-            tvName.setTextSize(12);
-            tvRight.setTextSize(10);
+            tvName.setTextSize(14);
+            tvRight.setTextSize(12);
         }
     }
 

@@ -41,7 +41,8 @@ public class BottomListSelectedDialog<T extends Serializable> extends BottomDial
     private void initView() {
         dialogTitle = findViewById(R.id.bottom_dialog_title);
         wheel = findViewById(R.id.bottom_dialog_wheel);
-        dialogTitle.setOnClickListener(v -> performClick());
+        dialogTitle.setOnClickListener(v -> dismiss());
+        findViewById(R.id.btn_ok).setOnClickListener(v -> performClick());
     }
 
     private void initData() {

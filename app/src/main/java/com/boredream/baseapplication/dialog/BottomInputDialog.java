@@ -35,7 +35,8 @@ public class BottomInputDialog extends BottomDialog {
     private void initView() {
         dialogTitle = findViewById(R.id.bottom_dialog_title);
         etwcContent = findViewById(R.id.etwc_content);
-        dialogTitle.setOnClickListener(v -> performClick());
+        dialogTitle.setOnClickListener(v -> dismiss());
+        findViewById(R.id.btn_ok).setOnClickListener(v -> performClick());
         setOnDismissListener(dialog -> KeyboardUtils.hideSoftInput(etwcContent));
     }
 

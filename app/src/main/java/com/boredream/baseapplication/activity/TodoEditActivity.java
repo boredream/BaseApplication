@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 
@@ -36,8 +37,8 @@ public class TodoEditActivity extends PickImageActivity {
     TitleBar titleBar;
     @BindView(R.id.etwc_name)
     EditTextWithClear etwcName;
-    @BindView(R.id.etwc_desc)
-    EditTextWithClear etwcDesc;
+    @BindView(R.id.et_desc)
+    EditText etDesc;
     @BindView(R.id.siv_date)
     SettingItemView sivDate;
     @BindView(R.id.igv)
@@ -79,7 +80,7 @@ public class TodoEditActivity extends PickImageActivity {
 
     private void initData() {
         etwcName.setText(info.getName());
-        etwcDesc.setText(info.getDetail());
+        etDesc.setText(info.getDetail());
         sivDate.setText(info.getDoneDate());
         igv.setImages(info.getImages());
         btnDone.setText(info.isDone() ? "已完成" : "标记为已完成");
@@ -97,7 +98,7 @@ public class TodoEditActivity extends PickImageActivity {
             return;
         }
         info.setName(name);
-        info.setDetail(etwcDesc.getText().toString().trim());
+        info.setDetail(etDesc.getText().toString().trim());
         info.setDoneDate(sivDate.getText());
         info.setImages(igv.getImages());
         info.setDone(true);
