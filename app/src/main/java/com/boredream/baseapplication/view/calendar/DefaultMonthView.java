@@ -54,7 +54,7 @@ public final class DefaultMonthView extends MonthView {
     @Override
     protected void onDrawScheme(Canvas canvas, Calendar calendar, int x, int y) {
         float cx = x + 0.5f * mItemWidth;
-        float radius = SizeUtils.dp2px(12);
+        float radius = SizeUtils.dp2px(3);
         float cy = y + 0.9f * mItemHeight;
         canvas.drawCircle(cx, cy, radius, mCusHintPaint);
     }

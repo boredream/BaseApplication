@@ -125,7 +125,6 @@ public class DiaryFragment extends BaseFragment {
             }
         });
 
-        selectedDay = Calendar.getInstance();
         rllCalendar.setEnableRefresh(false);
         rllCalendar.setEnableLoadmore(false);
         rllCalendar.getRv().setLayoutManager(new LinearLayoutManager(activity));
@@ -153,6 +152,9 @@ public class DiaryFragment extends BaseFragment {
                             calendar.get(Calendar.MONTH) + 1,
                             calendar.get(Calendar.DAY_OF_MONTH)));
         });
+
+        selectedDay = Calendar.getInstance();
+        tvYearMonth.setText(getCurYearMonth());
     }
 
     private void changeShowCalendar(boolean showCalendar) {
