@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.boredream.baseapplication.R;
@@ -29,7 +29,6 @@ import com.boredream.baseapplication.view.TitleBar;
 import com.boredream.baseapplication.view.decoration.LastMarginItemDecoration;
 import com.boredream.baseapplication.view.decoration.LeftPaddingItemDecoration;
 import com.boredream.baseapplication.view.loading.RefreshListLayout;
-import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -51,10 +50,8 @@ public class DiaryFragment extends BaseFragment {
     TitleBar titleBar;
     @BindView(R.id.rll_list)
     RefreshListLayout rllList;
-    @BindView(R.id.ll_calendar)
-    LinearLayout llCalendar;
-    @BindView(R.id.calendar_layout)
-    CalendarLayout calendarLayout;
+    @BindView(R.id.cl_calendar)
+    CoordinatorLayout clCalendar;
     @BindView(R.id.calendarView)
     CalendarView calendarView;
     @BindView(R.id.rll_calendar)
@@ -127,6 +124,7 @@ public class DiaryFragment extends BaseFragment {
 
         rllCalendar.setEnableRefresh(false);
         rllCalendar.setEnableLoadmore(false);
+        rllCalendar.getRv().setOverScrollMode(View.OVER_SCROLL_NEVER);
         rllCalendar.getRv().setLayoutManager(new LinearLayoutManager(activity));
         rllCalendar.getRv().setAdapter(new DiaryCalendarAdapter(calendarInfoList));
         rllCalendar.getRv().addItemDecoration(new LeftPaddingItemDecoration(activity));
@@ -164,7 +162,7 @@ public class DiaryFragment extends BaseFragment {
                 ? R.drawable.ic_diary_list
                 : R.drawable.ic_diary_calendar);
         titleBar.getTvRight().setDrawables(new Drawable[]{drawable, null, null, null});
-        llCalendar.setVisibility(showCalendar ? View.VISIBLE : View.GONE);
+        clCalendar.setVisibility(showCalendar ? View.VISIBLE : View.GONE);
         rllList.setVisibility(showCalendar ? View.GONE : View.VISIBLE);
 
         // 切换样式的时候重新拉取数据
