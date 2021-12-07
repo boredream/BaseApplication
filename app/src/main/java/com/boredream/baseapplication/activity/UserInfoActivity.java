@@ -98,11 +98,15 @@ public class UserInfoActivity extends PickImageActivity implements OnSelectedLis
 
     private void loadData() {
         User user = UserKeeper.getSingleton().getUser();
+        SettingItem avatarSettingItem = new SettingItem(null, "头像", null, true);
+        avatarSettingItem.setShowRightImage(true);
+        avatarSettingItem.setRightImage(user.getAvatar());
+        avatarSettingItem.setRightImageDefault(user.getAvatarDefaultImg());
         settingList = Arrays.asList(
-                new SettingItem(null, "头像", null, user.getAvatar(), true),
-                new SettingItem(null, "昵称", user.getNickname(), null, true),
-                new SettingItem(null, "性别", user.getGender(), null, true),
-                new SettingItem(null, "生日", user.getBirthday(), null, true)
+                avatarSettingItem,
+                new SettingItem(null, "昵称", user.getNickname(), true),
+                new SettingItem(null, "性别", user.getGender(), true),
+                new SettingItem(null, "生日", user.getBirthday(), true)
         );
         adapter = new SettingItemAdapter(settingList);
         rvItems.setAdapter(adapter);

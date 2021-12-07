@@ -28,7 +28,6 @@
         <attr name="icon" format="reference" />
         <attr name="name" format="string" />
         <attr name="rightText" format="string" />
-        <attr name="rightImage" format="string" />
         <attr name="showRightArrow" format="boolean" />
     </declare-styleable>
 

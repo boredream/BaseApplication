@@ -58,9 +58,9 @@ public class TodoGroupAdapter extends RecyclerView.Adapter<TodoGroupAdapter.View
         TodoGroup data = infoList.get(position);
         String name = data.getName();
         if ("爱的初体验".equals(name)) {
-            holder.ivGroupIcon.setImageResource(R.drawable.ic_todo_group1);
+            holder.ivGroupIcon.setImageResource(R.drawable.ic_todo_love);
         } else {
-            holder.ivGroupIcon.setImageResource(R.drawable.ic_todo_group2);
+            holder.ivGroupIcon.setImageResource(R.drawable.ic_todo_cake);
         }
         holder.tvGroupName.setText(name);
         holder.ivGroupMore.setOnClickListener(v -> {

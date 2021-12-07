@@ -85,11 +85,10 @@ public class SettingItemView extends RelativeLayout {
         int level = ta.getInt(R.styleable.SettingItemView_level, 0);
         String name = ta.getString(R.styleable.SettingItemView_name);
         String rightText = ta.getString(R.styleable.SettingItemView_rightText);
-        String rightImage = ta.getString(R.styleable.SettingItemView_rightImage);
         boolean showRightArrow = ta.getBoolean(R.styleable.SettingItemView_showRightArrow, false);
-        setData(new SettingItem(icon == -1 ? null : icon, name, rightText, rightImage, showRightArrow));
+        setData(new SettingItem(icon == -1 ? null : icon, name, rightText, showRightArrow));
 
-        if(level == 1) {
+        if (level == 1) {
             // small
             tvName.setTextSize(14);
             tvRight.setTextSize(12);
@@ -112,7 +111,7 @@ public class SettingItemView extends RelativeLayout {
         tvName.setText(data.getName());
         setIcon(data.getIcon());
         setRightText(data.getRightText());
-        setRightImage(data.getRightImage(), data.getRightImageDefault());
+        setRightImage(data.isShowRightImage(), data.getRightImage(), data.getRightImageDefault());
         ivRightArrow.setVisibility(data.isShowRightArrow() ? View.VISIBLE : View.GONE);
     }
 
@@ -125,13 +124,8 @@ public class SettingItemView extends RelativeLayout {
         }
     }
 
-    public void setRightImage(String rightImage) {
-        setRightImage(rightImage, null);
-    }
-
-    public void setRightImage(String rightImage, Integer rightImageDefault) {
-        // TODO: chunyang 12/6/21 show right image 和 right image url 分开字段
-        if (rightImage != null || rightImageDefault != null) {
+    public void setRightImage(boolean showRightImage, String rightImage, Integer rightImageDefault) {
+        if (showRightImage) {
             ivRight.setVisibility(View.VISIBLE);
             GlideHelper.loadOvalImg(ivRight, rightImage, rightImageDefault);
         } else {

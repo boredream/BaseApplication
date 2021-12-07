@@ -56,13 +56,7 @@ public final class DefaultMonthView extends MonthView {
         float cx = x + 0.5f * mItemWidth;
         float radius = SizeUtils.dp2px(12);
         float cy = y + 0.9f * mItemHeight;
-//        canvas.drawCircle(cx, cy, radius, mCusHintPaint);
-        int left = (int) (cx - radius + 0.5f);
-        int top = (int) (cy - radius + 0.5f);
-        int right = (int) (cx + radius + 0.5f);
-        int bottom = (int) (cy + radius + 0.5f);
-        Rect rect = new Rect(left, top, right, bottom);
-        canvas.drawBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_love), null, rect, mCusHintPaint);
+        canvas.drawCircle(cx, cy, radius, mCusHintPaint);
     }
 
     /**

@@ -28,7 +28,7 @@ import com.boredream.baseapplication.net.SimpleObserver;
 import com.boredream.baseapplication.utils.DateUtils;
 import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.utils.UserKeeper;
-import com.boredream.baseapplication.view.decoration.LastPaddingItemDecoration;
+import com.boredream.baseapplication.view.decoration.LastMarginItemDecoration;
 import com.boredream.baseapplication.view.loading.RefreshListLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -97,7 +97,7 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
         rll.setOnLoadmoreListener(refresh -> loadData(true));
         rll.getRv().setLayoutManager(new LinearLayoutManager(activity));
         rll.getRv().setAdapter(adapter = new TheDayAdapter(infoList));
-        rll.getRv().addItemDecoration(new LastPaddingItemDecoration());
+        rll.getRv().addItemDecoration(new LastMarginItemDecoration());
         adapter.setOnItemClickListener(this);
         rll.setOnDefaultAction(new RefreshListLayout.OnDefaultActionListener() {
             @Override
@@ -117,12 +117,6 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
         loadData(false);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        setHeadInfo();
-    }
-
     private void setHeadInfo() {
         setTogetherDays();
 
@@ -136,6 +130,7 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
             ivRightAdd.setVisibility(View.GONE);
             ivRight.setOnClickListener(null);
         } else {
+            ivRight.setImageDrawable(null);
             ivRightAdd.setVisibility(View.VISIBLE);
             ivRight.setOnClickListener(v -> InviteCpActivity.start(activity));
         }

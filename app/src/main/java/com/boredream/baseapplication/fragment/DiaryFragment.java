@@ -26,7 +26,8 @@ import com.boredream.baseapplication.net.SimpleObserver;
 import com.boredream.baseapplication.utils.DateUtils;
 import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.view.TitleBar;
-import com.boredream.baseapplication.view.decoration.LastPaddingItemDecoration;
+import com.boredream.baseapplication.view.decoration.LastMarginItemDecoration;
+import com.boredream.baseapplication.view.decoration.LeftPaddingItemDecoration;
 import com.boredream.baseapplication.view.loading.RefreshListLayout;
 import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
@@ -111,7 +112,7 @@ public class DiaryFragment extends BaseFragment {
         rllList.setOnLoadmoreListener(refresh -> loadListData(true));
         rllList.getRv().setLayoutManager(new LinearLayoutManager(activity));
         rllList.getRv().setAdapter(new DiaryAdapter(listInfoList));
-        rllList.getRv().addItemDecoration(new LastPaddingItemDecoration());
+        rllList.getRv().addItemDecoration(new LastMarginItemDecoration());
         rllList.setOnDefaultAction(new RefreshListLayout.OnDefaultActionListener() {
             @Override
             public void onRefresh() {
@@ -129,7 +130,7 @@ public class DiaryFragment extends BaseFragment {
         rllCalendar.setEnableLoadmore(false);
         rllCalendar.getRv().setLayoutManager(new LinearLayoutManager(activity));
         rllCalendar.getRv().setAdapter(new DiaryCalendarAdapter(calendarInfoList));
-        rllCalendar.getRv().addItemDecoration(new LastPaddingItemDecoration());
+        rllCalendar.getRv().addItemDecoration(new LeftPaddingItemDecoration(activity));
         calendarView.setOnCalendarSelectListener(new CalendarView.OnCalendarSelectListener() {
             @Override
             public void onCalendarOutOfRange(com.haibin.calendarview.Calendar calendar) {

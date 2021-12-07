@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.activity.AboutActivity;
 import com.boredream.baseapplication.activity.FeedBackActivity;
@@ -93,12 +92,12 @@ public class MineFragment extends BaseFragment implements OnSelectedListener<Set
     }
 
     private void setSettingItems() {
-        cpSettingItem = new SettingItem(R.drawable.ic_setting_cp, "另一半", null, "", false);
+        cpSettingItem = new SettingItem(R.drawable.ic_setting_cp, "另一半", null, false);
         List<SettingItem> settingList = Arrays.asList(cpSettingItem,
-                new SettingItem(R.drawable.ic_setting_love, "秀恩爱", null, null, false),
-                new SettingItem(R.drawable.ic_setting_recommend, "推荐给大家", null, null, false),
-                new SettingItem(R.drawable.ic_setting_about, "关于我们", null, null, false),
-                new SettingItem(R.drawable.ic_setting_feed, "反馈", null, null, false)
+                new SettingItem(R.drawable.ic_setting_love, "秀恩爱", null, false),
+                new SettingItem(R.drawable.ic_setting_recommend, "推荐给大家", null, false),
+                new SettingItem(R.drawable.ic_setting_about, "关于我们", null, false),
+                new SettingItem(R.drawable.ic_setting_feed, "反馈", null, false)
         );
         adapter = new SettingItemAdapter(settingList);
         rvItems.setAdapter(adapter);
@@ -115,11 +114,14 @@ public class MineFragment extends BaseFragment implements OnSelectedListener<Set
         User cpUser = user.getCpUser();
         if (cpUser != null) {
             cpSettingItem.setRightText("解绑");
+            cpSettingItem.setShowRightImage(true);
             cpSettingItem.setRightImage(cpUser.getAvatar());
             cpSettingItem.setRightImageDefault(cpUser.getAvatarDefaultImg());
         } else {
             cpSettingItem.setRightText("绑定");
+            cpSettingItem.setShowRightImage(false);
             cpSettingItem.setRightImage(null);
+            cpSettingItem.setRightImageDefault(null);
         }
         adapter.notifyDataSetChanged();
     }
@@ -141,7 +143,7 @@ public class MineFragment extends BaseFragment implements OnSelectedListener<Set
                 break;
             case "秀恩爱":
                 if (cpUser != null) {
-                    String str = "我正在和「"+cpUser.getNickname()+"」一起使用恋爱手册。";
+                    String str = "我正在和「" + cpUser.getNickname() + "」一起使用恋爱手册。";
                     String bothTogetherDate = user.getBothTogetherDate();
                     if (bothTogetherDate != null) {
                         int days = DateUtils.calculateDayDiff(Calendar.getInstance(), DateUtils.str2calendar(bothTogetherDate));
