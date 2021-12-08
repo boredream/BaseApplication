@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.util.StringUtils;
@@ -26,6 +27,7 @@ import com.boredream.baseapplication.view.EditTextWithClear;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 
@@ -37,6 +39,8 @@ public class LoginActivity extends BaseActivity {
     EditTextWithClear etUsername;
     @BindView(R.id.etwc_password)
     EditTextWithClear etPassword;
+    @BindView(R.id.cb_agree)
+    CheckBox cbAgree;
     @BindView(R.id.btn_login)
     Button btnLogin;
 
@@ -65,6 +69,11 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void login() {
+        if (!cbAgree.isChecked()) {
+            showTip("请勾选统一用户协议和隐私政策");
+            return;
+        }
+
         String username = etUsername.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
@@ -135,4 +144,15 @@ public class LoginActivity extends BaseActivity {
         MainActivity.start(this);
     }
 
+    @OnClick({R.id.tv_protocol, R.id.tv_privacy})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_protocol:
+                WebViewActivity.start(this, "http://www.papikoala.cn/lovebook/userprotocol.html", "用户协议");
+                break;
+            case R.id.tv_privacy:
+                WebViewActivity.start(this, "http://www.papikoala.cn/lovebook/privacy.html", "隐私政策");
+                break;
+        }
+    }
 }

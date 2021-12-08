@@ -40,6 +40,7 @@
         <activity android:name=".activity.UserInfoActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.ImageBrowserActivity" />
+        <activity android:name=".activity.WebViewActivity" />
         <activity android:name=".activity.EditTextActivity" />
         <activity android:name=".activity.TheDayEditActivity" />
         <activity android:name=".activity.DiaryEditActivity" />

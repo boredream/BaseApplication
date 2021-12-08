@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.entity.Todo;
 import com.boredream.baseapplication.entity.TodoGroup;
+import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.view.decoration.GridDecoration;
 
 import java.util.List;
@@ -57,11 +58,7 @@ public class TodoGroupAdapter extends RecyclerView.Adapter<TodoGroupAdapter.View
     public void onBindViewHolder(ViewHolder holder, final int position) {
         TodoGroup data = infoList.get(position);
         String name = data.getName();
-        if ("爱的初体验".equals(name)) {
-            holder.ivGroupIcon.setImageResource(R.drawable.ic_todo_love);
-        } else {
-            holder.ivGroupIcon.setImageResource(R.drawable.ic_todo_cake);
-        }
+        GlideHelper.loadImage(holder.ivGroupIcon, data.getIcon());
         holder.tvGroupName.setText(name);
         holder.ivGroupMore.setOnClickListener(v -> {
             if (onTodoActionListener != null) {

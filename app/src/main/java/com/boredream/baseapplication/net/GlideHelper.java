@@ -7,8 +7,6 @@ import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.entity.User;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.model.GlideUrl;
-import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -18,11 +16,16 @@ public class GlideHelper {
 
     public static void loadImage(ImageView iv, Object model) {
         int defaultImg = R.drawable.rect_gray;
+        loadImage(iv, model, defaultImg);
+    }
 
-        RequestOptions options = new RequestOptions()
-                .transform(new CenterCrop())
-                .placeholder(defaultImg)
-                .error(defaultImg);
+    public static void loadImage(ImageView iv, Object model, Integer defaultImg) {
+        RequestOptions options = new RequestOptions().transform(new CenterCrop());
+
+        if (defaultImg != null) {
+            options = options.placeholder(defaultImg)
+                    .error(defaultImg);
+        }
 
         Glide.with(iv.getContext())
                 .load(model)
