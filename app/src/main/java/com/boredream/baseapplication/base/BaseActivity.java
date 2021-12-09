@@ -21,12 +21,12 @@ public class BaseActivity extends RxAppCompatActivity implements BaseView {
         super.onCreate(savedInstanceState);
 
         progressDialog = new ProgressDialog(this);
-        setStatusBar();
+        setStatusBar(false);
         setScreenOrientation();
     }
 
-    protected void setStatusBar() {
-        BarUtils.setStatusBarLightMode(this, false);
+    protected void setStatusBar(boolean lightMode) {
+        BarUtils.setStatusBarLightMode(this, lightMode);
         BarUtils.transparentStatusBar(this);
     }
 
