@@ -8,6 +8,7 @@ import com.boredream.baseapplication.entity.TheDay;
 import com.boredream.baseapplication.entity.Todo;
 import com.boredream.baseapplication.entity.TodoGroup;
 import com.boredream.baseapplication.entity.User;
+import com.boredream.baseapplication.entity.VerifyCodeRequest;
 import com.boredream.baseapplication.entity.dto.FileUploadPolicyDTO;
 import com.boredream.baseapplication.entity.dto.PageResultDTO;
 import com.boredream.baseapplication.entity.dto.WxLoginDTO;
@@ -220,6 +221,20 @@ public interface ApiService {
     @POST("/api/user/wxlogin")
     Observable<BaseResponse<String>> postUserWxlogin(
             @Body WxLoginDTO info);
+
+    /**
+     * 发送验证码
+     */
+    @GET("/api/user/sendVerifyCode")
+    Observable<BaseResponse<Boolean>> sendVerifyCode(
+            @Query("phone") String phone);
+
+    /**
+     * 使用验证码注册或登录用户
+     */
+    @POST("/api/user/loginWithVerifyCode")
+    Observable<BaseResponse<String>> loginWithVerifyCode(
+            @Body VerifyCodeRequest info);
 
     /**
      * 修改用户
