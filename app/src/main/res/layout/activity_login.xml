@@ -57,8 +57,9 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:scaleType="center"
-            android:src="@drawable/ic_password" />
+            android:scaleType="fitCenter"
+            android:padding="2dp"
+            android:src="@drawable/ic_verify_code" />
 
         <com.boredream.baseapplication.view.EditTextWithClear
             android:id="@+id/etwc_verify_code"
