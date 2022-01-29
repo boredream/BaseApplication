@@ -59,7 +59,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.tv_send_verify_code)
     TextView tvSendVerifyCode;
 
-    private boolean isVerifyCodeLogin;
+    private boolean isVerifyCodeLogin = true;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
