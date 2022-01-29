@@ -43,9 +43,7 @@ public class AboutActivity extends BaseActivity {
     }
 
     private void initView() {
-        titleBar.setTitle("关于我们")
-                .hideBg()
-                .setLeftBack();
+        titleBar.setTitle("关于我们").setLeftBack();
         tvVersion.setText(AppUtils.getAppVersionName());
         GlideHelper.loadRoundedImg(ivLogo, R.mipmap.ic_launcher, 16);
     }

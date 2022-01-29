@@ -46,13 +46,13 @@ public class SettingActivity extends BaseActivity implements OnSelectedListener<
     }
 
     private void initView() {
-        titleBar.setTitle("设置")
-                .hideBg()
-                .setLeftBack();
+        titleBar.setTitle("设置").setLeftBack();
 
         List<SettingItem> settingList = Arrays.asList(
                 new SettingItem(null, "设置登录密码", null, false),
-                new SettingItem(null, "意见反馈", null, false)
+                new SettingItem(null, "意见反馈", null, false),
+                new SettingItem(null, "用户协议", null, false),
+                new SettingItem(null, "隐私政策", null, false)
         );
         adapter = new SettingItemAdapter(settingList);
         rvItems.setLayoutManager(new LinearLayoutManager(this));
@@ -68,6 +68,12 @@ public class SettingActivity extends BaseActivity implements OnSelectedListener<
                 break;
             case "意见反馈":
                 FeedBackActivity.start(this);
+                break;
+            case "用户协议":
+                WebViewActivity.start(this, "http://www.papikoala.cn/lovebook/userprotocol.html", "用户协议");
+                break;
+            case "隐私政策":
+                WebViewActivity.start(this, "http://www.papikoala.cn/lovebook/privacy.html", "隐私政策");
                 break;
         }
     }

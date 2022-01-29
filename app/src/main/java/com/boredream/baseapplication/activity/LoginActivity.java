@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,12 +19,10 @@ import com.boredream.baseapplication.base.BaseResponse;
 import com.boredream.baseapplication.entity.LoginRequest;
 import com.boredream.baseapplication.entity.User;
 import com.boredream.baseapplication.entity.VerifyCodeRequest;
-import com.boredream.baseapplication.net.ErrorConstants;
 import com.boredream.baseapplication.net.GlideHelper;
 import com.boredream.baseapplication.net.HttpRequest;
 import com.boredream.baseapplication.net.RxComposer;
 import com.boredream.baseapplication.net.SimpleObserver;
-import com.boredream.baseapplication.utils.DialogUtils;
 import com.boredream.baseapplication.utils.TokenKeeper;
 import com.boredream.baseapplication.utils.UserKeeper;
 import com.boredream.baseapplication.view.EditTextWithClear;
@@ -49,8 +46,6 @@ public class LoginActivity extends BaseActivity {
     EditTextWithClear etUsername;
     @BindView(R.id.etwc_password)
     EditTextWithClear etPassword;
-    @BindView(R.id.cb_agree)
-    CheckBox cbAgree;
     @BindView(R.id.btn_login)
     Button btnLogin;
     @BindView(R.id.etwc_verify_code)
@@ -141,11 +136,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void login() {
-        if (!cbAgree.isChecked()) {
-            showTip("请勾选统一用户协议和隐私政策");
-            return;
-        }
-
         String username = etUsername.getText().toString().trim();
         if (StringUtils.isEmpty(username)) {
             showTip("手机号不能为空");

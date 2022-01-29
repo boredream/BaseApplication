@@ -45,9 +45,7 @@ public class SetPasswordActivity extends BaseActivity {
     }
 
     private void initView() {
-        titleBar.setTitle("设置登录密码")
-                .hideBg()
-                .setLeftBack();
+        titleBar.setTitle("设置登录密码").setLeftBack();
     }
 
     @OnClick(R.id.btn_confirm)

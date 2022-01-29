@@ -148,14 +148,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/cb_agree"
-            android:layout_width="20dp"
-            android:layout_height="28dp"
-            android:button="@drawable/ic_check_sel" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -194,6 +188,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="未注册手机号验证后自动创建恋爱手册账号"
+        android:visibility="gone"
         android:textColor="@color/txt_light_gray"
         android:textSize="@dimen/txt_caption" />
 
