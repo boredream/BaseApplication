@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.activity.InviteCpActivity;
 import com.boredream.baseapplication.activity.TheDayEditActivity;
@@ -133,6 +134,14 @@ public class TheDayFragment extends BaseFragment implements OnSelectedListener<T
             ivRight.setImageDrawable(null);
             ivRightAdd.setVisibility(View.VISIBLE);
             ivRight.setOnClickListener(v -> InviteCpActivity.start(activity));
+        }
+
+        if (StringUtils.isEmpty(user.getBirthday()) &&
+                StringUtils.isEmpty(user.getGender()) &&
+                StringUtils.isEmpty(user.getAvatar())) {
+            // 未设置个人信息
+            DialogUtils.show2BtnDialog(activity, "提醒", "您的用户信息待完善",
+                    "前往设置", v -> UserInfoActivity.start(activity));
         }
     }
 

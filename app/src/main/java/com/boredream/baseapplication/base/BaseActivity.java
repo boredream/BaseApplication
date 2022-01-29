@@ -14,13 +14,14 @@ import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
 
 public class BaseActivity extends RxAppCompatActivity implements BaseView {
 
-    private Dialog progressDialog;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("加载中...");
         setStatusBar(false);
         setScreenOrientation();
     }
