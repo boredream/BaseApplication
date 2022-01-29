@@ -244,4 +244,11 @@ public interface ApiService {
             @Path("id") Long id,
             @Body User info);
 
+    /**
+     * 设置密码
+     */
+    @PUT("/api/user/setPassword")
+    Observable<BaseResponse<Boolean>> setPassword(
+            @Body HashMap<String, String> info);
+
 }

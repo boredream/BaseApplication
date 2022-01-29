@@ -97,7 +97,7 @@
             android:layout_below="@+id/ll"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:text="另一半已注册"
+            android:text="需要另一半已注册"
             android:textColor="@color/txt_gray"
             android:textSize="@dimen/txt_subhead" />
 

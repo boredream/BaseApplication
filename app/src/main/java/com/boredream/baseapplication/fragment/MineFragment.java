@@ -16,6 +16,7 @@ import com.boredream.baseapplication.R;
 import com.boredream.baseapplication.activity.AboutActivity;
 import com.boredream.baseapplication.activity.FeedBackActivity;
 import com.boredream.baseapplication.activity.InviteCpActivity;
+import com.boredream.baseapplication.activity.SettingActivity;
 import com.boredream.baseapplication.activity.UserInfoActivity;
 import com.boredream.baseapplication.adapter.SettingItemAdapter;
 import com.boredream.baseapplication.base.BaseFragment;
@@ -97,7 +98,7 @@ public class MineFragment extends BaseFragment implements OnSelectedListener<Set
                 new SettingItem(R.drawable.ic_setting_love, "秀恩爱", null, false),
                 new SettingItem(R.drawable.ic_setting_recommend, "推荐给大家", null, false),
                 new SettingItem(R.drawable.ic_setting_about, "关于我们", null, false),
-                new SettingItem(R.drawable.ic_setting_feed, "反馈", null, false)
+                new SettingItem(R.drawable.ic_setting_feed, "设置", null, false)
         );
         adapter = new SettingItemAdapter(settingList);
         rvItems.setAdapter(adapter);
@@ -160,8 +161,8 @@ public class MineFragment extends BaseFragment implements OnSelectedListener<Set
             case "关于我们":
                 AboutActivity.start(activity);
                 break;
-            case "反馈":
-                FeedBackActivity.start(activity);
+            case "设置":
+                SettingActivity.start(activity);
                 break;
         }
     }

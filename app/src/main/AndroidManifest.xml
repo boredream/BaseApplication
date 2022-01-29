@@ -39,6 +39,7 @@
             android:launchMode="singleTask" />
         <activity android:name=".activity.UserInfoActivity" />
         <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.SetPasswordActivity" />
         <activity android:name=".activity.ImageBrowserActivity" />
         <activity android:name=".activity.WebViewActivity" />
         <activity android:name=".activity.EditTextActivity" />
@@ -48,6 +49,7 @@
         <activity android:name=".activity.InviteCpActivity" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.FeedBackActivity" />
+        <activity android:name=".activity.SettingActivity" />
     </application>
 
 </manifest>
